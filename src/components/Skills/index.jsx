@@ -2,13 +2,12 @@
 import styled from "styled-components";
 import { skills } from "../../data/constants";
 import { Tilt } from "react-tilt";
-import { Vortex } from "../IntUI/vortex.tsx";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-contnet: center;
-  position: rlative;
+  justify-content: center;
+  position: relative;
   z-index: 1;
   align-items: center;
 `;
@@ -120,32 +119,21 @@ const Skills = () => {
   return (
     <Container id="Skills">
       <Wrapper>
-      <div className="w-[calc(100%-4rem)] mx-auto rounded-md  h-[30rem] overflow-hidden">
-      
-      <Vortex
-        backgroundColor="black"
-        className="flex items-center flex-col justify-center md:px-10 py-4 w-full h-full"
-      >
-        <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
         <Title>Skills</Title>
-        </h2>
-        <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center">
         <Desc>Here are some of my skills on which I have been working on for the past 2 years.
         </Desc>
-        </p>
-      </Vortex></div>
         <SkillsContainer>
           {skills.map((skill, index) => (
             <Tilt>
               <Skill key={`skill-${index}`}>
                 <SkillTitle>{skill.title}</SkillTitle>
-                <SkillList>
-                  {skill.skills.map((item, index_x) => (
-                    <SkillItem key={`skill-x-${index_x}`}>
-                      <SkillImage src={item.image} />
-                      {item.name}
-                    </SkillItem>
-                  ))}
+                  <SkillList>
+                    {skill.skills.map((item, index_x) => (
+                      <SkillItem key={`skill-x-${index_x}`}>
+                        <SkillImage src={item.image} />
+                        {item.name}
+                      </SkillItem>
+                    ))}
                 </SkillList>
               </Skill>
             </Tilt>

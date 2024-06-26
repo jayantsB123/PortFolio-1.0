@@ -4,15 +4,14 @@ import "react-vertical-timeline-component/style.min.css";
 import styled from "styled-components";
 import { experiences } from "../../data/constants";
 import ExperienceCard from "../Cards/ExperienceCard";
-import { Vortex } from "../IntUI/vortex.tsx";
 
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-contnet: center;
+  justify-content: center;
   margin-top: 50px;
-  position: rlative;
+  position: relative;
   z-index: 1;
   align-items: center;
 `;
@@ -55,23 +54,11 @@ const Experience = () => {
   return (
     <Container id="Experience">
       <Wrapper>
-        
-      <div className="w-[calc(100%-4rem)] mx-auto rounded-md  h-[30rem] overflow-hidden">
-
-<Vortex
-  backgroundColor="black"
-  className="flex items-center flex-col justify-center md:px-10 py-4 w-full h-full"
->
-  <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
     <Title>Experience</Title>
-  </h2>
-  <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center">
-    <Desc>Innovative Software Engineer with a Passion for Collaboration:
-      Crafting Solutions, Building Teams, and Transforming Ideas into
-      Exceptional Projects
-    </Desc>
-  </p>
-</Vortex></div>
+      <Desc>Innovative Software Engineer with a Passion for Collaboration:
+          Crafting Solutions, Building Teams, and Transforming Ideas into
+          Exceptional Projects
+      </Desc>
 
         <VerticalTimeline>
           {experiences.map((experience, index) => (

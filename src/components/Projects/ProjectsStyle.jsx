@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import _default from '../../themes/default';
 
 export const Container = styled.div`
-    background: ${({ theme }) => theme.card_light};
+    /* background: ${({ theme }) => theme.card_light}; */
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -3,28 +3,15 @@ import { useState } from 'react'
 import { Container, Title, Desc, CardContainer, ToggleButtonGroup, ToggleButton, Divider } from './ProjectsStyle'
 import ProjectCard from '../Cards/ProjectCards'
 import { projects } from '../../data/constants'
-import Vortex from '../IntUI/vortex';
 
 const Projects = ({ openModal, setOpenModal }) => {
   const [toggle, setToggle] = useState('all');
   return (
     <Container id="projects">
-      <div className="w-[calc(100%-4rem)] mx-auto rounded-md  h-[30rem] overflow-hidden">
-
-        <Vortex
-          backgroundColor="black"
-          className="flex items-center flex-col justify-center md:px-10 py-4 w-full h-full"
-        >
-          <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
-
             <Title>Projects</Title>
-          </h2>
-          <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center">
             <Desc>
               I have worked on a wide range of projects. From Web Apps to DSA and Machine Learning. Here are some of my projects.
             </Desc>
-          </p>
-        </Vortex></div>
 
       <ToggleButtonGroup >
         {toggle === 'all' ?

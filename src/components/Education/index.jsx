@@ -4,7 +4,6 @@ import "react-vertical-timeline-component/style.min.css";
 import styled from "styled-components";
 import { education } from "../../data/constants";
 import EducationCard from "../Cards/EducationCard";
-import { Vortex } from "../IntUI/vortex.tsx";
 
 
 const Container = styled.div`
@@ -54,23 +53,10 @@ const Education = () => {
   return (
     <Container id="Education">
       <Wrapper>
-      <div className="w-[calc(100%-4rem)] mx-auto rounded-md  h-[30rem] overflow-hidden">
-
-      <Vortex
-          backgroundColor="black"
-          className="flex items-center flex-col justify-center md:px-10 py-4 w-full h-full"
-      >
-          <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
-
-              <Title>Education</Title>
-          </h2>
-          <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center">
-              <Desc>
-                  My education has been a journey of self-discovery and growth. My educational details are as follows.
-              </Desc>
-          </p>
-      </Vortex></div>
-
+          <Title>Education</Title>
+            <Desc>
+                My education has been a journey of self-discovery and growth. My educational details are as follows.
+            </Desc>
         <VerticalTimeline>
           {education.map((education, index) => (
             <EducationCard key={`education-${index}`} education={education} />

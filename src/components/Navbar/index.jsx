@@ -1,21 +1,30 @@
 import React from 'react'
-import { Nav, NavLink, NavbarContainer, Span, NavLogo, NavItems, GitHubButton, ButtonContainer, MobileIcon, MobileMenu, MobileLink } from './NavbarStyledComponent'
-import { DiCssdeck } from 'react-icons/di';
+import { Nav, NavLink, NavbarContainer, Span, NavLogo, NavItems, GitHubButton, ButtonContainer, MobileIcon, MobileMenu, MobileLink } from './NavbarStyledComponent';
 import { FaBars } from 'react-icons/fa';
 import { Bio } from '../../data/constants';
 import { useTheme } from 'styled-components';
+// import { useScramble } from 'use-scramble';
+import { MdOutlineArrowBackIos } from "react-icons/md";
+import { MdOutlineArrowForwardIos } from "react-icons/md";
+import { GiCrossMark } from "react-icons/gi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const theme = useTheme()
+  const theme = useTheme();
+
+  
   return (
     <Nav>
       <NavbarContainer>
-        <NavLogo to='/'>
+        <NavLink href="about">
           <a style={{display: "flex", alignItems: "center", color: "white", marginBottom: "20", cursor: "pointer" }}>
-            <DiCssdeck size="3rem" /> <Span>Portfolio</Span>
+            <MdOutlineArrowBackIos />
+             <Span>Jayant</Span>
+               <GiCrossMark /> 
+              <Span> Singh</Span>
+            <MdOutlineArrowForwardIos />
           </a>
-        </NavLogo>
+        </NavLink>
         <MobileIcon>
           <FaBars onClick={() => {
             setIsOpen(!isOpen)
@@ -23,10 +32,10 @@ const Navbar = () => {
         </MobileIcon>
         <NavItems>
           <NavLink href="#about">About</NavLink>
-          <NavLink href='#skills'>Skills</NavLink>
-          <NavLink href='#experience'>Experience</NavLink>
+          <NavLink href='#Skills'>Skills</NavLink>
+          <NavLink href='#Experience'>Experience</NavLink>
           <NavLink href='#projects'>Projects</NavLink>
-          <NavLink href='#education'>Education</NavLink>
+          <NavLink href='#Education'>Education</NavLink>
         </NavItems>
         <ButtonContainer>
           <GitHubButton href={Bio.github} target="_blank">Github Profile</GitHubButton>

@@ -1,6 +1,6 @@
 import { CloseRounded } from '@mui/icons-material';
 import { Modal } from '@mui/material';
-import React from 'react'
+// import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -9,7 +9,7 @@ height: 100%;
 position: absolute;
 top: 0;
 left: 0;
-background-color: #000000a7;
+background-color: #030014;
 display: flex;
 align-items: top;
 justify-content: center;
@@ -51,8 +51,6 @@ const Date = styled.div`
         font-size: 12px;
     }
 `
-
-
 
 const Desc = styled.div`
     font-size: 16px;
@@ -150,7 +148,7 @@ const index = ({ openModal, setOpenModal }) => {
                     <Date>{project.date}</Date>
                     <Tags>
                         {project?.tags.map((tag) => (
-                            <Tag>{tag}</Tag>
+                            <Tag key={project.index}>{tag}</Tag>
                         ))}
                     </Tags>
                     <Desc>{project?.description}</Desc>

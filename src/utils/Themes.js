@@ -1,11 +1,11 @@
 export const darkTheme = {
-  bg: "#000", // Darker background
+  bg: "#030014", // Darker background
   bgLight: "#000", // Slightly lighter background
   primary: "#4D8FD9", // Dark blue primary color
   text_primary: "#F2F3F4", // White text
   text_secondary: "#b1b2b3", // Lighter secondary text
   card: "#0D0D17", // Dark card background
-  card_light: "#000", // Slightly lighter card background
+  card_light: "#030014", // Slightly lighter card background
   button: "#4D8FD9", // Dark blue button color
   white: "#FFFFFF", // White color
   black: "#000", // Black color

@@ -3,7 +3,9 @@ import styled from 'styled-components';
 // import _default from '../../themes/default';
 
 export const Nav = styled.div`
-    background-color: ${({theme}) => theme.card_light};
+    /* background-color: ${({theme}) => theme.card_light}; */
+    background-color: #030014;
+    /* opacity: 0.5; */
     height: 80px;
     display: flex;
     align-items: center;
@@ -11,7 +13,7 @@ export const Nav = styled.div`
     font-size: 1rem;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 13;
     @media (max-width: 960px) {
         trastion: 0.8s all ease;
     }
