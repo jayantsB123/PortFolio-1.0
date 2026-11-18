@@ -23,6 +23,7 @@ export function ProjectVisual({ project }) {
 export default function ProjectExplorer({ openProject }) {
   const [category, setCategory] = useState("ALL");
   const [view, setView] = useState("list");
+  const [activePreview, setActivePreview] = useState(null);
   const reducedMotion = useReducedMotion();
   const shown = filterProjects(selectedProjects, category);
   return <section id="work" className="v2-work v2-page-section" aria-labelledby="v2-work-heading">
@@ -59,6 +60,10 @@ export default function ProjectExplorer({ openProject }) {
         ? <div className="v2-project-list" aria-label="Project list">
           {shown.map((project) =>
             <motion.article className="v2-project-list-row" key={project.slug} layout={!reducedMotion}
+              onMouseEnter={() => setActivePreview(project.slug)}
+              onMouseLeave={() => setActivePreview(null)}
+              onFocusCapture={() => setActivePreview(project.slug)}
+              onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setActivePreview(null); }}
               initial={reducedMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: .25 }}>
@@ -79,7 +84,7 @@ export default function ProjectExplorer({ openProject }) {
                   : <span>SOURCE UNAVAILABLE</span>}
               </div>
               <div className="v2-project-list-preview" aria-hidden="true">
-                <ProjectVisual project={project}/>
+                {activePreview === project.slug && <ProjectVisual project={project}/>}
               </div>
             </motion.article>)}
         </div>
