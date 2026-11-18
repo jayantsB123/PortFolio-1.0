@@ -38,7 +38,7 @@ Open http://localhost:5173.
 
 For browser tests (Playwright is kept out of the production dependency graph):
 
-    npm install --no-save --no-package-lock @playwright/test@1.65.1
+    npm install --no-save --no-package-lock @playwright/test@1.65.1 @axe-core/playwright@4.14.0
     npx playwright install chromium
     npm run build
     npx playwright test
