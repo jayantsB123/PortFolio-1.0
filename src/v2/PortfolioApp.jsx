@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { categories, earlyExperience, profile, school, selectedProjects } from "./portfolioData";
 import "./portfolio.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
+import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterSkills } from "./RecruiterContent";
 
 // Imported separately so WebGL is never required for reading the page.
 const PortfolioScene = lazy(() => import("./PortfolioScene"));
@@ -19,9 +20,10 @@ function SiteHeader() {
     return () => window.removeEventListener("keydown", close);
   }, []);
   const links = [
-    ["Work", "#work"],
-    ["Expertise", "#expertise"],
+    ["Overview", "#overview"],
     ["Experience", "#experience"],
+    ["Projects", "#work"],
+    ["Skills", "#skills"],
     ["About", "#about"],
     ["Contact", "#contact"]
   ];
@@ -33,7 +35,7 @@ function SiteHeader() {
     <nav id="v2-main-nav" className={open ? "v2-nav is-open" : "v2-nav"} aria-label="Main navigation">
       {links.map(([label, href]) => <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>)}
     </nav>
-    <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>LET'S TALK <Glyph>↗</Glyph></a>
+    <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>CONTACT / LINKEDIN <Glyph>↗</Glyph></a>
     <button type="button" className="v2-menu-button" aria-expanded={open} aria-controls="v2-main-nav" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"}>
       {open ? "✕" : "☰"}
     </button>
@@ -88,33 +90,7 @@ function EngineArtwork() {
   </div>;
 }
 
-function Hero() {
-  const reducedMotion = useReducedMotion();
-  return <section id="top" className="v2-hero">
-    <div className="v2-hero-grid" aria-hidden="true"/>
-    <div className="v2-hero-top">
-      <span><i/> CRAFTED FOR THE CURIOUS</span>
-      <span>PORTFOLIO / VOL. 02 — 2026</span>
-    </div>
-    <div className="v2-hero-body">
-      <div className="v2-hero-copy">
-        <div className="v2-kicker"><i/> ENGINEER BY LOGIC. CREATIVE BY INSTINCT.</div>
-        <motion.h1 initial={reducedMotion ? false : { opacity: 0, y: 42 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}>Making<br/><em>complex</em><br/>feel simple<span>.</span></motion.h1>
-        <div className="v2-hero-bottom">
-          <p>I'm <strong>{profile.name}.</strong><br/>I build thoughtful systems and expressive digital experiences.</p>
-          <a href="#work" className="v2-down-link" aria-label="Explore selected work">↘</a>
-        </div>
-      </div>
-      <EngineArtwork/>
-    </div>
-    <div className="v2-hero-foot">
-      <a href="#work">SCROLL TO EXPLORE <Glyph>↓</Glyph></a>
-      <span>01 / 06 — THE INTRODUCTION</span>
-      <span>{profile.location.toUpperCase()} <Glyph>✳</Glyph></span>
-    </div>
-  </section>;
-}
+function Hero() { return <RecruiterHero artwork={<EngineArtwork/>} />; }
 
 function SectionHeading({ number, eyebrow, heading, subheading }) {
   return <div className="v2-section-heading">
@@ -140,10 +116,10 @@ function Work({ openProject }) {
   const shown = selectedProjects.filter((project) => filter === "ALL" || project.category === filter);
   return <section id="work" className="v2-work v2-page-section">
     <div className="v2-container">
-      <SectionHeading number="02" eyebrow="SELECTED WORK" heading="Work that speaks."
-        subheading="A few things I've built, and the thinking behind them. The outcome matters; so does how it was made."/>
+      <SectionHeading number="03" eyebrow="SELECTED PROJECTS" heading="Projects & implementation."
+        subheading="Four real projects from my original portfolio. Scan the stack, see what I built, or open a short engineering case study."/>
       <div className="v2-work-bar">
-        <span>SELECTED ARCHIVE / 2023—2024</span>
+        <span>EARLY PROJECTS / 2023—2024</span>
         <div role="group" aria-label="Filter projects" className="v2-filters">
           {categories.map((category) => <button type="button" key={category} aria-pressed={filter === category}
             className={filter === category ? "is-active" : ""} onClick={() => setFilter(category)}>
@@ -158,14 +134,15 @@ function Work({ openProject }) {
             <ProjectVisual project={project}/>
             <div className="v2-project-info">
               <div>
-                <div className="v2-project-eyebrow">{project.index} / {project.category} / {project.year}</div>
+                <div className="v2-project-eyebrow">{project.type} · {project.year}</div>
                 <h3>{project.name}</h3>
-                <p>{project.tagline}</p>
+                <p>{project.overview}</p>
                 <div className="v2-project-tags">{project.technologies.map((tech) => <span key={tech}>{tech}</span>)}</div>
               </div>
               <span className="v2-project-arrow" aria-hidden="true">↗</span>
             </div>
           </button>
+          <div className="v2-project-actions"><button type="button" onClick={() => openProject(project)}>CASE STUDY ↗</button>{project.repoUrl ? <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">SOURCE ↗</a> : <span>SOURCE UNAVAILABLE</span>}</div>
         </article>)}
       </div>
       <div className="v2-work-after"><span>THE BEST PART IS THE PROBLEM SOLVING.</span><a href={profile.github} target="_blank" rel="noopener noreferrer">MORE ON GITHUB <Glyph>↗</Glyph></a></div>
@@ -173,45 +150,11 @@ function Work({ openProject }) {
   </section>;
 }
 
-function Expertise() {
-  const items = [
-    ["01", "Build the system.", "FULL-STACK ENGINEERING", "⌘", ["React & component architecture", "Node / Express integrations", "Java / Spring Boot experience", "APIs & data structures"]],
-    ["02", "Shape the experience.", "CREATIVE FRONTEND", "✳", ["React Three Fiber & Three.js", "Motion & spatial interfaces", "Design systems & responsiveness", "Interaction details"]],
-    ["03", "Care about the craft.", "ENGINEERING DISCIPLINE", "↗", ["Accessibility & performance", "Thoughtful component boundaries", "Progressive enhancement", "Pragmatic tradeoffs"]]
-  ];
-  return <section id="expertise" className="v2-expertise v2-page-section"><div className="v2-container">
-    <SectionHeading number="03" eyebrow="THE TOOLKIT" heading="The art of engineering."
-      subheading="Strong foundations. A curiosity for interaction. No unnecessary complexity."/>
-    <div className="v2-expertise-grid">
-      {items.map(([number, title, sub, symbol, skills]) => <div className="v2-expertise-card" key={number}>
-        <span className="v2-exp-num">/ {number}</span><span aria-hidden="true" className="v2-exp-symbol">{symbol}</span>
-        <div className="v2-exp-content"><span>{sub}</span><h3>{title}</h3>
-          <ul>{skills.map((s) => <li key={s}>{s}</li>)}</ul>
-        </div>
-      </div>)}
-    </div>
-  </div></section>;
-}
-
-function Experience() {
-  return <section id="experience" className="v2-experience v2-page-section"><div className="v2-container">
-    <SectionHeading number="04" eyebrow="THE JOURNEY" heading="Built in the real world."
-      subheading="Selected early experience, preserved from the original portfolio. Recent work will be updated after verification."/>
-    <div className="v2-experience-list">
-      {earlyExperience.map((item, i) => <article className="v2-role" key={item.company}>
-        <div className="v2-role-date"><span>{String(i + 1).padStart(2,"0")}</span><span>{item.date}</span></div>
-        <div className="v2-role-main"><h3>{item.role}</h3><p>{item.summary}</p></div>
-        <span className="v2-role-company">{item.company}</span>
-      </article>)}
-    </div>
-    {school && <div className="v2-education-line"><span>ACADEMIC FOUNDATION</span><strong>{school.school}</strong><span>{school.degree} · {school.date}</span></div>}
-  </div></section>;
-}
 
 function About() {
   return <section id="about" className="v2-about"><div className="v2-container v2-about-layout">
     <div className="v2-about-aside">
-      <span>05 / 06 — THE HUMAN BEHIND THE CODE</span>
+      <span>05 / 06 — THE PERSON BEHIND THE WORK</span>
       <div className="v2-about-art"><span>✳</span><small>ALWAYS<br/>IN THE MAKING.</small></div>
     </div>
     <div className="v2-about-main">
@@ -226,9 +169,9 @@ function About() {
 
 function Footer() {
   return <footer id="contact" className="v2-footer"><div className="v2-container">
-    <div className="v2-footer-top"><span>06 / 06 — WHAT'S NEXT?</span><span>GOT SOMETHING GOOD IN MIND?</span></div>
-    <h2>Let's make<br/>something <em>matter.</em></h2>
-    <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="v2-contact-link">START A CONVERSATION <Glyph>↗</Glyph></a>
+    <div className="v2-footer-top"><span>06 / 06 — CONNECT</span><span>GOT SOMETHING GOOD IN MIND?</span></div>
+    <h2>Have a role<br/>or <em>project?</em></h2>
+    <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="v2-contact-link">CONNECT ON LINKEDIN <Glyph>↗</Glyph></a>
     <div className="v2-footer-bottom"><a className="v2-footer-mark" href="#top" aria-label="Back to top">j.</a>
       <span>© {new Date().getFullYear()} {profile.name.toUpperCase()}</span>
       <div><a target="_blank" rel="noopener noreferrer" href={profile.github}>GITHUB ↗</a><a target="_blank" rel="noopener noreferrer" href={profile.linkedin}>LINKEDIN ↗</a><a href="#top">BACK TO TOP ↑</a></div>
@@ -265,14 +208,14 @@ function ProjectDialog({ project, close }) {
     <aside className="v2-modal" ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="v2-project-title">
       <div className="v2-modal-top"><span>{project.index} / ENGINEERING CASE STUDY</span><button type="button" ref={closeRef} onClick={close} aria-label="Close case study">✕</button></div>
       <div className="v2-modal-content">
-        <div className="v2-modal-kicker">{project.category} — {project.year}</div>
+        <div className="v2-modal-kicker">{project.type.toUpperCase()} — {project.year}</div>
         <h2 id="v2-project-title">{project.name}</h2>
-        <p className="v2-modal-lead">{project.tagline}</p>
+        <p className="v2-modal-lead">{project.overview}</p>
         <ProjectVisual project={project}/>
         <div className="v2-modal-columns">
           <div><h3>THE CHALLENGE</h3><p>{project.problem}</p></div>
           <div><h3>THE APPROACH</h3><p>{project.solution}</p></div>
-          <div><h3>UNDER THE HOOD</h3><ul>{project.highlights.map((h) => <li key={h}>{h}</li>)}</ul></div>
+          <div><h3>WHAT I BUILT</h3><ul>{project.highlights.map((h) => <li key={h}>{h}</li>)}</ul></div>
           <div><h3>BUILT WITH</h3><p>{project.technologies.join(" / ")}</p></div>
         </div>
         <div className="v2-modal-actions">{project.repoUrl ? <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">VIEW SOURCE ↗</a> : <span>SOURCE LINK TO BE CONFIRMED</span>}<button type="button" onClick={close}>BACK TO WORK ←</button></div>
@@ -290,16 +233,17 @@ function Progress() {
 export default function PortfolioApp() {
   const [project, setProject] = useState(null);
   return <div className="v2-root">
-    <a className="v2-skip" href="#work">Skip to selected work</a>
+    <a className="v2-skip" href="#overview">Skip to career overview</a>
     <Progress/>
     <SiteHeader/>
     <main>
       <Hero/>
+      <RecruiterOverview/>
+      <RecruiterExperience/>
       <Work openProject={setProject}/>
-      <Expertise/>
-      <ArchitectureInterlude/>
-      <Experience/>
+      <RecruiterSkills/>
       <About/>
+      <ArchitectureInterlude/>
     </main>
     <Footer/>
     {project && <ProjectDialog project={project} close={() => setProject(null)}/>}
