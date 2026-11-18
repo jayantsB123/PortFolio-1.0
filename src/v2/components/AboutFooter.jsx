@@ -1,5 +1,7 @@
 import { profile } from "../portfolioData";
 
+function Glyph({ children }) { return <span className="glyph" aria-hidden="true">{children}</span>; }
+
 function About() {
   return <section id="about" className="v2-about"><div className="v2-container v2-about-layout">
     <div className="v2-about-aside">
