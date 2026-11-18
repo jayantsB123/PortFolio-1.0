@@ -59,7 +59,7 @@ jobs:
       - run: npm ci
       # The test runner is installed without changing the production dependency graph.
       # Pin its version for deterministic screenshots and browser behavior.
-      - run: npm install --no-save --no-package-lock @playwright/test@1.65.1
+      - run: npm install --no-save --no-package-lock @playwright/test@1.65.1 @axe-core/playwright@4.14.0
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npx playwright test
