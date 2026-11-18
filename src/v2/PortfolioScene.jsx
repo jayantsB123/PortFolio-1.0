@@ -1,3 +1,4 @@
+/* eslint react/no-unknown-property: off -- JSX elements here are Three.js objects, not DOM elements. */
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import { useRef } from "react";
