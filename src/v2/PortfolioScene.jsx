@@ -32,7 +32,7 @@ function Engine({ expanded }) {
   return <group ref={group} rotation={[0.25, -0.5, 0]}>
     <Float speed={1.25} rotationIntensity={0.08} floatIntensity={0.08}>
       <mesh ref={core}>
-        <torusKnotGeometry args={[1.1, 0.25, 180, 16, 2, 5]} />
+        <torusKnotGeometry args={[1.1, 0.25, 112, 12, 2, 5]} />
         <meshPhysicalMaterial color="#d4f98d" roughness={0.23} metalness={0.4} clearcoat={0.85} />
       </mesh>
     </Float>
@@ -53,10 +53,10 @@ function Engine({ expanded }) {
   </group>;
 }
 
-export default function PortfolioScene({ expanded }) {
-  return <Canvas aria-hidden="true" dpr={[1, 1.5]}
+export default function PortfolioScene({ expanded, active = true }) {
+  return <Canvas aria-hidden="true" dpr={[1, 1.25]} frameloop={active ? "always" : "never"}
     camera={{ fov: 38, near: 0.1, far: 100, position: [0, 0, 8.2] }}
-    gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
+    gl={{ alpha: true, antialias: true, powerPreference: "default" }}>
     <ambientLight intensity={1.5} />
     <directionalLight color="#eaf9d9" position={[3, 5, 4]} intensity={2.3} />
     <pointLight color="#9fbbff" position={[-4, -2, 3]} intensity={20} distance={11} />
