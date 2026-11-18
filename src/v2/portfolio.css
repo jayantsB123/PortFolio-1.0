@@ -543,3 +543,8 @@ button,a{ -webkit-tap-highlight-color:transparent }
 .v2-about .v2-about-aside>span,
 .v2-about .v2-about-bottom {color:#485e40}
 .v2-about .v2-about-main>p {color:#3f553a}
+
+/* Final WCAG AA adjustments from browser audit. */
+.v2-layout-switch button:not([aria-pressed=true]){color:#475f40}
+.v2-work-after>span{color:#455e3d}
+.v2-about-main h2 em{color:#4d7039}
