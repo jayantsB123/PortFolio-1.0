@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
-import { categories, earlyExperience, profile, school, selectedProjects } from "./portfolioData";
+import { profile } from "./portfolioData";
+import ProjectExplorer, { ProjectVisual } from "./ProjectExplorer";
+import { About, Footer } from "./components/AboutFooter";
 import "./portfolio.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
 import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterSkills } from "./RecruiterContent";
@@ -92,93 +94,6 @@ function EngineArtwork() {
 
 function Hero() { return <RecruiterHero artwork={<EngineArtwork/>} />; }
 
-function SectionHeading({ number, eyebrow, heading, subheading }) {
-  return <div className="v2-section-heading">
-    <div className="v2-eyebrow"><span>{number} / 06</span><i/>{eyebrow}</div>
-    <div className="v2-heading-row"><h2>{heading}</h2>{subheading && <p>{subheading}</p>}</div>
-  </div>;
-}
-
-function ProjectVisual({ project }) {
-  return <div className={"v2-project-visual visual-" + project.tone}>
-    <div className="v2-visual-label">{project.category} / {project.index}</div>
-    <div className="v2-preview-frame">
-      {project.source && project.source.image
-        ? <img alt={"Screenshot of " + project.name} src={project.source.image} loading="lazy" decoding="async" />
-        : <span>{project.name}</span>}
-    </div>
-    <div className="v2-preview-foot"><span>ENGINEERING / IN PRACTICE</span><Glyph>✳</Glyph></div>
-  </div>;
-}
-
-function Work({ openProject }) {
-  const [filter, setFilter] = useState("ALL");
-  const shown = selectedProjects.filter((project) => filter === "ALL" || project.category === filter);
-  return <section id="work" className="v2-work v2-page-section">
-    <div className="v2-container">
-      <SectionHeading number="03" eyebrow="SELECTED PROJECTS" heading="Projects & implementation."
-        subheading="Selected full-stack, UI and algorithm projects. Scan the stack, explore the implementation or open a case study."/>
-      <div className="v2-work-bar">
-        <span>SELECTED PROJECTS / 2023—2024</span>
-        <div role="group" aria-label="Filter projects" className="v2-filters">
-          {categories.map((category) => <button type="button" key={category} aria-pressed={filter === category}
-            className={filter === category ? "is-active" : ""} onClick={() => setFilter(category)}>
-            {category.charAt(0) + category.slice(1).toLowerCase()}
-            <sup>{String(category === "ALL" ? selectedProjects.length : selectedProjects.filter((project) => project.category === category).length).padStart(2,"0")}</sup>
-          </button>)}
-        </div>
-      </div>
-      <div className="v2-project-grid">
-        {shown.map((project) => <article className="v2-project-card" key={project.slug}>
-          <button type="button" className="v2-project-button" aria-label={"Read case study: " + project.name} onClick={() => openProject(project)}>
-            <ProjectVisual project={project}/>
-            <div className="v2-project-info">
-              <div>
-                <div className="v2-project-eyebrow">{project.type} · {project.year}</div>
-                <h3>{project.name}</h3>
-                <p>{project.overview}</p>
-                <div className="v2-project-tags">{project.technologies.map((tech) => <span key={tech}>{tech}</span>)}</div>
-              </div>
-              <span className="v2-project-arrow" aria-hidden="true">↗</span>
-            </div>
-          </button>
-          <div className="v2-project-actions"><button type="button" onClick={() => openProject(project)}>CASE STUDY ↗</button>{project.repoUrl ? <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">SOURCE ↗</a> : <span>SOURCE UNAVAILABLE</span>}</div>
-        </article>)}
-      </div>
-      <div className="v2-work-after"><span>THE BEST PART IS THE PROBLEM SOLVING.</span><a href={profile.github} target="_blank" rel="noopener noreferrer">MORE ON GITHUB <Glyph>↗</Glyph></a></div>
-    </div>
-  </section>;
-}
-
-
-function About() {
-  return <section id="about" className="v2-about"><div className="v2-container v2-about-layout">
-    <div className="v2-about-aside">
-      <span>05 / 06 — THE PERSON BEHIND THE WORK</span>
-      <div className="v2-about-art"><span>✳</span><small>ALWAYS<br/>IN THE MAKING.</small></div>
-    </div>
-    <div className="v2-about-main">
-      <div className="v2-about-kicker">NOT JUST PIXELS & PULL REQUESTS</div>
-      <h2>Curiosity is<br/>my <em>default</em><span>.</span></h2>
-      <p>I started building for the web because I liked seeing ideas become real. What keeps me here is the engineering underneath: finding better ways to make complex things clear, reliable, and useful.</p>
-      <p>From frontend interactions to backend systems, I care about how software behaves as much as how it looks.</p>
-      <div className="v2-about-bottom"><span>{profile.location.toUpperCase()}</span><span>ENGINEER / BUILDER / CURIOUS HUMAN</span></div>
-    </div>
-  </div></section>;
-}
-
-function Footer() {
-  return <footer id="contact" className="v2-footer"><div className="v2-container">
-    <div className="v2-footer-top"><span>06 / 06 — CONNECT</span><span>GOT SOMETHING GOOD IN MIND?</span></div>
-    <h2>Have a role<br/>or <em>project?</em></h2>
-    <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="v2-contact-link">CONNECT ON LINKEDIN <Glyph>↗</Glyph></a>
-    <div className="v2-footer-bottom"><a className="v2-footer-mark" href="#top" aria-label="Back to top">j.</a>
-      <span>© {new Date().getFullYear()} {profile.name.toUpperCase()}</span>
-      <div><a target="_blank" rel="noopener noreferrer" href={profile.github}>GITHUB ↗</a><a target="_blank" rel="noopener noreferrer" href={profile.linkedin}>LINKEDIN ↗</a><a href="#top">BACK TO TOP ↑</a></div>
-    </div>
-  </div></footer>;
-}
-
 function ProjectDialog({ project, close }) {
   const panelRef = useRef(null);
   const closeRef = useRef(null);
@@ -240,7 +155,7 @@ export default function PortfolioApp() {
       <Hero/>
       <RecruiterOverview/>
       <RecruiterExperience/>
-      <Work openProject={setProject}/>
+      <ProjectExplorer openProject={setProject}/>
       <RecruiterSkills/>
       <About/>
       <ArchitectureInterlude/>
