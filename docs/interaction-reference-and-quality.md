@@ -25,10 +25,10 @@ This comparison is based on the user-supplied recording, not copied source code.
 
 ## Technical improvements
 
-- Removed unused runtime packages from the root dependency manifest; legacy source remains for reference, but its unused dependencies are no longer installed intentionally.
+- Removed unused runtime packages from the dependency graph and pruned the lockfile. Legacy source remains in the repository, but its unused packages are no longer installed.
 - Refactored the oversized portfolio module into separate project explorer, menu, career content, about/footer and 3D components.
 - Added pure project-filtering helper functions and Node built-in tests.
-- Reduced procedural 3D geometry segments and capped the renderer to 1.25 DPR.
+- Reduced procedural 3D geometry segments and capped the renderer to 1.25 DPR. Removed Drei (used for one floating animation), replacing it with a simple sine offset in the existing render loop.
 - Suspended WebGL animation while the scene is offscreen or the tab is hidden.
 - Added lint/build/unit/browser checks to GitHub Actions; browser tests cover desktop and mobile navigation, filters, two project layouts, dialogs, reduced-motion mode and horizontal overflow.
 - Rewrote the README to describe the real V2 architecture instead of an outdated starter skeleton.
@@ -44,3 +44,5 @@ This comparison is based on the user-supplied recording, not copied source code.
 ## Development choices
 
 This PR is a standalone quality and interaction improvement. It intentionally does not invent recent experience or projects, which will arrive from a current résumé later. The production site and main branch should remain unchanged until review.
+
+- Imported only the four featured project images directly, avoiding the full college-era image catalog. List hover previews mount only on hover/focus.
