@@ -1,0 +1,39 @@
+name: Portfolio V2 Build
+
+on:
+  push:
+    branches:
+      - feat/portfolio-v2-creative-engineering
+  pull_request:
+    paths:
+      - "src/v2/**"
+      - "src/main.jsx"
+      - "index.html"
+      - "package*.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Verify HTML output
+        run: |
+          test -f dist/index.html
+          test -d dist/assets
+      - name: Upload built preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-v2-dist
+          path: dist/
+          retention-days: 7
