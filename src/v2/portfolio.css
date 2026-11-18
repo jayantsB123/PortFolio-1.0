@@ -515,3 +515,31 @@ button,a{ -webkit-tap-highlight-color:transparent }
   .v2-quicknav-backdrop{animation:none}
   .v2-project-list-preview{transition:none;will-change:auto}
 }
+
+
+/* Readable secondary text across light sections (WCAG AA small-text contrast). */
+.v2-experience .v2-eyebrow,
+.v2-experience .v2-role-date,
+.v2-experience .v2-education-line span {color:#465a41}
+.v2-experience .v2-heading-row>p,
+.v2-experience .v2-role-company,
+.v2-experience .v2-role-company-inline,
+.v2-experience .v2-education-line small {color:#45583f}
+.v2-work .v2-eyebrow,
+.v2-work .v2-project-row-index,
+.v2-work .v2-project-row-meta,
+.v2-work .v2-explorer-count,
+.v2-work .v2-work-bar>span,
+.v2-work .v2-project-eyebrow,
+.v2-work .v2-filters button:not(.is-active),
+.v2-work .v2-filters sup,
+.v2-work .v2-project-tags span,
+.v2-work .v2-project-list-actions>span,
+.v2-work .v2-project-actions>span {color:#4d6045}
+.v2-work .v2-heading-row>p,
+.v2-work .v2-project-row-main p,
+.v2-work .v2-project-info p {color:#475b41}
+.v2-about .v2-about-kicker,
+.v2-about .v2-about-aside>span,
+.v2-about .v2-about-bottom {color:#485e40}
+.v2-about .v2-about-main>p {color:#3f553a}
