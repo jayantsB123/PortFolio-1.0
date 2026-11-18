@@ -40,7 +40,7 @@ export function RecruiterOverview() {
   return <section id="overview" className="v2-overview" aria-label="Career overview"><div className="v2-container">
     <div className="v2-overview-heading">
       <div><span className="v2-overview-kicker">THE SHORT VERSION</span><h2>At a glance.</h2></div>
-      <p>Experience, technologies and selected work — the essential information up front.</p>
+      <p>Experience, technologies and selected work — the essentials, all in one place.</p>
     </div>
     <div className="v2-overview-grid">
       {quickFacts.map((fact) => <a className="v2-overview-fact" href={fact.href} key={fact.label}>
@@ -60,7 +60,7 @@ export function RecruiterExperience() {
   return <section id="experience" className="v2-experience v2-page-section"><div className="v2-container">
     <div className="v2-section-heading">
       <div className="v2-eyebrow"><span>02 / 06</span><i/>PROFESSIONAL EXPERIENCE</div>
-      <div className="v2-heading-row"><h2>Experience.</h2><p>Engineering internships from the original portfolio. Current employment details are not yet included.</p></div>
+      <div className="v2-heading-row"><h2>Experience.</h2><p>Selected engineering internships, with responsibilities and the technologies behind the work.</p></div>
     </div>
     <div className="v2-experience-list">
       {earlyExperience.map((job) => <article className="v2-role v2-role-clarity" key={job.company}>
@@ -95,6 +95,6 @@ export function RecruiterSkills() {
         <ul>{group.items.map((item) => <li key={item}>{item}</li>)}</ul>
       </article>)}
     </div>
-    <div className="v2-skills-disclaimer">Technologies are derived from the original portfolio and this site's implementation; experience varies by tool.</div>
+    <div className="v2-skills-disclaimer">Technologies used across projects, professional experience and interactive web work.</div>
   </div></section>;
 }
