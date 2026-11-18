@@ -1,6 +1,5 @@
 /* eslint react/no-unknown-property: off -- JSX elements here are Three.js objects, not DOM elements. */
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
@@ -11,9 +10,11 @@ function Engine({ expanded }) {
   const core = useRef();
   const hoops = useRef();
   const pieces = useRef([]);
-  useFrame(({ pointer }, delta) => {
+  useFrame((state, delta) => {
+    const { pointer } = state;
     if (!group.current || !core.current || !hoops.current) return;
     group.current.rotation.y += delta * 0.12;
+    group.current.position.y = Math.sin(state.clock.elapsedTime * 0.9) * 0.06;
     group.current.rotation.x = THREE.MathUtils.damp(group.current.rotation.x, 0.2 + pointer.y * 0.15, 2, delta);
     group.current.rotation.z = THREE.MathUtils.damp(group.current.rotation.z, pointer.x * -0.08, 2, delta);
     const scale = THREE.MathUtils.damp(core.current.scale.x, expanded ? 0.49 : 1, 4, delta);
@@ -31,12 +32,10 @@ function Engine({ expanded }) {
     });
   });
   return <group ref={group} rotation={[0.25, -0.5, 0]}>
-    <Float speed={1.25} rotationIntensity={0.08} floatIntensity={0.08}>
       <mesh ref={core}>
         <torusKnotGeometry args={[1.1, 0.25, 112, 12, 2, 5]} />
         <meshPhysicalMaterial color="#d4f98d" roughness={0.23} metalness={0.4} clearcoat={0.85} />
       </mesh>
-    </Float>
     <group ref={hoops}>
       <mesh rotation={[1.12, 0.2, 0.1]}><torusGeometry args={[1.6, 0.008, 5, 100]} /><meshBasicMaterial color="#d4eac0" transparent opacity={0.72} /></mesh>
       <mesh rotation={[0.36, -0.52, -0.63]}><torusGeometry args={[1.86, 0.012, 5, 120]} /><meshBasicMaterial color="#b9cfae" transparent opacity={0.55} /></mesh>
