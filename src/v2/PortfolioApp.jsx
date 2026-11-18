@@ -29,7 +29,7 @@ function SiteHeader() {
       <span className="v2-logo-mark">j<span>.</span></span>
       <span className="v2-logo-text">JAYANT <span>/ SOFTWARE ENGINEER</span></span>
     </a>
-    <nav className={open ? "v2-nav is-open" : "v2-nav"} aria-label="Main navigation">
+    <nav id="v2-main-nav" className={open ? "v2-nav is-open" : "v2-nav"} aria-label="Main navigation">
       {links.map(([label, href]) => <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>)}
     </nav>
     <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>LET'S TALK <Glyph>↗</Glyph></a>
