@@ -117,9 +117,9 @@ function Work({ openProject }) {
   return <section id="work" className="v2-work v2-page-section">
     <div className="v2-container">
       <SectionHeading number="03" eyebrow="SELECTED PROJECTS" heading="Projects & implementation."
-        subheading="Four real projects from my original portfolio. Scan the stack, see what I built, or open a short engineering case study."/>
+        subheading="Selected full-stack, UI and algorithm projects. Scan the stack, explore the implementation or open a case study."/>
       <div className="v2-work-bar">
-        <span>EARLY PROJECTS / 2023—2024</span>
+        <span>SELECTED PROJECTS / 2023—2024</span>
         <div role="group" aria-label="Filter projects" className="v2-filters">
           {categories.map((category) => <button type="button" key={category} aria-pressed={filter === category}
             className={filter === category ? "is-active" : ""} onClick={() => setFilter(category)}>
