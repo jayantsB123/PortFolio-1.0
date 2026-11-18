@@ -32,7 +32,7 @@ test("project case studies open, trap keyboard focus, and close with Escape", as
   await page.locator(".v2-project-row-name").first().click();
   const dialog = page.getByRole("dialog", { name: "AI Image Generator" });
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole("heading")).toContainText("AI Image Generator");
+  await expect(dialog.getByRole("heading", { name: "AI Image Generator" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
   await expect(page.locator(".v2-project-row-name").first()).toBeFocused();
