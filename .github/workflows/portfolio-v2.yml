@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feat/portfolio-v2-creative-engineering
+      - feat/portfolio-v2-recruiter-clarity
   pull_request:
     paths:
       - "src/v2/**"
