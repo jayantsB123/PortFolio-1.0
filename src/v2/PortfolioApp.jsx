@@ -34,7 +34,7 @@ function SiteHeader() {
   ];
   return <>
     <header className={"v2-header" + (scrolled ? " is-scrolled" : "")}>
-      <a className="v2-logo" href="#top" aria-label="Jayant — back to top">
+      <a className="v2-logo" href="#top">
         <span className="v2-logo-mark">j<span>.</span></span>
         <span className="v2-logo-text">JAYANT <span>/ SOFTWARE ENGINEER</span></span>
       </a>
