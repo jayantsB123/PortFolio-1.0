@@ -24,7 +24,7 @@ function Footer() {
     <div className="v2-footer-top"><span>06 / 06 — CONNECT</span><span>GOT SOMETHING GOOD IN MIND?</span></div>
     <h2>Have a role<br/>or <em>project?</em></h2>
     <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="v2-contact-link">CONNECT ON LINKEDIN <Glyph>↗</Glyph></a>
-    <div className="v2-footer-bottom"><a className="v2-footer-mark" href="#top" aria-label="Back to top">j.</a>
+    <div className="v2-footer-bottom"><a className="v2-footer-mark" href="#top" aria-label="j. Back to top">j.</a>
       <span>© {new Date().getFullYear()} {profile.name.toUpperCase()}</span>
       <div><a target="_blank" rel="noopener noreferrer" href={profile.github}>GITHUB ↗</a><a target="_blank" rel="noopener noreferrer" href={profile.linkedin}>LINKEDIN ↗</a><a href="#top">BACK TO TOP ↑</a></div>
     </div>
