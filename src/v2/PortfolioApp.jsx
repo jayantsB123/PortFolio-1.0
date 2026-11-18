@@ -54,6 +54,7 @@ function EngineArtwork() {
   const [expanded, setExpanded] = useState(false);
   const [hasWebGL, setHasWebGL] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(false);
   const reducedMotion = useReducedMotion();
   const ref = useRef(null);
 
@@ -68,10 +69,14 @@ function EngineArtwork() {
     setHasWebGL(supported);
     if (!supported || reducedMotion || !ref.current) return undefined;
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0] && entries[0].isIntersecting) setVisible(true);
+      const inView = Boolean(entries[0]?.isIntersecting);
+      setActive(inView);
+      if (inView) setVisible(true);
     }, { rootMargin: "100px" });
     observer.observe(ref.current);
-    return () => observer.disconnect();
+    const handleVisibility = () => setActive(!document.hidden && Boolean(ref.current?.getBoundingClientRect().bottom > 0 && ref.current?.getBoundingClientRect().top < innerHeight));
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", handleVisibility); };
   }, [reducedMotion]);
 
   return <div className="v2-engine" ref={ref}>
@@ -81,7 +86,7 @@ function EngineArtwork() {
     <div className="v2-engine-visual">
       {hasWebGL && visible && !reducedMotion
         ? <Suspense fallback={<OrbitalFallback expanded={expanded}/>}>
-          <PortfolioScene expanded={expanded}/>
+          <PortfolioScene expanded={expanded} active={active}/>
         </Suspense>
         : <OrbitalFallback expanded={expanded}/>}
     </div>
