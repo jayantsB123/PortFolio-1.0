@@ -185,7 +185,7 @@ export const quickFacts = [
   },
   {
     label: "EXPERIENCE",
-    value: "3 engineering internships",
+    value: "3 featured internships",
     detail: "2023–2024 · details below",
     href: "#experience",
   },
