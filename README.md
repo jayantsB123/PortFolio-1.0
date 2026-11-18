@@ -16,7 +16,7 @@ The current site focuses on making my work easy to scan without losing its inter
 
 ## Tech stack
 
-React 18 · Vite 5 · Three.js · React Three Fiber/Drei · Framer Motion · CSS
+React 18 · Vite 5 · Three.js · React Three Fiber · Framer Motion · CSS
 
 No backend is required. The retired EmailJS form is no longer part of the running application.
 
