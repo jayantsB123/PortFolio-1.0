@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { categories, earlyExperience, profile, school, selectedProjects } from "./portfolioData";
 import "./portfolio.css";
+import ArchitectureInterlude from "./ArchitectureInterlude";
 
 // Imported separately so WebGL is never required for reading the page.
 const PortfolioScene = lazy(() => import("./PortfolioScene"));
@@ -274,7 +275,7 @@ function ProjectDialog({ project, close }) {
           <div><h3>UNDER THE HOOD</h3><ul>{project.highlights.map((h) => <li key={h}>{h}</li>)}</ul></div>
           <div><h3>BUILT WITH</h3><p>{project.technologies.join(" / ")}</p></div>
         </div>
-        <div className="v2-modal-actions"><a href={project.source.github} target="_blank" rel="noopener noreferrer">VIEW SOURCE ↗</a><button type="button" onClick={close}>BACK TO WORK ←</button></div>
+        <div className="v2-modal-actions">{project.repoUrl ? <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">VIEW SOURCE ↗</a> : <span>SOURCE LINK TO BE CONFIRMED</span>}<button type="button" onClick={close}>BACK TO WORK ←</button></div>
       </div>
     </aside>
   </div>;
@@ -296,6 +297,7 @@ export default function PortfolioApp() {
       <Hero/>
       <Work openProject={setProject}/>
       <Expertise/>
+      <ArchitectureInterlude/>
       <Experience/>
       <About/>
     </main>
