@@ -1,94 +1,77 @@
-# Portfolio Website README
+# Portfolio
 
-Welcome to my portfolio website! This project showcases my work and skills using modern web technologies including React, Tailwind CSS, Three.js, and React Framer Motion.
+A personal portfolio built with React, Vite, Three.js and Framer Motion.
+
+The current site focuses on making my work easy to scan without losing its interactive visual identity. The active application lives in [src/v2/](src/v2/); the college-era components remain in src/components/ for reference during migration.
 
 ## Features
 
-- **React**: Utilizes React for building reusable UI components, ensuring a fast and responsive user experience.
-- **Tailwind CSS**: Employs Tailwind CSS for styling, allowing for rapid design iteration and maintaining a consistent design system.
-- **Three.js**: Integrates Three.js for rendering 3D components and interactive elements, enhancing visual appeal and engagement.
-- **React Framer Motion**: Enhances user interaction with animations and transitions powered by React Framer Motion, creating a dynamic user experience.
+- Career overview, professional experience, selected projects, skills and contact sections.
+- Project explorer with list/gallery modes, filters, keyboard-accessible controls and verified source links.
+- Contextual screenshots on hover/focus; all important project details remain visible without them.
+- Full-screen navigation with Escape key, keyboard focus management and focus restoration.
+- Case studies describing challenges, approaches, implementation and technology.
+- Lazy-loaded procedural React Three Fiber scene, paused when offscreen.
+- Reduced-motion and no-WebGL fallbacks.
 
-## Project Structure
+## Tech stack
 
-```
-portfolio-website/
-│
-├── public/
-│   ├── index.html
-│   └── ...
-│
-├── src/
-│   ├── components/
-│   │   ├── Header.js
-│   │   ├── ProjectCard.js
-│   │   └── ...
-│   ├── pages/
-│   │   ├── Home.js
-│   │   ├── Projects.js
-│   │   └── ...
-│   ├── assets/
-│   │   ├── images/
-│   │   ├── models/
-│   │   └── ...
-│   ├── App.js
-│   ├── index.js
-│   └── ...
-│
-├── .gitignore
-├── package.json
-├── README.md
-└── ...
-```
+React 18 · Vite 5 · Three.js · React Three Fiber/Drei · Framer Motion · CSS
 
-## Getting Started
+No backend is required. The retired EmailJS form is no longer part of the running application.
 
-To run this project locally, follow these steps:
+## Local setup
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/portfolio-1.0.git
-   cd portfolio-website
-   ```
+Node.js 22+ recommended.
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+    npm ci
+    npm run dev
 
-3. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
+Open http://localhost:5173.
 
-4. **Open your browser:**
-   Visit `http://localhost:5173` to view the website.
+## Quality checks
+
+    npm run lint
+    npm test
+    npm run build
+    npm run preview
+
+For browser tests (Playwright is kept out of the production dependency graph):
+
+    npm install --no-save --no-package-lock @playwright/test@1.56.1
+    npx playwright install chromium
+    npm run build
+    npx playwright test
+
+The GitHub Actions workflow runs linting, unit tests, the production build, and Chromium smoke tests on pull requests. Successful runs retain the build artifact.
+
+## Project structure
+
+- src/main.jsx — application entry point
+- src/v2/PortfolioApp.jsx — page composition, WebGL fallback and case-study modal
+- src/v2/ProjectExplorer.jsx — list/gallery project explorer
+- src/v2/projectView.js — pure project filtering logic
+- src/v2/QuickNav.jsx — keyboard-accessible full-screen menu
+- src/v2/RecruiterContent.jsx — hero, career overview, experience and skills
+- src/v2/ArchitectureInterlude.jsx — scroll-linked narrative
+- src/v2/PortfolioScene.jsx — procedural 3D engine
+- src/v2/components/AboutFooter.jsx — about and contact sections
+- src/v2/portfolioData.js — projects and experiences adapted from original data
+- src/v2/portfolio.css — responsive design system
+- src/data/constants.js — historical portfolio data and image references
+- tests/project-view.test.mjs — filtering unit tests
+- e2e/portfolio.spec.js — browser interaction tests
+
+## Performance and accessibility
+
+The Three.js scene only loads when the user is near it, pauses animation when it leaves the viewport, caps DPR and respects reduced motion. Content remains readable if WebGL is unavailable.
+
+Interactive elements use semantic buttons/links; filter state is announced, modal dialogs are keyboard accessible, and a skip link leads to the career overview. Build success alone does not prove Lighthouse or real-device performance; those are measured separately.
+
+## Content accuracy
+
+Career and project descriptions come from the original portfolio. I will add current work, a verified résumé and recent projects separately. The outdated TypeSpeed source URL remains unlinked rather than pointing to a broken GitHub page.
 
 ## Deployment
 
-To deploy this website, you can use any hosting service that supports static websites. Here are some options:
-
-- **Netlify** (Currently Used)
-- **Vercel**
-- **GitHub Pages**
-
-Simply configure your deployment settings to point to the `build` directory after running `npm run build`.
-
-## Contributing
-
-Contributions are welcome! If you have any suggestions, improvements, or issues, please create a pull request or open an issue in this repository.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc.
-
----
-
-Feel free to customize this README to better fit your specific project details and preferences. Happy coding! 🚀
-
+Review feature branches before merging and deploying.
