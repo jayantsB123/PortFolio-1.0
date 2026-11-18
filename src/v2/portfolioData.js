@@ -140,12 +140,6 @@ const selected = [
 export const selectedProjects = selected.filter((project) => Boolean(project.source));
 export const categories = ["ALL", "INTERFACES", "SYSTEMS", "EXPERIMENTS"];
 
-const featuredEmployers = [
-  "LarvaeSoft Solutions",
-  "Mediscient Devices Pvt. Ltd.",
-  "ICN India Pvt. Ltd.",
-];
-
 const verifiedExperienceDetails = {
   "LarvaeSoft Solutions": {
     bullets: [
