@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { profile } from "./portfolioData";
 import ProjectExplorer, { ProjectVisual } from "./ProjectExplorer";
 import { About, Footer } from "./components/AboutFooter";
+import QuickNav from "./QuickNav";
 import "./portfolio.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
 import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterSkills } from "./RecruiterContent";
@@ -16,10 +17,12 @@ function Glyph({ children, className = "" }) {
 
 function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    const close = (event) => { if (event.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   const links = [
     ["Overview", "#overview"],
@@ -27,21 +30,28 @@ function SiteHeader() {
     ["Projects", "#work"],
     ["Skills", "#skills"],
     ["About", "#about"],
-    ["Contact", "#contact"]
+    ["Contact", "#contact"],
   ];
-  return <header className="v2-header">
-    <a className="v2-logo" href="#top" aria-label="Jayant — back to top">
-      <span className="v2-logo-mark">j<span>.</span></span>
-      <span className="v2-logo-text">JAYANT <span>/ SOFTWARE ENGINEER</span></span>
-    </a>
-    <nav id="v2-main-nav" className={open ? "v2-nav is-open" : "v2-nav"} aria-label="Main navigation">
-      {links.map(([label, href]) => <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>)}
-    </nav>
-    <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>CONTACT / LINKEDIN <Glyph>↗</Glyph></a>
-    <button type="button" className="v2-menu-button" aria-expanded={open} aria-controls="v2-main-nav" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"}>
-      {open ? "✕" : "☰"}
-    </button>
-  </header>;
+  return <>
+    <header className={"v2-header" + (scrolled ? " is-scrolled" : "")}>
+      <a className="v2-logo" href="#top" aria-label="Jayant — back to top">
+        <span className="v2-logo-mark">j<span>.</span></span>
+        <span className="v2-logo-text">JAYANT <span>/ SOFTWARE ENGINEER</span></span>
+      </a>
+      <nav id="v2-main-nav" className="v2-nav" aria-label="Main navigation">
+        {links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+      </nav>
+      <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>
+        CONTACT <Glyph>↗</Glyph>
+      </a>
+      <button type="button" className="v2-menu-button v2-explore-trigger"
+        aria-expanded={open} aria-haspopup="dialog" onClick={() => setOpen(true)}
+        aria-label="Explore sections of the portfolio">
+        <span>EXPLORE</span> <span aria-hidden="true">☷</span>
+      </button>
+    </header>
+    <QuickNav open={open} onClose={() => setOpen(false)}/>
+  </>;
 }
 
 function OrbitalFallback({ expanded }) {
