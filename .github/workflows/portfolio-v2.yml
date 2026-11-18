@@ -25,7 +25,9 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      # The legacy lockfile contains react-dancing-lines (React 16 peer) alongside React 18.
+      # This compatibility switch is temporary until obsolete packages are pruned.
+      - run: npm ci --legacy-peer-deps
       - run: npm run build
       - name: Verify HTML output
         run: |
