@@ -1,20 +1,27 @@
-import { Bio, projects, experiences, education } from "../data/constants";
+import aiScreenshot from "../images/prjctAI.png";
+import typingScreenshot from "../images/typeSpeed.png";
+import sortingScreenshot from "../images/prjctSort.png";
+import repositoryScreenshot from "../images/gitrepohub.png";
+
+// Historical facts and screenshots are carried forward from src/data/constants.js.
+// Import only the four featured assets; importing the entire legacy data module
+// bundles every old project image, icon and artwork into the active application.
 
 /**
  * Recruitment-facing data.
  * Preserve the original repository as the source for names, dates, screenshots
  * and education. Keep unverified metrics and post-2024 employment out of copy.
  */
-const byCode = (fragment) => projects.find((project) => project.github?.includes(fragment));
+
 
 export const profile = {
-  name: Bio.name,
+  name: "Jayant Singh",
   role: "Software Developer",
   specialty: "Frontend & Full-Stack Development",
   location: "Pune, India",
-  github: Bio.github,
-  linkedin: Bio.linkedin,
-  resume: Bio.resume, // Legacy portfolio link: may not be the current résumé.
+  github: "https://github.com/jayantsB123",
+  linkedin: "https://www.linkedin.com/in/jayant-singh-35a66222a/",
+  resume: "https://drive.google.com/file/d/1zLMx1gffwbHYzUKeSHrpYff3pTuVH4GD/view?usp=drive_link", // Legacy portfolio link: may not be the current résumé.
   summary:
     "I build responsive React applications, integrate backend services and develop interactive web experiences. My work spans product interfaces, APIs and creative frontend engineering.",
   strengths: ["React interfaces", "Backend integrations", "Interactive web experiences"],
@@ -46,7 +53,7 @@ export const skillGroups = [
 const selected = [
   {
     slug: "image-lab",
-    source: byCode("/AI-Image-Generator"),
+    source: { image: aiScreenshot },
     repoUrl: "https://github.com/jayantsB123/AI-Image-Generator",
     name: "AI Image Generator",
     type: "Full-stack web app",
@@ -67,7 +74,7 @@ const selected = [
   },
   {
     slug: "typespeed",
-    source: byCode("/TypeSpeed"),
+    source: { image: typingScreenshot },
     repoUrl: null, // Original repository link currently returns GitHub 404.
     name: "TypeSpeed",
     type: "React web app",
@@ -88,7 +95,7 @@ const selected = [
   },
   {
     slug: "sorting",
-    source: byCode("/Dynamic-Sorting-Visualizer"),
+    source: { image: sortingScreenshot },
     repoUrl: "https://github.com/jayantsB123/Dynamic-Sorting-Visualizer",
     name: "Sorting Visualizer",
     type: "Algorithm visualization",
@@ -109,7 +116,7 @@ const selected = [
   },
   {
     slug: "repo-hub",
-    source: byCode("/Web-Dev-Assignment"),
+    source: { image: repositoryScreenshot },
     repoUrl: "https://github.com/jayantsB123/Web-Dev-Assignment",
     name: "GITRepoHUB",
     type: "GitHub API interface",
@@ -163,18 +170,23 @@ const verifiedExperienceDetails = {
   },
 };
 
-export const earlyExperience = experiences
-  .filter((item) => featuredEmployers.includes(item.company))
-  .map((item) => ({
-    role: item.role,
-    company: item.company,
-    date: item.date,
-    ...verifiedExperienceDetails[item.company],
-  }));
+const historicalRoles = [
+  { role: "FullStack Developer Intern", company: "LarvaeSoft Solutions", date: "Feb 2024 - April 2024" },
+  { role: "Frontend Developer Intern", company: "Mediscient Devices Pvt. Ltd.", date: "Feb 2024 - March 2024" },
+  { role: "FullStack Developer Intern", company: "ICN India Pvt. Ltd.", date: "December 2023 - Feb 2024" },
+];
 
-export const school = education.find((item) =>
-  item.school?.includes("Army Institute of Technology")
-);
+export const earlyExperience = historicalRoles.map((item) => ({
+  ...item,
+  ...verifiedExperienceDetails[item.company],
+}));
+
+export const school = {
+  school: "Army Institute of Technology, Pune",
+  date: "Nov 2021 - Jul 2025",
+  degree: "Bachelor of Engineering - BE, Computer Science and Engineering",
+  grade: "8.82 CGPA",
+};
 
 export const quickFacts = [
   {
