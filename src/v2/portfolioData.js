@@ -5,9 +5,10 @@ import { Bio, projects, experiences, education } from "../data/constants";
 // Links pointing to google.com in the old data are not treated as live demos.
 const byCode = (name) => projects.find((project) => project.github?.includes(name));
 
+// The original TypeSpeed URL currently returns 404; omit its source CTA until verified.
 const selected = [
   {
-    slug: "typespeed", source: byCode("/TypeSpeed"), name: "TypeSpeed",
+    slug: "typespeed", source: byCode("/TypeSpeed"), repoUrl: null, name: "TypeSpeed",
     category: "INTERFACES", index: "01", year: "2023–24",
     tagline: "A typing test that turns practice into a feedback loop.",
     problem: "Typing speed alone doesn't tell the whole story. Practice is more useful when pace, errors and accuracy are visible together.",
@@ -16,7 +17,7 @@ const selected = [
     technologies: ["React", "Material UI", "JavaScript"], tone: "ultraviolet"
   },
   {
-    slug: "sorting", source: byCode("/Dynamic-Sorting-Visualizer"), name: "Sorting, visualized.",
+    slug: "sorting", source: byCode("/Dynamic-Sorting-Visualizer"), repoUrl: "https://github.com/jayantsB123/Dynamic-Sorting-Visualizer", name: "Sorting, visualized.",
     category: "EXPERIMENTS", index: "02", year: "2023",
     tagline: "An interactive window into the behavior of algorithms.",
     problem: "The steps in an algorithm are easier to understand when they become visible and controllable.",
@@ -25,7 +26,7 @@ const selected = [
     technologies: ["JavaScript", "React", "Algorithms"], tone: "chlorophyll"
   },
   {
-    slug: "image-lab", source: byCode("/AI-Image-Generator"), name: "Prompt → Pixel",
+    slug: "image-lab", source: byCode("/AI-Image-Generator"), repoUrl: "https://github.com/jayantsB123/AI-Image-Generator", name: "Prompt → Pixel",
     category: "SYSTEMS", index: "03", year: "2023",
     tagline: "A full-stack experiment at the intersection of creative tooling and AI.",
     problem: "Turning an idea into an AI-generated image requires a clear prompt-to-result workflow.",
@@ -34,7 +35,7 @@ const selected = [
     technologies: ["React", "Express", "MongoDB"], tone: "orchid"
   },
   {
-    slug: "repo-hub", source: byCode("/Web-Dev-Assignment"), name: "GITRepoHUB",
+    slug: "repo-hub", source: byCode("/Web-Dev-Assignment"), repoUrl: "https://github.com/jayantsB123/Web-Dev-Assignment", name: "GITRepoHUB",
     category: "INTERFACES", index: "04", year: "2023",
     tagline: "Finding signal in the noise of public repositories.",
     problem: "Exploring many repositories shouldn't feel like sifting through an unstructured list.",
