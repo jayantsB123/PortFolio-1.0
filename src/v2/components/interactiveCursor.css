@@ -94,3 +94,58 @@
     display: none !important;
   }
 }
+
+
+/* Adaptive cursor contrast: dark graphite halo on the light chapters. */
+.v2-cursor-dot{
+  width:7px;
+  height:7px;
+  background:#f9fff2;
+  border:1px solid #b5ee6c;
+  box-shadow:0 0 0 2px rgba(80,113,44,.38);
+}
+.v2-cursor-dot[data-theme="light"]{
+  background:#ffffff;
+  border:1px solid #182719;
+  box-shadow:0 0 0 2px rgba(18,36,17,.3);
+}
+.v2-cursor-halo[data-theme="light"]{
+  border-color:#284321;
+  background:rgba(56,92,34,.08);
+  box-shadow:0 0 0 1px rgba(35,58,24,.18);
+}
+.v2-cursor-halo[data-theme="light"][data-mode="action"]{
+  border-color:#1d391a;
+  background:rgba(59,102,34,.14);
+}
+.v2-cursor-halo[data-theme="light"][data-mode="label"]{
+  background:#20371e;
+  color:#ecffdc;
+  border-color:#20371e;
+  box-shadow:0 10px 26px rgba(27,45,24,.2);
+}
+.v2-cursor-halo[data-mode="heading"]{
+  width:66px;
+  height:66px;
+  border-style:dashed;
+  border-width:1px;
+  background:rgba(198,243,103,.11);
+  font:500 25px 'Space Grotesk',sans-serif;
+  color:#d1f58e;
+}
+.v2-cursor-halo[data-mode="heading"][data-theme="light"]{
+  background:rgba(34,67,24,.08);
+  color:#284821;
+}
+.v2-cursor-halo[data-theme="light"].is-pressed{
+  background:rgba(40,76,24,.2);
+}
+/* Protect real selection, inputs and headings even when the custom pointer is active. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .v2-root.v2-cursor-enabled h1,
+  .v2-root.v2-cursor-enabled h2,
+  .v2-root.v2-cursor-enabled h3,
+  .v2-root.v2-cursor-enabled h4{
+    cursor:none!important;
+  }
+}
