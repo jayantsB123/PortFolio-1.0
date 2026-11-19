@@ -13,7 +13,6 @@ export function RecruiterHero({ artwork }) {
     <div className="v2-hero-grid" aria-hidden="true"/>
     <div className="v2-hero-atmosphere" aria-hidden="true">{Array.from({ length: 19 }, (_, i) => <i key={i} style={{ "--particle": i }}/>)}</div>
     <div className="v2-hero-top">
-      <span><i/> SOFTWARE DEVELOPER / PUNE, INDIA</span>
       <span>PORTFOLIO / 2026</span>
     </div>
     <div className="v2-hero-body">
