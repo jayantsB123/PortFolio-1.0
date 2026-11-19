@@ -653,7 +653,7 @@ button,a{ -webkit-tap-highlight-color:transparent }
 .v2-overview-fact:focus-visible strong {
   color: #315522;
 }
-:where(#overview,#experience,#work,#skills,#about,#contact,#education) {
+#overview,#experience,#work,#skills,#about,#contact,#education {
   scroll-margin-top: 105px;
 }
 @media (prefers-reduced-motion:reduce) {
