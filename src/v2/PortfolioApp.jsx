@@ -1,10 +1,11 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { profile } from "./portfolioData";
 import ProjectExplorer, { ProjectVisual } from "./ProjectExplorer";
 import { About, Footer } from "./components/AboutFooter";
 import QuickNav from "./QuickNav";
 import InteractiveCursor from "./components/InteractiveCursor";
+import MotionDirector from "./components/MotionDirector";
 import { useActiveSection } from "./hooks/useActiveSection";
 import "./portfolio.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
@@ -19,40 +20,58 @@ function Glyph({ children, className = "" }) {
 
 function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const activeSection = useActiveSection();
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { scrollYProgress } = useScroll();
+  const railProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 28 });
+  const reduceMotion = useReducedMotion();
   const links = [
-    ["Overview", "#overview"],
-    ["Experience", "#experience"],
-    ["Projects", "#work"],
-    ["Skills", "#skills"],
-    ["About", "#about"],
-    ["Contact", "#contact"],
+    ["01", "Overview", "#overview", "⌁"],
+    ["02", "Experience", "#experience", "▤"],
+    ["03", "Projects", "#work", "⌘"],
+    ["04", "Skills", "#skills", "✳"],
+    ["05", "About", "#about", "◈"],
+    ["06", "Contact", "#contact", "↗"],
   ];
   return <>
-    <header className={"v2-header" + (scrolled ? " is-scrolled" : "")}>
+    <header className="v2-header v2-landing-header">
       <a className="v2-logo" href="#top">
         <span className="v2-logo-mark">j<span>.</span></span>
         <span className="v2-logo-text">JAYANT <span>/ SOFTWARE ENGINEER</span></span>
       </a>
-      <nav id="v2-main-nav" className="v2-nav" aria-label="Main navigation">
-        {links.map(([label, href]) => <a key={href} href={href} className={activeSection === href.slice(1) ? "is-current" : undefined} aria-current={activeSection === href.slice(1) ? "location" : undefined}>{label}</a>)}
-      </nav>
-      <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>
-        CONTACT <Glyph>↗</Glyph>
-      </a>
-      <button type="button" className="v2-menu-button v2-explore-trigger" data-cursor-label="MENU"
-        aria-expanded={open} aria-haspopup="dialog" onClick={() => setOpen(true)}
-        aria-label="Explore sections of the portfolio">
-        <span>EXPLORE</span> <span aria-hidden="true">☷</span>
-      </button>
+      <div className="v2-header-actions">
+        <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>
+          CONTACT <Glyph>↗</Glyph>
+        </a>
+        <button type="button" className="v2-menu-button v2-explore-trigger" data-cursor-label="MENU"
+          aria-expanded={open} aria-haspopup="dialog" onClick={() => setOpen(true)}
+          aria-label="Explore sections of the portfolio">
+          <span>EXPLORE</span><span aria-hidden="true">☷</span>
+        </button>
+      </div>
     </header>
+
+    <AnimatePresence>
+      {activeSection && <motion.nav key="side-rail" className="v2-side-rail" aria-label="Section navigation"
+        initial={reduceMotion ? false : { opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -30 }}
+        transition={{ duration: reduceMotion ? 0 : .42, ease: [.22,1,.36,1] }}>
+        <a className="v2-rail-brand" href="#top" title="Back to top">j<span>.</span></a>
+        <div className="v2-rail-track" aria-hidden="true"><motion.span style={{ scaleY: railProgress }}/></div>
+        <div className="v2-rail-links">
+          {links.map(([number, label, href, glyph]) => <a key={href} href={href}
+            aria-label={label} title={label} data-cursor-label="GO"
+            className={activeSection === href.slice(1) ? "is-current" : undefined}
+            aria-current={activeSection === href.slice(1) ? "location" : undefined}>
+            <span className="v2-rail-icon" aria-hidden="true">{glyph}</span>
+            <span className="v2-rail-label">{label}</span>
+            <span className="v2-rail-number" aria-hidden="true">{number}</span>
+          </a>)}
+        </div>
+        <button type="button" className="v2-rail-explore" onClick={() => setOpen(true)}
+          aria-label="Open full section navigation" title="Explore all sections" data-cursor-label="MENU">☷</button>
+      </motion.nav>}
+    </AnimatePresence>
     <QuickNav open={open} onClose={() => setOpen(false)} activeSection={activeSection}/>
   </>;
 }
@@ -157,18 +176,12 @@ function ProjectDialog({ project, close }) {
   </div>;
 }
 
-function Progress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  return <motion.div className="v2-progress" style={{ scaleX }} aria-hidden="true"/>;
-}
-
 export default function PortfolioApp() {
   const [project, setProject] = useState(null);
   return <div className="v2-root">
     <InteractiveCursor/>
+    <MotionDirector/>
     <a className="v2-skip" href="#overview">Skip to career overview</a>
-    <Progress/>
     <SiteHeader/>
     <main>
       <Hero/>
