@@ -334,3 +334,115 @@
   .v2-landing-header .v2-logo-text::after,
   .v2-hero-clarity .v2-kicker::after{transition:none;}
 }
+
+
+/* V2.3 — polish only: seamless hero, compact rail, boundary progress and legible decode. */
+.v2-header.v2-landing-header {
+  border-bottom: 0;
+  box-shadow: none;
+  background: transparent;
+}
+.v2-header.v2-landing-header::after { display:none; }
+.v2-hero-clarity .v2-hero-top {
+  justify-content:flex-end;
+}
+.v2-hero-atmosphere i:first-child {
+  display:none;
+}
+/* Compact floating rail: controls determine its height, not the viewport. */
+.v2-side-rail {
+  height:auto;
+  min-height:0;
+  width:67px;
+  padding:13px 7px;
+  gap:8px;
+  justify-content:center;
+  overflow:visible;
+}
+.v2-rail-links {
+  flex:0 0 auto;
+  gap:4px;
+}
+.v2-rail-links>a {
+  width:44px;
+  height:44px;
+}
+.v2-rail-brand {
+  flex:0 0 37px;
+}
+.v2-rail-explore {
+  flex:0 0 40px;
+}
+.v2-rail-track {
+  position:absolute;
+  z-index:2;
+  top:30px;
+  bottom:30px;
+  left:-1px;
+  width:3px;
+  flex:none;
+  min-height:0;
+  border-radius:3px;
+  background:rgba(198,243,103,.19);
+  overflow:hidden;
+}
+.v2-rail-track>span {
+  border-radius:3px;
+  background:#c6f367;
+  box-shadow:0 0 10px rgba(198,243,103,.62);
+}
+.v2-rail-label {left:57px;}
+/* The meaningful hover is the live character decode, not the old static star/shadow. */
+.v2-root :is(
+  .v2-hero h1, .v2-overview-heading h2, .v2-section-heading h2,
+  .v2-about-main h2, .v2-method h2, .v2-footer h2
+)::after {
+  display:none;
+}
+.v2-root :is(
+  .v2-hero h1, .v2-overview-heading h2, .v2-section-heading h2,
+  .v2-about-main h2, .v2-method h2, .v2-footer h2
+):hover {filter:none;}
+.v2-root .v2-scramble-active {
+  text-shadow:2px 2px 0 rgba(167,222,102,.23);
+}
+.v2-root :is(
+  .v2-hero h1, .v2-overview-heading h2, .v2-section-heading h2,
+  .v2-about-main h2, .v2-method h2, .v2-footer h2,
+  .v2-role-main h3, .v2-skills-group h3, .v2-project-info h3
+) {
+  text-wrap:balance;
+}
+/* Keep original title emphasis and contrast while the letters are decoding. */
+.v2-root .v2-scramble-active em {text-shadow:2px 2px 0 rgba(146,206,78,.25);}
+@media(max-width:950px) and (min-width:701px) {
+  .v2-side-rail {
+    width:57px;
+    min-height:0;
+    padding:11px 5px;
+  }
+  .v2-rail-links>a {width:41px;height:41px;}
+  .v2-rail-label {left:50px;}
+}
+@media(max-width:700px) {
+  .v2-side-rail {
+    height:59px;
+    width:min(370px,calc(100vw - 24px));
+    padding:5px 7px;
+    gap:4px;
+    justify-content:space-between;
+  }
+  .v2-rail-links {
+    flex:1 1 auto;
+    gap:0;
+  }
+  .v2-rail-links>a {
+    flex:1;
+    width:auto;
+    height:43px;
+  }
+  .v2-rail-track {display:none;}
+}
+@media(prefers-reduced-motion:reduce){
+  .v2-root .v2-scramble-active {text-shadow:none;}
+}
