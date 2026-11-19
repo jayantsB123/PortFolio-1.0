@@ -37,7 +37,7 @@ function SiteHeader() {
     <header className="v2-header v2-landing-header">
       <a className="v2-logo" href="#top">
         <span className="v2-logo-mark">j<span>.</span></span>
-        <span className="v2-logo-text">JAYANT <span>/ SOFTWARE ENGINEER</span></span>
+        <span className="v2-logo-text" data-heading-effect>JAYANT <span>/ SOFTWARE ENGINEER</span></span>
       </a>
       <div className="v2-header-actions">
         <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>
