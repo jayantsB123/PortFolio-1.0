@@ -12,9 +12,6 @@ export function RecruiterHero({ artwork }) {
   return <section ref={heroRef} id="top" className="v2-hero v2-hero-clarity">
     <div className="v2-hero-grid" aria-hidden="true"/>
     <div className="v2-hero-atmosphere" aria-hidden="true">{Array.from({ length: 19 }, (_, i) => <i key={i} style={{ "--particle": i }}/>)}</div>
-    <div className="v2-hero-top">
-      <span>PORTFOLIO / 2026</span>
-    </div>
     <div className="v2-hero-body">
       <motion.div className="v2-hero-copy" style={reducedMotion ? undefined : { y: contentLift, opacity: contentOpacity }}>
         <div className="v2-kicker" data-heading-effect><i/> {profile.name.toUpperCase()}</div>
@@ -26,22 +23,12 @@ export function RecruiterHero({ artwork }) {
           <a className="v2-button-solid" href="#work">VIEW PROJECTS ↗</a>
           <a className="v2-button-outline" href="#experience">MY EXPERIENCE ↓</a>
         </div>
-        <div className="v2-hero-evidence">
-          <span>REACT & FRONTEND</span>
-          <span>BACKEND & APIS</span>
-          <span>3D & INTERACTIONS</span>
-        </div>
       </motion.div>
       {artwork}
     </div>
     <motion.a className="v2-hero-scroll-cue" href="#overview" aria-label="Scroll to explore the portfolio overview" style={reducedMotion ? undefined : { opacity: cueOpacity }}>
       <span>SCROLL TO EXPLORE</span><span className="v2-scroll-cue-track"><i/></span><span aria-hidden="true">↓</span>
     </motion.a>
-    <div className="v2-hero-foot">
-      <a href="#overview">AT A GLANCE ↓</a>
-      <span>PROJECTS / EXPERIENCE / SKILLS</span>
-      <span>{profile.location.toUpperCase()} ✳</span>
-    </div>
   </section>;
 }
 
