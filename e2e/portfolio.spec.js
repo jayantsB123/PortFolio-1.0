@@ -146,15 +146,61 @@ test("navigation progress hugs the compact rail boundary", async ({ page, isMobi
   expect(metrics.trackHeight).toBeGreaterThan(200);
 });
 
-test("heading scramble decodes to the original content on hover", async ({ page, isMobile }) => {
-  test.skip(isMobile, "Scramble uses pointer hover and desktop rendering");
+test("scramble activates on the right half of an actual glyph without reflow", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Desktop pointer interaction only");
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.locator("#overview").scrollIntoViewIfNeeded();
   const heading = page.getByRole("heading", { name: "At a glance." });
-  const before = await heading.textContent();
-  await heading.hover();
-  await expect(heading).toHaveClass(/v2-scramble-active/);
-  await expect(heading).toHaveText(before, { timeout: 3500 });
+  await heading.scrollIntoViewIfNeeded();
+  const before = await heading.evaluate((element) => ({
+    text: element.textContent,
+    box: element.getBoundingClientRect().toJSON(),
+    lines: element.getClientRects().length,
+  }));
+  const glyph = await heading.evaluate((element) => {
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    const range = document.createRange();
+    let node;
+    while ((node = walker.nextNode())) {
+      const value = node.textContent || "";
+      const letter = value.search(/[a-z]/i);
+      if (letter === -1) continue;
+      range.setStart(node, letter);
+      range.setEnd(node, letter + 1);
+      const rect = range.getBoundingClientRect();
+      if (rect.width > 2) return rect.toJSON();
+    }
+    throw new Error("Could not measure title glyph");
+  });
+
+  await page.mouse.move(0, 0);
+  await page.mouse.move(glyph.x + glyph.width * .22, glyph.y + glyph.height * .5);
   await expect(heading).not.toHaveClass(/v2-scramble-active/);
-  await expect(heading).toHaveText(before);
+  await expect(page.locator(".v2-scramble-layer")).toHaveCount(0);
+
+  await page.mouse.move(glyph.x + glyph.width * .82, glyph.y + glyph.height * .5);
+  await expect(heading).toHaveClass(/v2-scramble-active/);
+  await expect(page.locator(".v2-scramble-layer")).toHaveCount(1);
+  const during = await heading.evaluate((element) => ({
+    text: element.textContent,
+    box: element.getBoundingClientRect().toJSON(),
+    lines: element.getClientRects().length,
+  }));
+  expect(during.text).toEqual(before.text);
+  expect(during.lines).toEqual(before.lines);
+  expect(Math.abs(during.box.width - before.box.width)).toBeLessThan(.2);
+  expect(Math.abs(during.box.height - before.box.height)).toBeLessThan(.2);
+
+  await expect(heading).not.toHaveClass(/v2-scramble-active/, { timeout: 3500 });
+  await expect(page.locator(".v2-scramble-layer")).toHaveCount(0);
+  await expect(heading).toHaveText(before.text);
+});
+
+test("scramble stays off metadata and secondary headings", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Desktop pointer interaction only");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const subtitle = page.locator(".v2-role-main h3").first();
+  await subtitle.scrollIntoViewIfNeeded();
+  await subtitle.hover();
+  await expect(subtitle).not.toHaveClass(/v2-scramble-active/);
+  await expect(page.locator(".v2-scramble-layer")).toHaveCount(0);
 });
