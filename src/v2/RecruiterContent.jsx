@@ -1,9 +1,15 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { earlyExperience, profile, quickFacts, school, skillGroups } from "./portfolioData";
 
 export function RecruiterHero({ artwork }) {
   const reducedMotion = useReducedMotion();
-  return <section id="top" className="v2-hero v2-hero-clarity">
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const contentLift = useTransform(scrollYProgress, [0, 1], [0, -55]);
+  const contentOpacity = useTransform(scrollYProgress, [0, .86, 1], [1, 1, .25]);
+  const cueOpacity = useTransform(scrollYProgress, [0, .2, .45], [1, 1, 0]);
+  return <section ref={heroRef} id="top" className="v2-hero v2-hero-clarity">
     <div className="v2-hero-grid" aria-hidden="true"/>
     <div className="v2-hero-atmosphere" aria-hidden="true">{Array.from({ length: 19 }, (_, i) => <i key={i} style={{ "--particle": i }}/>)}</div>
     <div className="v2-hero-top">
@@ -11,8 +17,8 @@ export function RecruiterHero({ artwork }) {
       <span>PORTFOLIO / 2026</span>
     </div>
     <div className="v2-hero-body">
-      <div className="v2-hero-copy">
-        <div className="v2-kicker"><i/> {profile.name.toUpperCase()}</div>
+      <motion.div className="v2-hero-copy" style={reducedMotion ? undefined : { y: contentLift, opacity: contentOpacity }}>
+        <div className="v2-kicker" data-heading-effect><i/> {profile.name.toUpperCase()}</div>
         <motion.h1 initial={reducedMotion ? false : { opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: .7, ease: [.22, 1, .36, 1] }}>Software<br/><em>developer</em><span>.</span></motion.h1>
         <p className="v2-hero-specialty">{profile.specialty}</p>
@@ -26,12 +32,12 @@ export function RecruiterHero({ artwork }) {
           <span>BACKEND & APIS</span>
           <span>3D & INTERACTIONS</span>
         </div>
-      </div>
+      </motion.div>
       {artwork}
     </div>
-    <a className="v2-hero-scroll-cue" href="#overview" aria-label="Scroll down to portfolio overview">
+    <motion.a className="v2-hero-scroll-cue" href="#overview" aria-label="Scroll down to portfolio overview" style={reducedMotion ? undefined : { opacity: cueOpacity }}>
       <span>SCROLL TO EXPLORE</span><span className="v2-scroll-cue-track"><i/></span><span aria-hidden="true">↓</span>
-    </a>
+    </motion.a>
     <div className="v2-hero-foot">
       <a href="#overview">AT A GLANCE ↓</a>
       <span>PROJECTS / EXPERIENCE / SKILLS</span>
