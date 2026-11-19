@@ -77,10 +77,42 @@ test("active section follows the reader and appears in Explore", async ({ page, 
     window.scrollTo({ top: section.offsetTop - 120, behavior: "instant" });
   });
   if (!isMobile) {
-    await expect(page.locator(".v2-header .v2-nav a[href='#experience']")).toHaveAttribute("aria-current", "location");
+    await expect(page.locator(".v2-side-rail a[href='#experience']")).toHaveAttribute("aria-current", "location");
   }
   await page.getByRole("button", { name: "Explore sections of the portfolio" }).click();
   const explore = page.getByRole("dialog", { name: "Explore portfolio" });
   await expect(explore.locator("a[href='#experience']")).toHaveAttribute("aria-current", "location");
   await expect(explore.locator("a.is-current")).toHaveCount(1);
+});
+
+test("landing page fills the viewport and shows scroll guidance", async ({ page }) => {
+  const dimensions = await page.evaluate(() => ({
+    hero: document.querySelector("#top").getBoundingClientRect().height,
+    window: window.innerHeight,
+  }));
+  expect(Math.abs(dimensions.hero - dimensions.window)).toBeLessThanOrEqual(3);
+  await expect(page.getByRole("link", { name: "Scroll down to portfolio overview" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Section navigation" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Explore sections of the portfolio" })).toBeVisible();
+});
+
+test("left rail appears after hero and reverses when scrolling up", async ({ page }) => {
+  const rail = page.getByRole("navigation", { name: "Section navigation" });
+  await expect(rail).toHaveCount(0);
+  await page.locator("#overview").scrollIntoViewIfNeeded();
+  await expect(rail).toBeVisible();
+  await expect(rail.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "location");
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await expect(rail).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Explore sections of the portfolio" })).toBeVisible();
+});
+
+test("heading and chapter treatments keep information readable", async ({ page }) => {
+  await page.locator("#experience").scrollIntoViewIfNeeded();
+  const heading = page.getByRole("heading", { name: "Experience." });
+  await expect(heading).toBeVisible();
+  await expect(heading).toHaveCSS("opacity", "1");
+  await page.locator("#work").scrollIntoViewIfNeeded();
+  await page.locator("#experience").scrollIntoViewIfNeeded();
+  await expect(heading).toBeVisible();
 });
