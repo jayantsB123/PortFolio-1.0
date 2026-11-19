@@ -5,6 +5,7 @@ export function RecruiterHero({ artwork }) {
   const reducedMotion = useReducedMotion();
   return <section id="top" className="v2-hero v2-hero-clarity">
     <div className="v2-hero-grid" aria-hidden="true"/>
+    <div className="v2-hero-atmosphere" aria-hidden="true">{Array.from({ length: 19 }, (_, i) => <i key={i} style={{ "--particle": i }}/>)}</div>
     <div className="v2-hero-top">
       <span><i/> SOFTWARE DEVELOPER / PUNE, INDIA</span>
       <span>PORTFOLIO / 2026</span>
@@ -28,6 +29,9 @@ export function RecruiterHero({ artwork }) {
       </div>
       {artwork}
     </div>
+    <a className="v2-hero-scroll-cue" href="#overview" aria-label="Scroll down to portfolio overview">
+      <span>SCROLL TO EXPLORE</span><span className="v2-scroll-cue-track"><i/></span><span aria-hidden="true">↓</span>
+    </a>
     <div className="v2-hero-foot">
       <a href="#overview">AT A GLANCE ↓</a>
       <span>PROJECTS / EXPERIENCE / SKILLS</span>
