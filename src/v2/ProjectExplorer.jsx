@@ -70,7 +70,7 @@ export default function ProjectExplorer({ openProject }) {
               <span className="v2-project-row-index">{project.index}</span>
               <div className="v2-project-row-main">
                 <div className="v2-project-row-meta">{project.type} / {project.year}</div>
-                <button type="button" className="v2-project-row-name" onClick={() => openProject(project)}
+                <button type="button" className="v2-project-row-name" data-cursor-label="VIEW" onClick={() => openProject(project)}
                   aria-label={"Read case study: " + projectAccessibleName(project)}>{project.name}<span aria-hidden="true">↗</span></button>
                 <p>{project.overview}</p>
                 <div className="v2-project-tags" aria-label="Technologies used">
@@ -80,7 +80,7 @@ export default function ProjectExplorer({ openProject }) {
               <div className="v2-project-list-actions">
                 <button type="button" onClick={() => openProject(project)}>CASE STUDY ↗</button>
                 {project.repoUrl
-                  ? <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">SOURCE ↗</a>
+                  ? <a href={project.repoUrl} data-cursor-label="CODE" target="_blank" rel="noopener noreferrer">SOURCE ↗</a>
                   : <span>SOURCE UNAVAILABLE</span>}
               </div>
               <div className="v2-project-list-preview" aria-hidden="true">
@@ -90,7 +90,7 @@ export default function ProjectExplorer({ openProject }) {
         </div>
         : <div className="v2-project-grid">
           {shown.map((project) => <article className="v2-project-card" key={project.slug}>
-            <button type="button" className="v2-project-button" aria-label={"Read case study: " + projectAccessibleName(project)}
+            <button type="button" className="v2-project-button" data-cursor-label="VIEW" aria-label={"Read case study: " + projectAccessibleName(project)}
               onClick={() => openProject(project)}>
               <ProjectVisual project={project}/>
               <div className="v2-project-info">
@@ -106,7 +106,7 @@ export default function ProjectExplorer({ openProject }) {
             <div className="v2-project-actions">
               <button type="button" onClick={() => openProject(project)}>CASE STUDY ↗</button>
               {project.repoUrl
-                ? <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">SOURCE ↗</a>
+                ? <a href={project.repoUrl} data-cursor-label="CODE" target="_blank" rel="noopener noreferrer">SOURCE ↗</a>
                 : <span>SOURCE UNAVAILABLE</span>}
             </div>
           </article>)}
