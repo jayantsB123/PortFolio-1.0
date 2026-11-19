@@ -303,3 +303,34 @@
  .v2-hero-atmosphere i,.v2-hero-scroll-cue span,.v2-scroll-cue-track i{animation:none!important;}
  .v2-root :is(.v2-hero h1,.v2-overview-heading h2,.v2-section-heading h2,.v2-about-main h2,.v2-method h2,.v2-footer h2){transition:none;}
 }
+
+
+/* Wordmark / name: understated technical scan-line on pointer hover. */
+.v2-landing-header .v2-logo-text,
+.v2-hero-clarity .v2-kicker{
+  position:relative;
+  transition:color .35s ease,letter-spacing .35s ease;
+}
+.v2-landing-header .v2-logo-text::after,
+.v2-hero-clarity .v2-kicker::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-7px;
+  height:1px;
+  width:100%;
+  background:linear-gradient(90deg,#c6f367,transparent);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+}
+.v2-landing-header .v2-logo:hover .v2-logo-text,
+.v2-hero-clarity .v2-kicker:hover{color:#d8ffae;letter-spacing:.1em}
+.v2-landing-header .v2-logo:hover .v2-logo-text::after,
+.v2-hero-clarity .v2-kicker:hover::after{transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){
+  .v2-landing-header .v2-logo-text,
+  .v2-hero-clarity .v2-kicker,
+  .v2-landing-header .v2-logo-text::after,
+  .v2-hero-clarity .v2-kicker::after{transition:none;}
+}
