@@ -4,6 +4,7 @@ import { profile } from "./portfolioData";
 import ProjectExplorer, { ProjectVisual } from "./ProjectExplorer";
 import { About, Footer } from "./components/AboutFooter";
 import QuickNav from "./QuickNav";
+import { useActiveSection } from "./hooks/useActiveSection";
 import "./portfolio.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
 import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterSkills } from "./RecruiterContent";
@@ -18,6 +19,7 @@ function Glyph({ children, className = "" }) {
 function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const activeSection = useActiveSection();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -39,7 +41,7 @@ function SiteHeader() {
         <span className="v2-logo-text">JAYANT <span>/ SOFTWARE ENGINEER</span></span>
       </a>
       <nav id="v2-main-nav" className="v2-nav" aria-label="Main navigation">
-        {links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+        {links.map(([label, href]) => <a key={href} href={href} className={activeSection === href.slice(1) ? "is-current" : undefined} aria-current={activeSection === href.slice(1) ? "location" : undefined}>{label}</a>)}
       </nav>
       <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>
         CONTACT <Glyph>↗</Glyph>
@@ -50,7 +52,7 @@ function SiteHeader() {
         <span>EXPLORE</span> <span aria-hidden="true">☷</span>
       </button>
     </header>
-    <QuickNav open={open} onClose={() => setOpen(false)}/>
+    <QuickNav open={open} onClose={() => setOpen(false)} activeSection={activeSection}/>
   </>;
 }
 
