@@ -79,7 +79,8 @@ test("active section follows the reader and appears in Explore", async ({ page, 
   if (!isMobile) {
     await expect(page.locator(".v2-side-rail a[href='#experience']")).toHaveAttribute("aria-current", "location");
   }
-  await page.getByRole("button", { name: "Explore sections of the portfolio" }).click();
+  await page.getByRole("navigation", { name: "Section navigation" })
+    .getByRole("button", { name: "Open full section navigation" }).click();
   const explore = page.getByRole("dialog", { name: "Explore portfolio" });
   await expect(explore.locator("a[href='#experience']")).toHaveAttribute("aria-current", "location");
   await expect(explore.locator("a.is-current")).toHaveCount(1);
@@ -91,7 +92,7 @@ test("landing page fills the viewport and shows scroll guidance", async ({ page 
     window: window.innerHeight,
   }));
   expect(Math.abs(dimensions.hero - dimensions.window)).toBeLessThanOrEqual(3);
-  await expect(page.getByRole("link", { name: "Scroll down to portfolio overview" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Scroll to explore the portfolio overview" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Section navigation" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Explore sections of the portfolio" })).toBeVisible();
 });
