@@ -15,7 +15,7 @@ const routes = [
  * It remains a straightforward list of links and supports Escape, focus
  * trapping, focus restoration and click-outside dismissal.
  */
-export default function QuickNav({ open, onClose }) {
+export default function QuickNav({ open, onClose, activeSection }) {
   const panelRef = useRef(null);
   const closeRef = useRef(null);
   const onCloseRef = useRef(onClose);
@@ -70,7 +70,7 @@ export default function QuickNav({ open, onClose }) {
           <p>Find what you're looking for.</p>
         </div>
         <nav aria-label="Full-screen navigation">
-          {routes.map(([number, label, href, description]) => <a href={href} key={href} onClick={onClose}>
+          {routes.map(([number, label, href, description]) => <a href={href} key={href} onClick={onClose} className={activeSection === href.slice(1) ? "is-current" : undefined} aria-current={activeSection === href.slice(1) ? "location" : undefined}>
             <span className="v2-quicknav-number">{number}</span>
             <strong>{label}</strong>
             <span className="v2-quicknav-description">{description}</span>
