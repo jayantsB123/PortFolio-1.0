@@ -4,6 +4,7 @@ import { profile } from "./portfolioData";
 import ProjectExplorer, { ProjectVisual } from "./ProjectExplorer";
 import { About, Footer } from "./components/AboutFooter";
 import QuickNav from "./QuickNav";
+import InteractiveCursor from "./components/InteractiveCursor";
 import { useActiveSection } from "./hooks/useActiveSection";
 import "./portfolio.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
@@ -46,7 +47,7 @@ function SiteHeader() {
       <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>
         CONTACT <Glyph>↗</Glyph>
       </a>
-      <button type="button" className="v2-menu-button v2-explore-trigger"
+      <button type="button" className="v2-menu-button v2-explore-trigger" data-cursor-label="MENU"
         aria-expanded={open} aria-haspopup="dialog" onClick={() => setOpen(true)}
         aria-label="Explore sections of the portfolio">
         <span>EXPLORE</span> <span aria-hidden="true">☷</span>
@@ -165,6 +166,7 @@ function Progress() {
 export default function PortfolioApp() {
   const [project, setProject] = useState(null);
   return <div className="v2-root">
+    <InteractiveCursor/>
     <a className="v2-skip" href="#overview">Skip to career overview</a>
     <Progress/>
     <SiteHeader/>
