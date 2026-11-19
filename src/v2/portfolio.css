@@ -548,3 +548,125 @@ button,a{ -webkit-tap-highlight-color:transparent }
 .v2-layout-switch button:not([aria-pressed=true]){color:#475f40}
 .v2-work-after>span{color:#455e3d}
 .v2-about-main h2 em{color:#4d7039}
+
+
+/* Navigation and hover refinement: active position and intentional feedback. */
+.v2-header .v2-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #cdd5c9;
+  transition: color 220ms ease;
+}
+.v2-header .v2-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 6px;
+  height: 2px;
+  background: var(--v2-lime);
+  transition: right 280ms cubic-bezier(.22,1,.36,1);
+}
+.v2-header .v2-nav a:hover,
+.v2-header .v2-nav a:focus-visible,
+.v2-header .v2-nav a.is-current {
+  color: var(--v2-lime);
+}
+.v2-header .v2-nav a:hover::after,
+.v2-header .v2-nav a:focus-visible::after,
+.v2-header .v2-nav a.is-current::after {
+  right: 0;
+}
+.v2-quicknav-content nav a.is-current {
+  background: rgba(198,243,103,.08);
+}
+.v2-quicknav-content nav a.is-current strong {
+  color: var(--v2-lime);
+}
+.v2-quicknav-content nav a.is-current .v2-quicknav-number::before {
+  content: "●";
+  font-size: 7px;
+  display: inline-block;
+  margin-right: 7px;
+  vertical-align: middle;
+}
+.v2-quicknav-content nav a .v2-quicknav-arrow {
+  transition: transform 280ms cubic-bezier(.22,1,.36,1);
+}
+.v2-quicknav-content nav a:hover .v2-quicknav-arrow,
+.v2-quicknav-content nav a:focus-visible .v2-quicknav-arrow {
+  transform: translate(5px,-5px);
+}
+.v2-explore-trigger {
+  box-shadow: 0 0 0 rgba(198,243,103,0);
+  transition: transform 250ms cubic-bezier(.22,1,.36,1),box-shadow 250ms ease,background 250ms ease!important;
+}
+.v2-explore-trigger:hover {
+  box-shadow: 0 0 0 4px rgba(198,243,103,.13);
+  transform: translateY(-2px);
+}
+.v2-project-list-row:hover .v2-project-row-name,
+.v2-project-list-row:focus-within .v2-project-row-name {
+  color: #46682d;
+}
+.v2-project-row-name {
+  transition: color 220ms ease;
+}
+.v2-project-list-actions button,
+.v2-project-list-actions a,
+.v2-project-actions button,
+.v2-project-actions a {
+  text-decoration: underline transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  transition: color 220ms ease,text-decoration-color 220ms ease;
+}
+.v2-project-list-actions button:hover,
+.v2-project-list-actions a:hover,
+.v2-project-actions button:hover,
+.v2-project-actions a:hover {
+  color: #4b732f;
+  text-decoration-color: currentColor;
+}
+.v2-project-card .v2-project-visual {
+  transition: box-shadow 350ms ease;
+}
+.v2-project-card:hover .v2-project-visual,
+.v2-project-card:focus-within .v2-project-visual {
+  box-shadow: 0 16px 40px rgba(29,55,26,.16);
+}
+.v2-project-card:focus-within .v2-project-arrow {
+  background: var(--v2-lime);
+  transform: rotate(45deg);
+}
+.v2-overview-fact .v2-overview-label,
+.v2-overview-fact strong {
+  transition: color 220ms ease;
+}
+.v2-overview-fact:hover .v2-overview-label,
+.v2-overview-fact:focus-visible .v2-overview-label {
+  color: #315522;
+}
+.v2-overview-fact:hover strong,
+.v2-overview-fact:focus-visible strong {
+  color: #315522;
+}
+:where(#overview,#experience,#work,#skills,#about,#contact,#education) {
+  scroll-margin-top: 105px;
+}
+@media (prefers-reduced-motion:reduce) {
+  .v2-header .v2-nav a,
+  .v2-header .v2-nav a::after,
+  .v2-explore-trigger,
+  .v2-quicknav-content nav a .v2-quicknav-arrow,
+  .v2-project-row-name,
+  .v2-project-list-actions button,
+  .v2-project-list-actions a,
+  .v2-project-actions button,
+  .v2-project-actions a,
+  .v2-project-card .v2-project-visual {
+    transition: none!important;
+  }
+}
