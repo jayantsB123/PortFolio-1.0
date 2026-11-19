@@ -94,7 +94,7 @@
   left:14px;
   top:50%;
   width:72px;
-  transform:translateY(-50%);
+  translate:0 -50%;
   height:min(690px,calc(100dvh - 84px));
   min-height:420px;
   display:flex;
@@ -275,7 +275,7 @@
     top:auto;bottom:11px;left:50%;right:auto;
     width:min(370px,calc(100vw - 24px));
     height:59px;min-height:0;
-    transform:translateX(-50%)!important;
+    translate:-50% 0;
     border-radius:34px;
     padding:5px 7px;
     flex-direction:row;
