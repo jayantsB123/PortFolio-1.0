@@ -34,7 +34,7 @@ export function RecruiterHero({ artwork }) {
       </motion.div>
       {artwork}
     </div>
-    <motion.a className="v2-hero-scroll-cue" href="#overview" aria-label="Scroll down to portfolio overview" style={reducedMotion ? undefined : { opacity: cueOpacity }}>
+    <motion.a className="v2-hero-scroll-cue" href="#overview" aria-label="Scroll to explore the portfolio overview" style={reducedMotion ? undefined : { opacity: cueOpacity }}>
       <span>SCROLL TO EXPLORE</span><span className="v2-scroll-cue-track"><i/></span><span aria-hidden="true">↓</span>
     </motion.a>
     <div className="v2-hero-foot">
