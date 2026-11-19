@@ -446,3 +446,69 @@
 @media(prefers-reduced-motion:reduce){
   .v2-root .v2-scramble-active {text-shadow:none;}
 }
+
+
+/* V2.4 — more deliberate hero hierarchy, without changing the main artwork. */
+.v2-hero.v2-hero-clarity .v2-hero-body {
+  padding-top:0;
+  padding-bottom:42px;
+}
+.v2-hero-clarity .v2-hero-copy {
+  translate:0 -20px;
+}
+.v2-hero-clarity .v2-kicker {
+  margin-bottom:24px;
+}
+.v2-hero-clarity .v2-hero-description {
+  margin-top:22px;
+  max-width:520px;
+}
+.v2-hero-clarity .v2-hero-actions {
+  margin-top:27px;
+}
+@media(min-width:1051px){
+  .v2-hero-clarity .v2-engine {right:0;}
+}
+@media(max-width:700px){
+  .v2-hero.v2-hero-clarity .v2-hero-body {
+    padding:20px 0 92px;
+  }
+  .v2-hero-clarity .v2-hero-copy {translate:0 0;}
+  .v2-hero-clarity .v2-hero-description {margin-top:18px;}
+}
+/* Scramble is an aria-hidden, fixed-position paint layer. It never participates
+   in line breaking or alters the source heading's layout or accessible text. */
+.v2-scramble-layer {
+  position:fixed;
+  inset:0;
+  z-index:330;
+  pointer-events:none;
+  overflow:visible;
+}
+.v2-scramble-glyph {
+  position:absolute;
+  display:block;
+  pointer-events:none;
+  white-space:pre;
+  line-height:normal;
+  overflow:visible;
+  text-rendering:geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+}
+.v2-root .v2-scramble-active,
+.v2-root .v2-scramble-active * {
+  color:transparent!important;
+  -webkit-text-fill-color:transparent!important;
+  text-shadow:none!important;
+}
+/* Remove unused heading-only affordances from the previous hover implementation.
+   The text reveal itself is now the only decorative effect. */
+.v2-root .v2-scramble-active::after {display:none!important;}
+@media(prefers-reduced-motion:reduce){
+  .v2-scramble-layer{display:none!important;}
+  .v2-root .v2-scramble-active,
+  .v2-root .v2-scramble-active * {
+    color:inherit!important;
+    -webkit-text-fill-color:currentColor!important;
+  }
+}
