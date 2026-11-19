@@ -6,6 +6,7 @@ import { About, Footer } from "./components/AboutFooter";
 import QuickNav from "./QuickNav";
 import InteractiveCursor from "./components/InteractiveCursor";
 import MotionDirector from "./components/MotionDirector";
+import ScrambleHeadings from "./components/ScrambleHeadings";
 import { useActiveSection } from "./hooks/useActiveSection";
 import "./portfolio.css";
 import "./interactionOverlays.css";
@@ -182,6 +183,7 @@ export default function PortfolioApp() {
   return <div className="v2-root">
     <InteractiveCursor/>
     <MotionDirector/>
+    <ScrambleHeadings/>
     <a className="v2-skip" href="#overview">Skip to career overview</a>
     <SiteHeader/>
     <main>
