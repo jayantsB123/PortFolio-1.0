@@ -116,3 +116,44 @@ test("heading and chapter treatments keep information readable", async ({ page }
   await page.locator("#experience").scrollIntoViewIfNeeded();
   await expect(heading).toBeVisible();
 });
+
+
+test("hero header is seamless and avoids duplicate role metadata", async ({ page }) => {
+  await expect(page.locator(".v2-hero-top")).not.toContainText("SOFTWARE DEVELOPER / PUNE");
+  await expect(page.locator(".v2-hero-top")).toContainText("PORTFOLIO / 2026");
+  const header = page.locator(".v2-landing-header");
+  await expect(header).toHaveCSS("border-bottom-width", "0px");
+});
+
+test("navigation progress hugs the compact rail boundary", async ({ page, isMobile }) => {
+  test.skip(isMobile, "The mobile dock intentionally hides the rail progress");
+  await page.locator("#experience").scrollIntoViewIfNeeded();
+  const rail = page.getByRole("navigation", { name: "Section navigation" });
+  await expect(rail).toBeVisible();
+  const metrics = await page.evaluate(() => {
+    const rail = document.querySelector(".v2-side-rail").getBoundingClientRect();
+    const track = document.querySelector(".v2-rail-track").getBoundingClientRect();
+    return {
+      width: rail.width,
+      height: rail.height,
+      leftDelta: Math.abs(rail.left - track.left),
+      trackHeight: track.height
+    };
+  });
+  expect(metrics.height).toBeLessThan(510);
+  expect(metrics.leftDelta).toBeLessThanOrEqual(4);
+  expect(metrics.trackHeight).toBeGreaterThan(200);
+});
+
+test("heading scramble decodes to the original content on hover", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Scramble uses pointer hover and desktop rendering");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.locator("#overview").scrollIntoViewIfNeeded();
+  const heading = page.getByRole("heading", { name: "At a glance." });
+  const before = await heading.textContent();
+  await heading.hover();
+  await expect(heading).toHaveClass(/v2-scramble-active/);
+  await expect(heading).toHaveText(before, { timeout: 3500 });
+  await expect(heading).not.toHaveClass(/v2-scramble-active/);
+  await expect(heading).toHaveText(before);
+});
