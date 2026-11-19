@@ -70,7 +70,7 @@ export default function QuickNav({ open, onClose, activeSection }) {
           <p>Find what you're looking for.</p>
         </div>
         <nav aria-label="Full-screen navigation">
-          {routes.map(([number, label, href, description]) => <a href={href} key={href} onClick={onClose} className={activeSection === href.slice(1) ? "is-current" : undefined} aria-current={activeSection === href.slice(1) ? "location" : undefined}>
+          {routes.map(([number, label, href, description]) => <a href={href} key={href} data-cursor-label="GO" onClick={onClose} className={activeSection === href.slice(1) ? "is-current" : undefined} aria-current={activeSection === href.slice(1) ? "location" : undefined}>
             <span className="v2-quicknav-number">{number}</span>
             <strong>{label}</strong>
             <span className="v2-quicknav-description">{description}</span>
