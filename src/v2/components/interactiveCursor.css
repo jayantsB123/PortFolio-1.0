@@ -1,0 +1,96 @@
+/*
+ * The pointer layer is deliberately visual only. Browser text selection,
+ * keyboard focus, clicking and all touch input retain native behaviour.
+ */
+.v2-custom-cursor {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 350;
+}
+.v2-cursor-dot,
+.v2-cursor-halo {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+}
+.v2-cursor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d5ff9e;
+  box-shadow: 0 0 12px rgba(198, 243, 103, .65);
+}
+.v2-cursor-halo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(198, 243, 103, .82);
+  background: rgba(198, 243, 103, .05);
+  display: grid;
+  place-items: center;
+  font: 600 10px 'DM Mono', monospace;
+  letter-spacing: .07em;
+  color: #14210c;
+  transition:
+    width .24s cubic-bezier(.22,1,.36,1),
+    height .24s cubic-bezier(.22,1,.36,1),
+    border-radius .24s ease,
+    border-color .24s ease,
+    background .24s ease,
+    box-shadow .24s ease,
+    opacity .15s ease;
+}
+.v2-cursor-halo[data-mode='action'] {
+  width: 54px;
+  height: 54px;
+  border-color: rgba(198, 243, 103, .95);
+  background: rgba(198, 243, 103, .11);
+  box-shadow: 0 0 24px rgba(198, 243, 103, .12);
+}
+.v2-cursor-halo[data-mode='label'] {
+  width: 83px;
+  height: 39px;
+  border-radius: 25px;
+  border-color: #d1f78d;
+  background: #c6f367;
+  box-shadow: 0 8px 25px rgba(13, 30, 11, .16);
+}
+.v2-cursor-halo[data-mode='label'] span {
+  display: inline-block;
+}
+.v2-cursor-halo.is-pressed {
+  border-color: #fff;
+  background: rgba(198, 243, 103, .2);
+}
+.v2-cursor-halo[data-mode='label'].is-pressed {
+  background: #e1ffac;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .v2-root.v2-cursor-enabled,
+  .v2-root.v2-cursor-enabled a,
+  .v2-root.v2-cursor-enabled button,
+  .v2-root.v2-cursor-enabled [role='button'] {
+    cursor: none !important;
+  }
+  .v2-root.v2-cursor-enabled p,
+  .v2-root.v2-cursor-enabled h1,
+  .v2-root.v2-cursor-enabled h2,
+  .v2-root.v2-cursor-enabled h3,
+  .v2-root.v2-cursor-enabled h4,
+  .v2-root.v2-cursor-enabled li,
+  .v2-root.v2-cursor-enabled input,
+  .v2-root.v2-cursor-enabled textarea,
+  .v2-root.v2-cursor-enabled select,
+  .v2-root.v2-cursor-enabled [contenteditable='true'] {
+    cursor: text !important;
+  }
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .v2-custom-cursor {
+    display: none !important;
+  }
+}
