@@ -69,3 +69,18 @@ test("reduced-motion mode does not require a WebGL canvas", async ({ page }) => 
   await expect(page.locator("canvas")).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "At a glance." })).toBeVisible();
 });
+
+
+test("active section follows the reader and appears in Explore", async ({ page, isMobile }) => {
+  await page.evaluate(() => {
+    const section = document.getElementById("experience");
+    window.scrollTo({ top: section.offsetTop - 120, behavior: "instant" });
+  });
+  if (!isMobile) {
+    await expect(page.locator(".v2-header .v2-nav a[href='#experience']")).toHaveAttribute("aria-current", "location");
+  }
+  await page.getByRole("button", { name: "Explore sections of the portfolio" }).click();
+  const explore = page.getByRole("dialog", { name: "Explore portfolio" });
+  await expect(explore.locator("a[href='#experience']")).toHaveAttribute("aria-current", "location");
+  await expect(explore.locator("a.is-current")).toHaveCount(1);
+});
