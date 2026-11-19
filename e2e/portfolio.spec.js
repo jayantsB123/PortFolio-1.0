@@ -119,11 +119,13 @@ test("heading and chapter treatments keep information readable", async ({ page }
 });
 
 
-test("hero header is seamless and avoids duplicate role metadata", async ({ page }) => {
-  await expect(page.locator(".v2-hero-top")).not.toContainText("SOFTWARE DEVELOPER / PUNE");
-  await expect(page.locator(".v2-hero-top")).toContainText("PORTFOLIO / 2026");
-  const header = page.locator(".v2-landing-header");
-  await expect(header).toHaveCSS("border-bottom-width", "0px");
+test("hero uses one clear introduction without duplicate metadata", async ({ page }) => {
+  await expect(page.locator(".v2-hero-top")).toHaveCount(0);
+  await expect(page.locator(".v2-hero-evidence")).toHaveCount(0);
+  await expect(page.locator(".v2-hero-foot")).toHaveCount(0);
+  await expect(page.locator(".v2-hero h1")).toContainText("Software");
+  await expect(page.locator(".v2-hero-description")).toBeVisible();
+  await expect(page.locator(".v2-landing-header")).toHaveCSS("border-bottom-width", "0px");
 });
 
 test("navigation progress hugs the compact rail boundary", async ({ page, isMobile }) => {
