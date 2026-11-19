@@ -35,6 +35,7 @@ export default function InteractiveCursor() {
       dot.style.opacity = "0";
       halo.style.opacity = "0";
       halo.dataset.mode = "default";
+      halo.dataset.theme = "dark";
       label.textContent = "";
       halo.classList.remove("is-pressed");
       root.classList.remove("v2-cursor-on-text");
@@ -60,8 +61,12 @@ export default function InteractiveCursor() {
       if (!target) return;
 
       const interactive = target.closest("a, button, [role='button'], [data-cursor-label]");
+      const heading = !interactive && target.closest("h1, h2, h3, h4, [data-heading-effect]");
+      const lightSection = target.closest(".v2-overview, .v2-experience, .v2-work, .v2-about, .v2-footer");
+      halo.dataset.theme = lightSection ? "light" : "dark";
+      dot.dataset.theme = lightSection ? "light" : "dark";
       const text = !interactive && target.closest(
-        "input, textarea, select, [contenteditable='true'], p, h1, h2, h3, h4, li"
+        "input, textarea, select, [contenteditable='true'], p, li"
       );
       root.classList.toggle("v2-cursor-on-text", Boolean(text));
       if (text) {
@@ -72,8 +77,8 @@ export default function InteractiveCursor() {
 
       const explicitLabel = interactive?.closest("[data-cursor-label]")?.getAttribute("data-cursor-label");
       const actionLabel = explicitLabel && /^[A-Z ]{2,10}$/.test(explicitLabel) ? explicitLabel : null;
-      halo.dataset.mode = actionLabel ? "label" : interactive ? "action" : "default";
-      label.textContent = actionLabel || "";
+      halo.dataset.mode = actionLabel ? "label" : interactive ? "action" : heading ? "heading" : "default";
+      label.textContent = actionLabel || (heading ? "✳" : "");
 
       position.x = event.clientX;
       position.y = event.clientY;
