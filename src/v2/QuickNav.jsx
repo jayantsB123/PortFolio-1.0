@@ -1,14 +1,7 @@
 import { useEffect, useRef } from "react";
-import { profile } from "./portfolioData";
+import { navigationContent, profile } from "./portfolioData";
 
-const routes = [
-  ["01", "Overview", "#overview", "The quick introduction"],
-  ["02", "Experience", "#experience", "Roles and responsibilities"],
-  ["03", "Projects", "#work", "Selected engineering work"],
-  ["04", "Skills", "#skills", "Technical toolkit"],
-  ["05", "About", "#about", "Beyond the code"],
-  ["06", "Contact", "#contact", "Get in touch"],
-];
+const routes = navigationContent.routes;
 
 /**
  * Full-screen navigation inspired by the reference video's visual treatment.
@@ -66,8 +59,8 @@ export default function QuickNav({ open, onClose, activeSection }) {
       </div>
       <div className="v2-quicknav-content">
         <div className="v2-quicknav-intro">
-          <span>JAYANT / SOFTWARE DEVELOPER</span>
-          <p>Find what you're looking for.</p>
+          <span>{navigationContent.introLabel}</span>
+          <p>{navigationContent.introPrompt}</p>
         </div>
         <nav aria-label="Full-screen navigation">
           {routes.map(([number, label, href, description]) => <a href={href} key={href} data-cursor-label="GO" onClick={onClose} className={activeSection === href.slice(1) ? "is-current" : undefined} aria-current={activeSection === href.slice(1) ? "location" : undefined}>
@@ -79,7 +72,7 @@ export default function QuickNav({ open, onClose, activeSection }) {
         </nav>
       </div>
       <div className="v2-quicknav-footer">
-        <span>BUILD THOUGHTFULLY. SHIP CONFIDENTLY.</span>
+        <span>{navigationContent.footerSlogan}</span>
         <a href={profile.github} target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
         <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a>
       </div>
