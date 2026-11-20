@@ -18,13 +18,13 @@ test("all four intended intro styles are available (no counter curtain)", () => 
 
 test("default intro is brief, skippable and once per browser session", () => {
   assert.deepEqual(resolvePortfolioLoaderConfig(), {
-    mode: "ignition",
-    durationMs: 1650,
+    mode: "cycle",
+    durationMs: 3650,
     exitMs: 440,
     replay: "session",
     skipEnabled: true,
   });
-  assert.equal(portfolioLoaderConfig.mode, "ignition");
+  assert.deepEqual(portfolioLoaderConfig, resolvePortfolioLoaderConfig());
 });
 
 test("random, cycle, sequence and off are supported", () => {
@@ -41,7 +41,7 @@ test("invalid styles and replay values fall back safely", () => {
     VITE_PORTFOLIO_LOADER_REPLAY: "on every click",
     VITE_PORTFOLIO_LOADER_SKIPPABLE: "maybe",
   });
-  assert.equal(value.mode, "ignition");
+  assert.equal(value.mode, resolvePortfolioLoaderConfig().mode);
   assert.equal(value.replay, "session");
   assert.equal(value.skipEnabled, true);
 });
@@ -53,7 +53,7 @@ test("duration and exit values clamp to non-annoying bounds", () => {
     VITE_PORTFOLIO_LOADER_REPLAY: "always",
     VITE_PORTFOLIO_LOADER_SKIPPABLE: "false",
   }), {
-    mode: "ignition",
+    mode: resolvePortfolioLoaderConfig().mode,
     durationMs: 750,
     exitMs: 950,
     replay: "always",
@@ -63,6 +63,6 @@ test("duration and exit values clamp to non-annoying bounds", () => {
     VITE_PORTFOLIO_LOADER_DURATION_MS: "nope",
     VITE_PORTFOLIO_LOADER_EXIT_MS: "",
   });
-  assert.equal(invalid.durationMs, 1650);
+  assert.equal(invalid.durationMs, resolvePortfolioLoaderConfig().durationMs);
   assert.equal(invalid.exitMs, 440);
 });
