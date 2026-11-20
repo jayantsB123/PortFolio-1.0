@@ -231,13 +231,20 @@ export default function PortfolioLoader() {
   }, [config.exitMs, isExiting, isVisible]);
 
   useEffect(() => {
-    if (!isVisible || !config.skipEnabled) return undefined;
+    if (!isVisible) return undefined;
     const keydown = (event) => {
       if (event.key === "Tab") {
-        // Only Skip is focusable during the intro. Keep it inside the dialog.
         event.preventDefault();
-        skipRef.current?.focus({ preventScroll: true });
+        if (config.skipEnabled) {
+          // Skip is the sole interactive control inside the intro.
+          skipRef.current?.focus({ preventScroll: true });
+        } else {
+          // Never trap keyboard visitors if the optional Skip UI is hidden.
+          keyboardDismissedRef.current = true;
+          setIsExiting(true);
+        }
       } else if (event.key === "Escape") {
+        // Escape is always supported, even when the visible Skip control is off.
         event.preventDefault();
         keyboardDismissedRef.current = true;
         setIsExiting(true);
