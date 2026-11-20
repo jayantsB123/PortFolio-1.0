@@ -30,7 +30,8 @@ test("finishes on its own without pretending to load network assets", async ({ p
   const intro = page.getByRole("dialog", { name: "Portfolio introduction" });
   await expect(intro).toBeVisible();
   await expect(intro).toHaveCount(0, { timeout: 4000 });
-  await expect(page.getByRole("button", { name: "Explore sections of the portfolio" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Scroll to explore the portfolio overview" })).toBeVisible();
+  await expect(page.locator(".v2-landing-header")).toHaveCount(0);
 });
 
 test("intro appears only once per browser tab across reloads", async ({ page }) => {
