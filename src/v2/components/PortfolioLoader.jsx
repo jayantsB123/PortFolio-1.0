@@ -62,7 +62,10 @@ function SystemBoot() {
       <div className="intro-system-command"><span>~</span> launching portfolio<span className="intro-caret">_</span></div>
       <div className="intro-system-logs" aria-hidden="true">
         {lines.map(([number, label, status], index) =>
-          <div className="intro-system-line" key={number} style={{ "--item": index }}>
+          <div className="intro-system-line" key={number} style={{
+            animationDelay: Math.round(portfolioLoaderConfig.durationMs * [0.07, 0.22, 0.37, 0.52][index]) + "ms",
+            animationDuration: Math.round(portfolioLoaderConfig.durationMs * 0.24) + "ms",
+          }}>
             <span>{number}</span><span>{label}</span><b>{status}</b>
           </div>)}
       </div>
@@ -78,11 +81,17 @@ function TypeAssembly() {
     <div className="intro-type-eyebrow"><span>PORTFOLIO / SOFTWARE ENGINEER</span><i/></div>
     <div className="intro-type-word" aria-label={name} aria-hidden="true">
       {Array.from(name).map((character, index) =>
-        <span key={index} style={{ "--item": index }}>{character}</span>)}
-      <i>.</i>
+        <span key={index} style={{
+          animationDelay: Math.round(portfolioLoaderConfig.durationMs * index * 0.085) + "ms",
+          animationDuration: Math.round(portfolioLoaderConfig.durationMs * 0.46) + "ms",
+        }}>{character}</span>)}
+      <i style={{ animationDelay: Math.round(portfolioLoaderConfig.durationMs * 0.70) + "ms" }}>.</i>
     </div>
     <div className="intro-type-rule"><span/></div>
-    <div className="intro-type-sub">
+    <div className="intro-type-sub" style={{
+      animationDelay: Math.round(portfolioLoaderConfig.durationMs * 0.59) + "ms",
+      animationDuration: Math.round(portfolioLoaderConfig.durationMs * 0.28) + "ms",
+    }}>
       <span>BUILT WITH PURPOSE.</span><strong>DESIGNED TO BE EXPLORED.</strong>
     </div>
   </div>;
@@ -130,14 +139,20 @@ function CommitSequence() {
     </div>
     <div className="intro-commit-list" aria-hidden="true">
       {commits.map(([hash, title, detail], index) =>
-        <div className="intro-commit-row" key={hash} style={{ "--item": index }}>
+        <div className="intro-commit-row" key={hash} style={{
+          animationDelay: Math.round(portfolioLoaderConfig.durationMs * [0.08, 0.24, 0.40, 0.56][index]) + "ms",
+          animationDuration: Math.round(portfolioLoaderConfig.durationMs * 0.23) + "ms",
+        }}>
           <span className="intro-commit-node"/>
           <code>{hash}</code>
           <strong>{title}</strong>
           <span>{detail}</span>
         </div>)}
     </div>
-    <div className="intro-commit-branch"><span>●</span> READY TO EXPLORE <span className="intro-caret">_</span></div>
+    <div className="intro-commit-branch" style={{
+      animationDelay: Math.round(portfolioLoaderConfig.durationMs * 0.78) + "ms",
+      animationDuration: Math.round(portfolioLoaderConfig.durationMs * 0.20) + "ms",
+    }}><span>●</span> READY TO EXPLORE <span className="intro-caret">_</span></div>
     <div className="intro-panel-foot"><span>ONE IDEA AT A TIME</span><span>BUILD → REFINE → SHIP</span></div>
   </div>;
 }
