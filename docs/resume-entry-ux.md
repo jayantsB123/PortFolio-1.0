@@ -28,7 +28,7 @@ These are three views of one link, not three independent settings.
 - Uses native `<a>` semantics: this action navigates to a document.
 - Opens the Google Drive résumé in a new tab so readers can keep the
   portfolio open. The effect is explicitly indicated in **visible text** and
-  the accessible link label.
+  its native accessible name, derived from the actual visible link text.
 - `target="_blank"` is accompanied by `rel="noopener noreferrer"`.
 - Clear hover, focus-visible, and active affordances; no hover-only
   information or hidden required action.
