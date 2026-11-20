@@ -15,9 +15,11 @@ test("hero, overview and education explain the current engineering profile", asy
   await expect(page.locator(".v2-overview-fact").filter({ hasText: "Sarvatra Technologies" })).toBeVisible();
   await expect(page.locator(".v2-overview-education")).toContainText("8.95 CGPA");
   await expect(page.locator("#education")).toContainText("Computer Engineering");
-  await expect(page.getByRole("link", { name: "VIEW RÉSUMÉ ↗" })).toHaveAttribute(
-    "href", /1igz5xhAoM-RMV8uaABzgK6fhWDeNdutO/
-  );
+  const resume = page.locator(".v2-resume-inline").getByRole("link", {
+    name: "View résumé in Google Drive (opens in a new tab)",
+  });
+  await expect(resume).toHaveAttribute("href", /1igz5xhAoM-RMV8uaABzgK6fhWDeNdutO/);
+  await expect(resume).toHaveAttribute("target", "_blank");
 });
 
 test("current SDE impact is visible first; older duties expand on demand", async ({ page }) => {
