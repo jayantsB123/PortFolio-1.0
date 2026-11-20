@@ -34,11 +34,10 @@ function trackPointer(event) {
 /** All résumé locations share the same URL and accessibility contract. */
 export default function ResumeLink({ variant = "hero" }) {
   const href = profile.resume;
-  const label = resumeContent.accessibleLabel;
 
   if (variant === "feature") {
     return <a className="v2-resume-pass" href={href} target="_blank"
-      rel="noopener noreferrer" aria-label={label}
+      rel="noopener noreferrer"
       data-cursor-label="OPEN"
       onPointerMove={trackPointer}>
       <span className="v2-resume-pass-index">{resumeContent.eyebrow}</span>
@@ -68,7 +67,6 @@ export default function ResumeLink({ variant = "hero" }) {
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    aria-label={label}
     data-cursor-label="CV"
   >
     <span className="v2-resume-shortcut-icon"><DocumentMark/></span>
