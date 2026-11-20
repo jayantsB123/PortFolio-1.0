@@ -7,10 +7,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("shows recruiter information without requiring interaction", async ({ page }) => {
-  await expect(page.locator("h1")).toContainText("Software");
-  await expect(page.getByRole("heading", { name: "At a glance." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Experience." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Projects & implementation." })).toBeVisible();
+  await expect(page.locator("h1")).toContainText("Backend");
+  await expect(page.getByRole("heading", { name: "Engineering that holds up in production." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Building systems that move money." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Systems, not just features." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "What I work with." })).toBeVisible();
   await expect(page.locator(".v2-project-list-row")).toHaveCount(4);
 });
@@ -20,19 +20,19 @@ test("project filters stay consistent between list and gallery layouts", async (
   const layouts = page.getByRole("group", { name: "Project layout" });
   await expect(page.locator(".v2-project-list-row")).toHaveCount(4);
   await filters.getByRole("button", { name: /Systems/ }).click();
-  await expect(page.locator(".v2-project-list-row")).toHaveCount(1);
-  await expect(page.locator(".v2-project-row-name")).toContainText("AI Image Generator");
+  await expect(page.locator(".v2-project-list-row")).toHaveCount(2);
+  await expect(page.locator(".v2-project-row-name")).toContainText("Sentinel-Ledger");
   await layouts.getByRole("button", { name: /GALLERY/ }).click();
-  await expect(page.locator(".v2-project-card")).toHaveCount(1);
+  await expect(page.locator(".v2-project-card")).toHaveCount(2);
   await filters.getByRole("button", { name: /All/ }).click();
   await expect(page.locator(".v2-project-card")).toHaveCount(4);
 });
 
 test("project case studies open, trap keyboard focus, and close with Escape", async ({ page }) => {
   await page.locator(".v2-project-row-name").first().click();
-  const dialog = page.getByRole("dialog", { name: "AI Image Generator" });
+  const dialog = page.getByRole("dialog", { name: "Sentinel-Ledger" });
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole("heading", { name: "AI Image Generator" })).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "Sentinel-Ledger" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
   await expect(page.locator(".v2-project-row-name").first()).toBeFocused();
@@ -72,7 +72,7 @@ test("page has no accidental horizontal overflow", async ({ page }) => {
 test("reduced-motion mode does not require a WebGL canvas", async ({ page }) => {
   await expect(page.locator(".v2-engine canvas")).toHaveCount(0);
   await expect(page.locator(".v2-gravity-dots")).toHaveCount(1);
-  await expect(page.getByRole("heading", { name: "At a glance." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Engineering that holds up in production." })).toBeVisible();
 });
 
 
@@ -115,7 +115,7 @@ test("left rail appears after hero and reverses when scrolling up", async ({ pag
 
 test("heading and chapter treatments keep information readable", async ({ page }) => {
   await page.locator("#experience").scrollIntoViewIfNeeded();
-  const heading = page.getByRole("heading", { name: "Experience." });
+  const heading = page.getByRole("heading", { name: "Building systems that move money." });
   await expect(heading).toBeVisible();
   await expect(heading).toHaveCSS("opacity", "1");
   await page.locator("#work").scrollIntoViewIfNeeded();
@@ -128,7 +128,7 @@ test("hero uses one clear introduction without duplicate metadata", async ({ pag
   await expect(page.locator(".v2-hero-top")).toHaveCount(0);
   await expect(page.locator(".v2-hero-evidence")).toHaveCount(0);
   await expect(page.locator(".v2-hero-foot")).toHaveCount(0);
-  await expect(page.locator(".v2-hero h1")).toContainText("Software");
+  await expect(page.locator(".v2-hero h1")).toContainText("Backend");
   await expect(page.locator(".v2-hero-description")).toBeVisible();
   await expect(page.locator(".v2-landing-header")).toHaveCount(0);
 });
@@ -156,7 +156,7 @@ test("navigation progress hugs the compact rail boundary", async ({ page, isMobi
 test("scramble activates on the right half of an actual glyph without reflow", async ({ page, isMobile }) => {
   test.skip(isMobile, "Desktop pointer interaction only");
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  const heading = page.getByRole("heading", { name: "At a glance." });
+  const heading = page.getByRole("heading", { name: "Engineering that holds up in production." });
   await heading.scrollIntoViewIfNeeded();
   const before = await heading.evaluate((element) => ({
     text: element.textContent,
