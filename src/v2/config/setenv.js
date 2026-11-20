@@ -11,8 +11,8 @@
  */
 
 const DEFAULTS = Object.freeze({
-  energy: 74,
-  radius: 225,
+  energy: 100,
+  radius: 300,
 });
 
 function numberInRange(value, fallback, min, max) {
@@ -67,8 +67,8 @@ const LOADER_MODES = Object.freeze([
 ]);
 
 const LOADER_DEFAULTS = Object.freeze({
-  mode: "ignition",
-  durationMs: 1650,
+  mode: "cycle",
+  durationMs: 3450,
   exitMs: 440,
   replay: "session",
   skipEnabled: true,
