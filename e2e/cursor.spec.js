@@ -51,8 +51,8 @@ test("cursor switches to dark contrast on pale sections", async ({ page, isMobil
 test("headings expose a visual cursor state without changing their text", async ({ page, isMobile }) => {
   test.skip(isMobile, "Desktop pointer enhancement only");
   await page.goto("/", { waitUntil: "domcontentloaded" });
-  const heading = page.getByRole("heading", { name: "At a glance." });
+  const heading = page.getByRole("heading", { name: "Engineering that holds up in production." });
   await heading.hover();
   await expect(page.locator(".v2-cursor-halo")).toHaveAttribute("data-mode", "heading");
-  await expect(heading).toHaveText("At a glance.");
+  await expect(heading).toHaveText("Engineering that holds up in production.");
 });

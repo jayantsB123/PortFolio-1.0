@@ -13,15 +13,15 @@ test("default intro is skippable and restores the full portfolio", async ({ page
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const intro = page.getByRole("dialog", { name: "Portfolio introduction" });
   await expect(intro).toBeVisible();
-  await expect(intro).toHaveAttribute("data-loader-mode", "ignition");
+  await expect(intro).toHaveAttribute("data-loader-mode", /^(system|type|ignition|commit)$/);
   await expect(intro.getByRole("button", { name: /Skip intro/i })).toBeVisible();
   await expect(intro.getByRole("button", { name: /Skip intro/i })).toHaveCSS("cursor", "pointer");
   await expect(page.locator(".v2-root > main")).toHaveAttribute("inert", "");
   await intro.getByRole("button", { name: /Skip intro/i }).click();
   await expect(intro).toHaveCount(0);
   await expect(page.locator(".v2-root > main")).not.toHaveAttribute("inert", "");
-  await expect(page.getByRole("heading", { name: /Software.*developer/i })).toBeVisible();
-  await page.locator("#top").getByRole("link", { name: /VIEW PROJECTS/i }).click();
+  await expect(page.getByRole("heading", { name: /Backend.*engineer/i })).toBeVisible();
+  await page.locator("#top").getByRole("link", { name: /EXPLORE MY WORK/i }).click();
   await expect(page).toHaveURL(/#work$/);
 });
 
@@ -29,7 +29,8 @@ test("finishes on its own without pretending to load network assets", async ({ p
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const intro = page.getByRole("dialog", { name: "Portfolio introduction" });
   await expect(intro).toBeVisible();
-  await expect(intro).toHaveCount(0, { timeout: 4000 });
+  // Allow the longest permitted configured sequence: four 4-second phases + exit.
+  await expect(intro).toHaveCount(0, { timeout: 18000 });
   await expect(page.getByRole("link", { name: "Scroll to explore the portfolio overview" })).toBeVisible();
   await expect(page.locator(".v2-landing-header")).toHaveCount(0);
 });
