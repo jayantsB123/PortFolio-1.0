@@ -20,8 +20,8 @@ test("default intro is skippable and restores the full portfolio", async ({ page
   await intro.getByRole("button", { name: /Skip intro/i }).click();
   await expect(intro).toHaveCount(0);
   await expect(page.locator(".v2-root > main")).not.toHaveAttribute("inert", "");
-  await expect(page.getByRole("heading", { name: /Software.*developer/i })).toBeVisible();
-  await page.locator("#top").getByRole("link", { name: /VIEW PROJECTS/i }).click();
+  await expect(page.getByRole("heading", { name: /Backend.*engineer/i })).toBeVisible();
+  await page.locator("#top").getByRole("link", { name: /EXPLORE MY WORK/i }).click();
   await expect(page).toHaveURL(/#work$/);
 });
 
