@@ -66,7 +66,8 @@ test("page has no accidental horizontal overflow", async ({ page }) => {
 });
 
 test("reduced-motion mode does not require a WebGL canvas", async ({ page }) => {
-  await expect(page.locator("canvas")).toHaveCount(0);
+  await expect(page.locator(".v2-engine canvas")).toHaveCount(0);
+  await expect(page.locator(".v2-gravity-dots")).toHaveCount(1);
   await expect(page.getByRole("heading", { name: "At a glance." })).toBeVisible();
 });
 

@@ -1,0 +1,32 @@
+/*
+ * Decorative hero underlay only. It sits over the existing background grid,
+ * below the hero copy and 3D model, with no input interception.
+ */
+.v2-hero .v2-gravity-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  contain: strict;
+}
+
+/* Do not let the atmospheric dots and gravity field compete visually.
+   The grid, hero illustration, readable copy and buttons remain unchanged. */
+.v2-hero:has(.v2-gravity-dots) .v2-hero-atmosphere {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-hero .v2-gravity-dots {
+    opacity: 0.55;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .v2-hero .v2-gravity-dots {
+    opacity: 0.4;
+  }
+}

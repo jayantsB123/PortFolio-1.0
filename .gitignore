@@ -26,3 +26,8 @@ dist-ssr
 # Browser test output
 playwright-report/
 test-results/
+
+# Local Vite settings (copy .env.example to .env)
+.env
+.env.*
+!.env.example

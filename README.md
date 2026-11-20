@@ -12,6 +12,7 @@ The current site focuses on making my work easy to scan without losing its inter
 - Full-screen navigation with Escape key, keyboard focus management and focus restoration.
 - Case studies describing challenges, approaches, implementation and technology.
 - Lazy-loaded procedural React Three Fiber scene, paused when offscreen.
+- Cursor-reactive Gravity Dots behind the hero, with configurable intensity and radius.
 - Reduced-motion and no-WebGL fallbacks.
 
 ## Tech stack
@@ -28,6 +29,23 @@ Node.js 22+ recommended.
     npm run dev
 
 Open http://localhost:5173.
+
+
+### Gravity Dots configuration
+
+The hero background uses a small Canvas 2D particle field. It doesn't intercept clicks or replace the Three.js scene. To tune it, copy the sample environment file:
+
+    cp .env.example .env
+
+Then edit the values in your local **.env**:
+
+    VITE_GRAVITY_DOTS_ENERGY=74
+    VITE_GRAVITY_DOTS_RADIUS=225
+
+**Energy** controls strength, from 0 to 100. **Radius** controls the pointer's reach in CSS pixels, from 60 to 480. The fallback values and validation live in **src/v2/config/setenv.js**. Restart Vite after modifying .env; a production build picks up its values at build time. Local .env files are gitignored.
+
+The effect is decorative: particles are subtle until the mouse approaches, spring back when it leaves, and create a click wave on empty hero space. The canvas is capped to 1.5 DPR and 1,100 dots, stops scheduling frames once settled, pauses when the hero is offscreen or the tab is hidden, and stays static for touch/reduced-motion visitors.
+
 
 ## Quality checks
 
@@ -55,12 +73,17 @@ The GitHub Actions workflow runs linting, unit tests, the production build, and 
 - src/v2/RecruiterContent.jsx — hero, career overview, experience and skills
 - src/v2/ArchitectureInterlude.jsx — scroll-linked narrative
 - src/v2/PortfolioScene.jsx — procedural 3D engine
+- src/v2/components/GravityDots.jsx — spring-based Canvas 2D background
+- src/v2/config/setenv.js — gravity dots configuration and validation
+- .env.example — optional energy and radius overrides
 - src/v2/components/AboutFooter.jsx — about and contact sections
 - src/v2/portfolioData.js — projects and experiences adapted from original data
 - src/v2/portfolio.css — responsive design system
 - src/data/constants.js — historical portfolio data and image references
 - tests/project-view.test.mjs — filtering unit tests
+- tests/gravity-dots-config.test.mjs — background configuration tests
 - e2e/portfolio.spec.js — browser interaction tests
+- e2e/gravity-dots.spec.js — particle interaction and accessibility checks
 
 ## Performance and accessibility
 
