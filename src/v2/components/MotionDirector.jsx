@@ -13,8 +13,8 @@ export default function MotionDirector() {
     if (reduced.matches) return undefined;
 
     const targets = Array.from(root.querySelectorAll(
-      ".v2-overview-heading, .v2-overview-fact, .v2-section-heading, .v2-role, " +
-      ".v2-project-list-row, .v2-project-card, .v2-skills-group, " +
+      ".v2-overview-heading, .v2-overview-fact, .v2-overview-education, .v2-section-heading, .v2-role, " +
+      ".v2-project-list-row, .v2-project-card, .v2-skills-group, .v2-achievement, .v2-supporting-row, " +
       ".v2-about-aside, .v2-about-main, .v2-method-copy, .v2-method-visual, " +
       ".v2-footer-top, .v2-footer h2, .v2-contact-link"
     ));
