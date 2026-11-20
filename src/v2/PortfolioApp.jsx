@@ -10,6 +10,7 @@ import PortfolioLoader from "./components/PortfolioLoader";
 import { useActiveSection } from "./hooks/useActiveSection";
 import "./portfolio.css";
 import "./interactionOverlays.css";
+import "./heroLayout.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
 import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterSkills } from "./RecruiterContent";
 
