@@ -51,7 +51,6 @@ export const resumeContent = {
   destination: "GOOGLE DRIVE · OPENS IN NEW TAB",
   action: "OPEN RÉSUMÉ",
   inlineLabel: "VIEW FULL RÉSUMÉ",
-  accessibleLabel: "View résumé in Google Drive (opens in a new tab)",
 };
 
 // ────────────────────────────────────────────────────────────────────────────
