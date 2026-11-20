@@ -24,9 +24,9 @@ test("gravity dots stays behind the hero and keeps its contents interactive", as
   expect(dimensions.particles).toBeLessThanOrEqual(1100);
   expect(dimensions.canvasType).toBe("CanvasRenderingContext2D");
 
-  await expect(page.getByRole("heading", { name: /Software.*developer/i })).toBeVisible();
-  await expect(hero.getByRole("link", { name: /VIEW PROJECTS/i })).toBeVisible();
-  await hero.getByRole("link", { name: /VIEW PROJECTS/i }).click();
+  await expect(page.getByRole("heading", { name: /Backend.*engineer/i })).toBeVisible();
+  await expect(hero.getByRole("link", { name: /EXPLORE MY WORK/i })).toBeVisible();
+  await hero.getByRole("link", { name: /EXPLORE MY WORK/i }).click();
   await expect(page).toHaveURL(/#work$/);
 });
 
