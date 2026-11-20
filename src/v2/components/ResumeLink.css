@@ -1,0 +1,328 @@
+/* RÉSUMÉ / 2026 — an intentional document entry point, not a fake download.
+ * Same typography and lime-on-graphite palette as the original portfolio.
+ * No animation is necessary to understand or activate the links.
+ */
+.v2-root .v2-resume-shortcut,
+.v2-root .v2-resume-pass {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.v2-root .v2-resume-shortcut:focus-visible,
+.v2-root .v2-resume-pass:focus-visible {
+  outline: 3px solid #90bb4f;
+  outline-offset: 4px;
+}
+.v2-resume-shortcut {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 45px;
+  gap: 12px;
+  border: 1px solid rgba(198,243,103,.34);
+  border-radius: 2px;
+  color: #e8f2df;
+  background: rgba(25,40,26,.52);
+  padding: 6px 12px 6px 7px;
+  position: relative;
+  isolation: isolate;
+  transition: border-color .27s ease, background .27s ease, transform .27s ease;
+}
+.v2-resume-shortcut::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--v2-lime, #c6f367);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.v2-resume-shortcut:hover,
+.v2-resume-shortcut:focus-visible {
+  border-color: rgba(198,243,103,.86);
+  background: rgba(44,67,38,.66);
+  transform: translateY(-2px);
+}
+.v2-resume-shortcut:hover::after,
+.v2-resume-shortcut:focus-visible::after {
+  transform: scaleX(1);
+}
+.v2-resume-shortcut-icon {
+  display:grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  color:var(--v2-lime,#c6f367);
+  border:1px solid rgba(198,243,103,.21);
+  background:rgba(198,243,103,.07);
+}
+.v2-resume-icon {
+  width:18px;
+  height:22px;
+  display:block;
+  transition:transform .37s cubic-bezier(.22,1,.36,1);
+}
+.v2-resume-shortcut:hover .v2-resume-icon,
+.v2-resume-shortcut:focus-visible .v2-resume-icon {
+  transform:translateY(-2px) rotate(-6deg);
+}
+.v2-resume-shortcut-copy {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+  min-width:0;
+}
+.v2-resume-shortcut-copy strong {
+  font:600 11px/1.3 'DM Mono',monospace;
+  letter-spacing:.055em;
+  color:#eaf7dd;
+}
+.v2-resume-shortcut-copy small {
+  font:500 8px/1.35 'DM Mono',monospace;
+  letter-spacing:.065em;
+  color:#a7bca0;
+  white-space:normal;
+}
+.v2-resume-shortcut-arrow {
+  color:var(--v2-lime,#c6f367);
+  font:400 18px/1 'DM Sans',sans-serif;
+  margin-left:10px;
+  transition:transform .3s cubic-bezier(.22,1,.36,1);
+}
+.v2-resume-shortcut:hover .v2-resume-shortcut-arrow,
+.v2-resume-shortcut:focus-visible .v2-resume-shortcut-arrow {
+  transform:translate(3px,-3px);
+}
+/* Quiet, third-way hero CTA — the existing primary buttons remain unchanged. */
+.v2-hero-clarity .v2-hero-resume {
+  display:flex;
+  align-items:center;
+  margin-top:14px;
+  position:relative;
+  z-index:6;
+}
+/* In Experience this sits after Education and inherits the light palette. */
+.v2-resume-inline .v2-resume-shortcut.is-inline {
+  border:1px solid #8ba785;
+  background:rgba(236,250,225,.68);
+  color:#21381d;
+}
+.v2-resume-inline .v2-resume-shortcut.is-inline .v2-resume-shortcut-icon {
+  border-color:#a7c594;
+  background:#d9e7cb;
+  color:#315c27;
+}
+.v2-resume-inline .v2-resume-shortcut.is-inline strong {color:#1e361a}
+.v2-resume-inline .v2-resume-shortcut.is-inline small {color:#4d6548}
+.v2-resume-inline .v2-resume-shortcut.is-inline .v2-resume-shortcut-arrow {color:#2d5723}
+.v2-resume-inline .v2-resume-shortcut.is-inline:hover,
+.v2-resume-inline .v2-resume-shortcut.is-inline:focus-visible {
+  background:#d5e8c3;
+  border-color:#416e35;
+}
+/* Featured editorial résumé pass. Opens the linked document in ONE click. */
+.v2-resume-pass {
+  --resume-x:50%;
+  --resume-y:50%;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:linear-gradient(124deg,#172419,#203522 76%,#19271b);
+  color:#f0f6e7;
+  border:1px solid #50684a;
+  margin-top:22px;
+  min-height:178px;
+  cursor:pointer;
+  transition:border-color .35s ease,background .35s ease,transform .35s cubic-bezier(.22,1,.36,1),
+    box-shadow .35s ease;
+}
+.v2-resume-pass::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(260px circle at var(--resume-x) var(--resume-y),
+    rgba(198,243,103,.14),transparent 76%);
+  opacity:0;
+  transition:opacity .35s ease;
+  pointer-events:none;
+}
+.v2-resume-pass::after {
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  border:1px solid rgba(198,243,103,.16);
+  border-radius:50%;
+  top:-54px;right:-51px;
+  box-shadow:0 0 0 37px rgba(198,243,103,.025),0 0 0 75px rgba(198,243,103,.025);
+  pointer-events:none;
+}
+.v2-resume-pass:hover,
+.v2-resume-pass:focus-visible {
+  border-color:#aee673;
+  transform:translateY(-3px);
+  box-shadow:0 20px 35px rgba(28,57,26,.18);
+}
+.v2-resume-pass:hover::before,
+.v2-resume-pass:focus-visible::before {opacity:1}
+.v2-resume-pass-index {
+  font:500 10px/1.35 'DM Mono',monospace;
+  letter-spacing:.115em;
+  color:#bdd7ac;
+  padding:18px 26px 0;
+}
+.v2-resume-pass-body {
+  display:flex;
+  align-items:center;
+  min-width:0;
+  flex:1 1 auto;
+  gap:26px;
+  padding:13px 26px 14px;
+  position:relative;
+  z-index:1;
+}
+.v2-resume-document {
+  flex:0 0 76px;
+  width:76px;
+  height:82px;
+  display:grid;
+  place-items:center;
+  color:#d6f4c5;
+  position:relative;
+  transform:rotate(-4deg);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.v2-resume-document::before{
+  content:"";
+  position:absolute;
+  inset:3px 8px 2px;
+  background:rgba(201,247,133,.08);
+  border:1px solid rgba(198,243,103,.23);
+  border-radius:3px;
+}
+.v2-resume-document-back {
+  position:absolute;
+  inset:0 11px 5px 4px;
+  border:1px solid rgba(231,253,205,.4);
+  transform:rotate(-8deg) translate(-3px,1px);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.v2-resume-icon.is-large {
+  width:60px;
+  height:68px;
+  position:relative;
+  z-index:2;
+  color:var(--v2-lime,#c6f367);
+}
+.v2-resume-pass:hover .v2-resume-document,
+.v2-resume-pass:focus-visible .v2-resume-document {
+  transform:rotate(2deg) translateY(-5px);
+}
+.v2-resume-pass:hover .v2-resume-document-back,
+.v2-resume-pass:focus-visible .v2-resume-document-back {
+  transform:rotate(-12deg) translate(-7px,2px);
+}
+.v2-resume-pass-copy {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex:1 1 auto;
+  min-width:0;
+}
+.v2-resume-pass-meta {
+  color:#b1c6a8;
+  font:500 9px/1.5 'DM Mono',monospace;
+  letter-spacing:.075em;
+}
+.v2-resume-pass-copy strong {
+  color:#f1f7eb;
+  font:500 clamp(32px,3.4vw,53px)/1 'Space Grotesk',sans-serif;
+  letter-spacing:-.065em;
+}
+.v2-resume-pass-description {
+  max-width:460px;
+  color:#bdcdb7;
+  font:400 13px/1.55 'DM Sans',sans-serif;
+}
+.v2-resume-pass-action {
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  color:#c6f367;
+  font:500 11px 'DM Mono',monospace;
+  letter-spacing:.06em;
+}
+.v2-resume-action-arrow {
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  border:1px solid #93bc67;
+  border-radius:50%;
+  font:400 26px 'DM Sans',sans-serif;
+  transition:color .27s,background .27s,transform .35s cubic-bezier(.22,1,.36,1);
+}
+.v2-resume-pass:hover .v2-resume-action-arrow,
+.v2-resume-pass:focus-visible .v2-resume-action-arrow {
+  color:#1d311b;
+  background:#c6f367;
+  transform:rotate(45deg);
+}
+.v2-resume-pass-foot {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:9px 24px;
+  border-top:1px solid rgba(190,231,170,.24);
+  font:500 9px/1.4 'DM Mono',monospace;
+  letter-spacing:.09em;
+  color:#b5c9a9;
+}
+.v2-resume-pass-corner {color:#a9d47e;flex:0 0 auto}
+@media(max-width:1000px) {
+  .v2-resume-pass-body{gap:19px;padding-left:20px;padding-right:20px}
+  .v2-resume-pass-index{padding-left:20px}
+  .v2-resume-pass-action{gap:10px}
+}
+@media(max-width:650px){
+  .v2-hero-clarity .v2-hero-resume {margin-top:11px}
+  .v2-resume-shortcut{min-height:44px;max-width:100%}
+  .v2-resume-pass{min-height:0;margin-top:17px}
+  .v2-resume-pass-index{padding:16px 16px 0}
+  .v2-resume-pass-body{padding:16px;gap:16px;flex-wrap:wrap}
+  .v2-resume-document{flex-basis:63px;width:63px;height:75px}
+  .v2-resume-icon.is-large{width:48px;height:58px}
+  .v2-resume-pass-copy{flex:1 1 160px;gap:7px}
+  .v2-resume-pass-copy strong{font-size:clamp(32px,8vw,43px)}
+  .v2-resume-pass-description{font-size:12px}
+  .v2-resume-pass-action{flex:1 1 100%;margin-top:8px;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(198,243,103,.2)}
+  .v2-resume-action-arrow{width:38px;height:38px;font-size:22px}
+  .v2-resume-pass-foot{padding:10px 16px;font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .v2-resume-pass,
+  .v2-resume-pass *,
+  .v2-resume-shortcut,
+  .v2-resume-shortcut *,
+  .v2-resume-pass::before,
+  .v2-resume-pass::after,
+  .v2-resume-shortcut::after{
+    transition:none!important;
+    animation:none!important;
+    transform:none!important;
+  }
+}
+@media(hover:none),(pointer:coarse){
+  .v2-resume-pass::before{display:none}
+}
