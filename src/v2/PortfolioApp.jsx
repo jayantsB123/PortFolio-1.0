@@ -42,7 +42,7 @@ function SiteHeader() {
         <a className="v2-rail-brand" href="#top" title="Back to top">j<span>.</span></a>
         <div className="v2-rail-track" aria-hidden="true"><motion.span style={{ scaleY: railProgress }}/></div>
         <div className="v2-rail-links">
-          {links.map(([number, label, href, description, glyph]) => <a key={href} href={href}
+          {links.map(([number, label, href, , glyph]) => <a key={href} href={href}
             aria-label={label} title={label} data-cursor-label="GO"
             className={activeSection === href.slice(1) ? "is-current" : undefined}
             aria-current={activeSection === href.slice(1) ? "location" : undefined}>
