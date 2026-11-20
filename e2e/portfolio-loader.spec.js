@@ -15,6 +15,7 @@ test("default intro is skippable and restores the full portfolio", async ({ page
   await expect(intro).toBeVisible();
   await expect(intro).toHaveAttribute("data-loader-mode", "ignition");
   await expect(intro.getByRole("button", { name: /Skip intro/i })).toBeVisible();
+  await expect(intro.getByRole("button", { name: /Skip intro/i })).toHaveCSS("cursor", "pointer");
   await expect(page.locator(".v2-root > main")).toHaveAttribute("inert", "");
   await intro.getByRole("button", { name: /Skip intro/i }).click();
   await expect(intro).toHaveCount(0);
