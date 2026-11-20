@@ -7,6 +7,7 @@ import QuickNav from "./QuickNav";
 import InteractiveCursor from "./components/InteractiveCursor";
 import MotionDirector from "./components/MotionDirector";
 import ScrambleHeadings from "./components/ScrambleHeadings";
+import PortfolioLoader from "./components/PortfolioLoader";
 import { useActiveSection } from "./hooks/useActiveSection";
 import "./portfolio.css";
 import "./interactionOverlays.css";
@@ -197,5 +198,6 @@ export default function PortfolioApp() {
     </main>
     <Footer/>
     {project && <ProjectDialog project={project} close={() => setProject(null)}/>}
+    <PortfolioLoader/>
   </div>;
 }
