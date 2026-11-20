@@ -9,7 +9,9 @@ test("desktop mouse gets a non-intercepting contextual cursor", async ({ page, i
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const root = page.locator(".v2-root");
   await expect(root).toHaveClass(/v2-cursor-enabled/);
-  const explore = page.getByRole("button", { name: "Explore sections of the portfolio" });
+  await page.locator("#overview").scrollIntoViewIfNeeded();
+  const explore = page.getByRole("navigation", { name: "Section navigation" })
+    .getByRole("button", { name: "Open full section navigation" });
   await explore.hover();
   await expect(page.locator(".v2-cursor-halo")).toHaveAttribute("data-mode", "label");
   await expect(page.locator(".v2-cursor-halo span")).toHaveText("MENU");
