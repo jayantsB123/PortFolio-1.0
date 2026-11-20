@@ -211,3 +211,28 @@ test("scramble stays off metadata and secondary headings", async ({ page, isMobi
   await expect(subtitle).not.toHaveClass(/v2-scramble-active/);
   await expect(page.locator(".v2-scramble-layer")).toHaveCount(0);
 });
+
+test("header-free hero keeps copy, CTAs and scroll cue aligned", async ({ page }) => {
+  const layout = await page.evaluate(() => {
+    const get = (selector) => document.querySelector(selector).getBoundingClientRect();
+    const hero = get(".v2-hero");
+    const copy = get(".v2-hero-copy");
+    const actions = get(".v2-hero-actions");
+    const cue = get(".v2-hero-scroll-cue");
+    return {
+      viewportWidth: document.documentElement.clientWidth,
+      heroHeight: hero.height,
+      copy: { left: copy.left, right: copy.right, top: copy.top },
+      actionsBottom: actions.bottom,
+      cueTop: cue.top,
+      noTopBar: !document.querySelector(".v2-landing-header"),
+    };
+  });
+
+  expect(layout.noTopBar).toBe(true);
+  expect(layout.copy.left).toBeGreaterThanOrEqual(12);
+  expect(layout.copy.right).toBeLessThanOrEqual(layout.viewportWidth - 12);
+  expect(layout.copy.top).toBeGreaterThanOrEqual(0);
+  expect(layout.actionsBottom).toBeLessThan(layout.cueTop - 10);
+  expect(layout.heroHeight).toBeGreaterThanOrEqual(590);
+});
