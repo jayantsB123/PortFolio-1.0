@@ -1,15 +1,16 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
-import { profile } from "./portfolioData";
 import ProjectExplorer, { ProjectVisual } from "./ProjectExplorer";
 import { About, Footer } from "./components/AboutFooter";
 import QuickNav from "./QuickNav";
 import InteractiveCursor from "./components/InteractiveCursor";
 import MotionDirector from "./components/MotionDirector";
 import ScrambleHeadings from "./components/ScrambleHeadings";
+import PortfolioLoader from "./components/PortfolioLoader";
 import { useActiveSection } from "./hooks/useActiveSection";
 import "./portfolio.css";
 import "./interactionOverlays.css";
+import "./heroLayout.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
 import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterSkills } from "./RecruiterContent";
 
@@ -35,22 +36,6 @@ function SiteHeader() {
     ["06", "Contact", "#contact", "↗"],
   ];
   return <>
-    <header className="v2-header v2-landing-header">
-      <a className="v2-logo" href="#top">
-        <span className="v2-logo-mark">j<span>.</span></span>
-        <span className="v2-logo-text" data-heading-effect>JAYANT <span>/ SOFTWARE ENGINEER</span></span>
-      </a>
-      <div className="v2-header-actions">
-        <a className="v2-top-cta" target="_blank" rel="noopener noreferrer" href={profile.linkedin}>
-          CONTACT <Glyph>↗</Glyph>
-        </a>
-        <button type="button" className="v2-menu-button v2-explore-trigger" data-cursor-label="MENU"
-          aria-expanded={open} aria-haspopup="dialog" onClick={() => setOpen(true)}
-          aria-label="Explore sections of the portfolio">
-          <span>EXPLORE</span><span aria-hidden="true">☷</span>
-        </button>
-      </div>
-    </header>
 
     <AnimatePresence>
       {activeSection && <motion.nav key="side-rail" className="v2-side-rail" aria-label="Section navigation"
@@ -197,5 +182,6 @@ export default function PortfolioApp() {
     </main>
     <Footer/>
     {project && <ProjectDialog project={project} close={() => setProject(null)}/>}
+    <PortfolioLoader/>
   </div>;
 }

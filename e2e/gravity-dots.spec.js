@@ -34,6 +34,11 @@ test("desktop mouse movement activates gravity dots without intercepting links",
   test.skip(isMobile, "Mouse field is intentionally disabled on coarse-pointer devices");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
+  const intro = page.getByRole("dialog", { name: "Portfolio introduction" });
+  if (await intro.isVisible()) {
+    await intro.getByRole("button", { name: /Skip intro/i }).click();
+    await expect(intro).toHaveCount(0);
+  }
   const canvas = page.locator(".v2-gravity-dots");
   await expect(canvas).toHaveAttribute("data-energy", "74");
   await expect(canvas).toHaveAttribute("data-radius", "225");
@@ -70,7 +75,9 @@ test("mobile touch input preserves the native experience", async ({ page, isMobi
   const canvas = page.locator(".v2-gravity-dots");
   await expect(canvas).toHaveAttribute("data-interacting", "false");
   await expect(canvas).toHaveCSS("pointer-events", "none");
-  await page.getByRole("button", { name: "Explore sections of the portfolio" }).click();
+  await page.locator("#overview").scrollIntoViewIfNeeded();
+  await page.getByRole("navigation", { name: "Section navigation" })
+    .getByRole("button", { name: "Open full section navigation" }).click();
   await expect(page.getByRole("dialog", { name: "Explore portfolio" })).toBeVisible();
 });
 
