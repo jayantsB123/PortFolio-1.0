@@ -134,6 +134,7 @@ export function RecruiterExperience() {
         <div><strong>{school.degree}</strong><small>{school.school}</small></div>
         <span>{school.grade}</span>
       </div>
+      <div className="v2-resume-inline"><a href={profile.resume} target="_blank" rel="noopener noreferrer">VIEW RÉSUMÉ ↗</a></div>
     </div>
   </section>;
 }
