@@ -6,6 +6,7 @@ import {
   quickFacts, school, skillGroups, skillsContent,
 } from "./portfolioData";
 import GravityDots from "./components/GravityDots";
+import ResumeLink from "./components/ResumeLink";
 
 // ── 02 / HERO ──────────────────────────────────────────────────────────────
 export function RecruiterHero({ artwork }) {
@@ -35,6 +36,7 @@ export function RecruiterHero({ artwork }) {
           <a className="v2-button-solid" href={heroContent.primaryHref}>{heroContent.primaryCta}</a>
           <a className="v2-button-outline" href={heroContent.secondaryHref}>{heroContent.secondaryCta}</a>
         </div>
+        <div className="v2-hero-resume"><ResumeLink variant="hero"/></div>
       </motion.div>
       {artwork}
     </div>
@@ -68,6 +70,7 @@ export function RecruiterOverview() {
         <strong>{overviewEducation.summary}</strong>
         <small>{overviewEducation.institution} · {overviewEducation.grade} · {overviewEducation.year}</small>
       </a>
+      <ResumeLink variant="feature"/>
       <div className="v2-overview-links">
         <a href={profile.github} target="_blank" rel="noopener noreferrer">{overviewContent.links.github}</a>
         <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">{overviewContent.links.linkedin}</a>
@@ -133,7 +136,7 @@ export function RecruiterExperience() {
         <div><strong>{school.degree}</strong><small>{school.school}</small></div>
         <span>{school.grade}</span>
       </div>
-      <div className="v2-resume-inline"><a href={profile.resume} target="_blank" rel="noopener noreferrer">VIEW RÉSUMÉ ↗</a></div>
+      <div className="v2-resume-inline"><ResumeLink variant="inline"/></div>
     </div>
   </section>;
 }
