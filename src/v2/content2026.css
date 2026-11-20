@@ -1,0 +1,358 @@
+/*
+ * 2026 content refresh — layout adjustments for longer, more substantive copy.
+ *
+ * The original palette, components, interaction and motion remain intact.
+ * This sheet only styles the new content blocks and avoids text overflow.
+ */
+
+/* Hero: larger paragraphs must stay legible, without hiding text on mobile. */
+.v2-hero-clarity .v2-hero-description {
+  max-width: 610px;
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.61;
+  text-wrap: pretty;
+}
+.v2-hero-clarity .v2-hero-specialty {
+  font-size: clamp(14px, 1.45vw, 20px);
+  max-width: 580px;
+  line-height: 1.35;
+}
+.v2-hero-clarity .v2-hero-copy {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+.v2-hero-clarity .v2-hero-actions a {
+  white-space: nowrap;
+}
+@media (max-width: 850px) {
+  .v2-hero.v2-hero-clarity {
+    height: auto;
+    min-height: 100svh;
+    padding-bottom: 110px;
+  }
+  .v2-hero.v2-hero-clarity .v2-hero-body {
+    flex: 1 0 auto;
+    height: auto;
+    min-height: 0;
+    padding: clamp(76px,12vh,128px) 0 40px;
+  }
+  .v2-hero-clarity .v2-hero-description {
+    max-width: min(530px, 100%);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .v2-hero-clarity .v2-hero-copy {width:100%;max-width:min(100%,670px)}
+}
+@media (max-width: 620px) {
+  .v2-hero.v2-hero-clarity {
+    min-height: 100svh;
+    padding-bottom: 105px;
+  }
+  .v2-hero.v2-hero-clarity .v2-hero-body {
+    padding: 77px 0 38px;
+  }
+  .v2-hero-clarity .v2-hero-specialty {
+    font-size: 15px;
+  }
+  .v2-hero-clarity .v2-hero-actions {gap:9px}
+  .v2-hero-clarity .v2-hero-actions a {max-width:100%;min-width:0;font-size:9px}
+  .v2-hero-clarity .v2-hero-scroll-cue {bottom:25px}
+}
+
+/* Overview summary: keep long fintech facts readable across columns. */
+.v2-overview-heading {align-items:flex-start}
+.v2-overview-heading>div {min-width:0;max-width:790px}
+.v2-overview-heading h2 {
+  font-size: clamp(44px,4.8vw,78px);
+  line-height: 1.01;
+  text-wrap: balance;
+  overflow-wrap: normal;
+}
+.v2-overview-fact strong {
+  font-size: clamp(20px,1.8vw,30px);
+  line-height:1.19;
+  overflow-wrap:break-word;
+}
+.v2-overview-fact small {line-height:1.55}
+.v2-overview-education {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px 22px;
+  padding:18px 23px;
+  border:1px solid #a9b99f;
+  border-top:0;
+  background:#e3ebdc;
+  transition:background .2s;
+}
+.v2-overview-education:hover,.v2-overview-education:focus-visible{background:#d4e6c8}
+.v2-overview-education>span {
+  font:500 10px 'DM Mono',monospace;
+  letter-spacing:.05em;
+  color:#41583b;
+}
+.v2-overview-education>strong {
+  font:600 clamp(17px,1.65vw,23px) 'Space Grotesk',sans-serif;
+  letter-spacing:-.035em;
+  color:#203220;
+}
+.v2-overview-education>small {
+  font:500 11px/1.5 'DM Mono',monospace;
+  color:#435a3e;
+}
+
+/* Experience: primary impact bullets first, past internships compact. */
+.v2-role-featured .v2-role-main h3{font-size:clamp(29px,3vw,44px)}
+.v2-role-featured .v2-role-date{line-height:1.65}
+.v2-role-employment {
+  display:block;
+  margin-top:12px;
+  color:#526849;
+  font:500 10px/1.8 'DM Mono',monospace;
+}
+.v2-role-featured .v2-role-main li {
+  max-width:800px;
+  margin-bottom:10px;
+  line-height:1.7;
+}
+.v2-role-expand {
+  margin-top:7px;
+  padding:10px 14px;
+  cursor:pointer;
+  background:transparent;
+  border:1px solid #748b69;
+  color:#294a25;
+  border-radius:2px;
+  font:500 11px 'DM Mono',monospace;
+  letter-spacing:.05em;
+  transition:background .2s;
+}
+.v2-role-expand:hover,.v2-role-expand:focus-visible{background:#c7d8b7}
+.v2-earlier-heading {
+  margin-top:55px;
+  padding-bottom:18px;
+  border-bottom:1px solid #a1b19d;
+  color:#405c3b;
+  font:600 11px 'DM Mono',monospace;
+  letter-spacing:.12em;
+}
+.v2-role-earlier {padding:26px 0}
+.v2-role-earlier .v2-role-main h3{font-size:clamp(23px,2.4vw,31px)}
+.v2-earlier-summary {
+  line-height:1.65!important;
+  color:#455d40!important;
+  max-width:750px!important;
+}
+.v2-role-earlier .v2-role-tech{margin-top:11px}
+.v2-resume-inline{display:flex;justify-content:flex-end;padding-top:20px}
+.v2-resume-inline a {
+  font:500 11px 'DM Mono',monospace;
+  color:#1c3c18;
+  border-bottom:1px solid #45663b;
+  padding:7px 0;
+}
+.v2-resume-inline a:hover{color:#4b7934}
+
+/* Recognition: one new, restrained chapter within the existing palette. */
+.v2-achievements {
+  background:#1b291d;
+  color:#eff6e9;
+  padding:clamp(68px,8vw,112px) 0;
+  scroll-margin-top:30px;
+}
+.v2-achievements-heading{margin-bottom:35px}
+.v2-achievements .v2-eyebrow{color:#c1d5b6}
+.v2-achievements-heading h2{
+  font:500 clamp(45px,5.7vw,84px)/1.04 'Space Grotesk',sans-serif;
+  letter-spacing:-.07em;
+  margin:25px 0 15px;
+  text-wrap:balance;
+}
+.v2-achievements-heading>p {
+  max-width:650px;
+  font-size:16px;
+  line-height:1.65;
+  color:#becdb8;
+}
+.v2-achievements-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1px;
+  background:#52684e;
+  border:1px solid #52684e;
+}
+.v2-achievement {
+  background:#243327;
+  padding:clamp(20px,2.6vw,34px);
+  min-height:230px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  transition:background .2s,translate .2s;
+}
+.v2-achievement:hover{background:#304335}
+.v2-achievement-index {
+  font:500 11px 'DM Mono',monospace;
+  color:#b6d69a;
+  margin-bottom:auto;
+}
+.v2-achievement>strong {
+  color:#c6f367;
+  font:500 clamp(19px,2vw,28px)/1.2 'Space Grotesk',sans-serif;
+  letter-spacing:-.04em;
+}
+.v2-achievement h3 {
+  color:#edf5e6;
+  font:500 15px 'DM Sans',sans-serif;
+  line-height:1.35;
+  margin:0;
+}
+.v2-achievement p {
+  color:#c4d5bb;
+  font-size:13px;
+  line-height:1.6;
+  margin:0;
+}
+#achievements{scroll-margin-top:25px}
+
+/* Project artwork: intentionally abstract for non-public bank systems. */
+.v2-preview-frame>.v2-project-art {
+  display:flex;
+  position:relative;
+  isolation:isolate;
+  height:100%;
+  width:100%;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow:hidden;
+  padding:clamp(16px,2vw,28px);
+  color:#e9f6d7;
+  background:radial-gradient(circle at 65% 50%,#2b5438 0%,#13291f 40%,#0e1c17 100%);
+}
+.v2-project-art::before,.v2-project-art::after {
+  content:"";
+  position:absolute;
+  width:63%;
+  aspect-ratio:1;
+  border-radius:50%;
+  border:1px solid rgba(198,243,103,.3);
+  top:3%;
+  right:-14%;
+  transform:rotateX(55deg) rotate(-23deg);
+  pointer-events:none;
+}
+.v2-project-art::after {
+  width:42%;
+  top:19%;
+  right:0%;
+  border-color:rgba(198,243,103,.45);
+  transform:rotateY(61deg) rotate(36deg);
+}
+.v2-project-art-index {
+  font:500 12px 'DM Mono',monospace;
+  color:#c6f367;
+  position:relative;
+  z-index:1;
+}
+.v2-project-art-symbol {
+  position:absolute;
+  right:22%;
+  top:22%;
+  color:rgba(198,243,103,.6);
+  font:300 95px/1 'Space Grotesk',sans-serif;
+}
+.v2-project-art-title {
+  font:500 clamp(12px,1.7vw,21px)/1.3 'DM Mono',monospace;
+  color:#e0f3d0;
+  position:relative;
+  z-index:1;
+  max-width:85%;
+  overflow-wrap:anywhere;
+}
+.v2-project-list-preview .v2-project-art-title{font-size:10px}
+.v2-project-list-preview .v2-project-art-symbol{font-size:54px}
+
+/* Supporting work: compact rows rather than another oversized gallery. */
+.v2-supporting-projects{margin-top:80px}
+.v2-supporting-head {
+  display:flex;align-items:end;justify-content:space-between;gap:25px;
+  padding-bottom:23px;
+  border-bottom:1px solid #b8c5b4;
+}
+.v2-supporting-head h3 {
+  font:500 clamp(30px,3.6vw,51px)/1.1 'Space Grotesk',sans-serif;
+  letter-spacing:-.06em;
+  margin:0;
+}
+.v2-supporting-head p {
+  max-width:350px;
+  color:#53684e;
+  font-size:14px;
+  line-height:1.5;
+  margin:0;
+}
+.v2-supporting-row {
+  display:grid;
+  grid-template-columns:22% minmax(0,1fr) 18%;
+  gap:25px;
+  padding:25px 0;
+  border-bottom:1px solid #b8c5b4;
+}
+.v2-supporting-meta {
+  color:#4c6247;
+  font:500 11px/1.65 'DM Mono',monospace;
+}
+.v2-supporting-main h4 {
+  color:#1f311e;
+  font:500 clamp(22px,2.5vw,31px)/1.2 'Space Grotesk',sans-serif;
+  letter-spacing:-.04em;
+  margin:0 0 9px;
+}
+.v2-supporting-main p {
+  color:#4b6146;
+  font-size:14px;
+  line-height:1.6;
+  margin:0;
+}
+.v2-supporting-main .v2-project-tags {margin-top:12px}
+.v2-supporting-action {
+  text-align:right;
+  font:500 11px/1.6 'DM Mono',monospace;
+}
+.v2-supporting-action a{
+  color:#274b22;
+  border-bottom:1px solid #5d8153;
+}
+.v2-supporting-action span{color:#5b6b58}
+
+/* Long new About heading should wrap without clipping. */
+.v2-about-main h2 {
+  font-size:clamp(51px,5.3vw,88px);
+  line-height:1.08;
+}
+.v2-about-main h2 em {
+  display:inline;
+  font-size:.95em;
+  overflow-wrap:normal;
+}
+.v2-footer h2 {text-wrap:balance}
+
+@media(max-width:1100px){
+  .v2-overview-heading{flex-direction:column;gap:19px}
+  .v2-overview-heading h2{max-width:950px}
+  .v2-achievements-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .v2-overview-heading h2{font-size:clamp(38px,8vw,60px)}
+  .v2-overview-education{flex-direction:column;align-items:flex-start}
+  .v2-role-featured .v2-role-date{font-size:11px}
+  .v2-role-employment{font-size:10px}
+  .v2-achievements-grid{grid-template-columns:1fr}
+  .v2-achievement{min-height:185px}
+  .v2-supporting-head{flex-direction:column;align-items:flex-start;gap:10px}
+  .v2-supporting-row{grid-template-columns:1fr;gap:9px}
+  .v2-supporting-action{text-align:left}
+  .v2-about-main h2{font-size:clamp(42px,8.6vw,64px)}
+  .v2-project-art-title{font-size:13px}
+}
