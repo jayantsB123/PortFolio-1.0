@@ -45,8 +45,8 @@ The portfolio includes four short introductions. They use CSS and React, without
 
 Copy the example settings: `cp .env.example .env` and edit:
 
-    VITE_PORTFOLIO_LOADER_STYLE=ignition
-    VITE_PORTFOLIO_LOADER_DURATION_MS=1650
+    VITE_PORTFOLIO_LOADER_STYLE=cycle
+    VITE_PORTFOLIO_LOADER_DURATION_MS=3650
     VITE_PORTFOLIO_LOADER_EXIT_MS=440
     VITE_PORTFOLIO_LOADER_REPLAY=session
     VITE_PORTFOLIO_LOADER_SKIPPABLE=true
@@ -72,8 +72,8 @@ The hero background uses a small Canvas 2D particle field. It doesn't intercept 
 
 Then edit the values in your local **.env**:
 
-    VITE_GRAVITY_DOTS_ENERGY=74
-    VITE_GRAVITY_DOTS_RADIUS=225
+    VITE_GRAVITY_DOTS_ENERGY=100
+    VITE_GRAVITY_DOTS_RADIUS=400
 
 **Energy** controls strength, from 0 to 100. **Radius** controls the pointer's reach in CSS pixels, from 60 to 480. The fallback values and validation live in **src/v2/config/setenv.js**. Restart Vite after modifying .env; a production build picks up its values at build time. Local .env files are gitignored.
 
