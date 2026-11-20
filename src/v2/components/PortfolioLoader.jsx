@@ -167,6 +167,7 @@ export default function PortfolioLoader() {
   const [index, setIndex] = useState(0);
   const skipRef = useRef(null);
   const onExitRef = useRef(false);
+  const keyboardDismissedRef = useRef(false);
 
   const config = portfolioLoaderConfig;
   const currentStyle = initial.styles[index] || initial.styles[0];
@@ -217,14 +218,26 @@ export default function PortfolioLoader() {
   useEffect(() => {
     if (!isVisible || !config.skipEnabled) return undefined;
     const keydown = (event) => {
-      if (event.key === "Escape") {
+      if (event.key === "Tab") {
+        // Only Skip is focusable during the intro. Keep it inside the dialog.
         event.preventDefault();
+        skipRef.current?.focus({ preventScroll: true });
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        keyboardDismissedRef.current = true;
         setIsExiting(true);
       }
     };
     document.addEventListener("keydown", keydown);
     return () => document.removeEventListener("keydown", keydown);
   }, [config.skipEnabled, isVisible]);
+
+  useEffect(() => {
+    if (isVisible || !keyboardDismissedRef.current) return;
+    // Escape should return keyboard focus to the underlying site rather than
+    // leaving the browser focused on a detached Skip button.
+    document.querySelector(".v2-skip")?.focus({ preventScroll: true });
+  }, [isVisible]);
 
   useEffect(() => {
     if (!isVisible || onExitRef.current) return;
