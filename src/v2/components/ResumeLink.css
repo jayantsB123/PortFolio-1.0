@@ -109,6 +109,7 @@
 }
 /* In Experience this sits after Education and inherits the light palette. */
 .v2-resume-inline .v2-resume-shortcut.is-inline {
+  padding:6px 12px 6px 7px;
   border:1px solid #8ba785;
   background:rgba(236,250,225,.68);
   color:#21381d;
