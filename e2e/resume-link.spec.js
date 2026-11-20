@@ -5,14 +5,13 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
 });
 
-const label = "View résumé in Google Drive (opens in a new tab)";
 const driveId = "1igz5xhAoM-RMV8uaABzgK6fhWDeNdutO";
 
 test("resume is immediately discoverable in the hero without replacing its two original CTAs", async ({ page }) => {
   const hero = page.locator("#top");
   await expect(hero.getByRole("link", { name: /EXPLORE MY WORK/i })).toBeVisible();
   await expect(hero.getByRole("link", { name: /PROFESSIONAL EXPERIENCE/i })).toBeVisible();
-  const link = hero.getByRole("link", { name: label });
+  const link = hero.getByRole("link", { name: /VIEW RÉSUMÉ/i });
   await expect(link).toBeVisible();
   await expect(link).toContainText("VIEW RÉSUMÉ");
   await expect(link).toContainText("OPENS IN NEW TAB");
@@ -26,18 +25,18 @@ test("overview presents a designer-style document pass with one-click access", a
   const pass = page.locator("#overview .v2-resume-pass");
   await pass.scrollIntoViewIfNeeded();
   await expect(pass).toBeVisible();
-  await expect(pass).toHaveAttribute("aria-label", label);
+  await expect(pass).toHaveAccessibleName(/The résumé\./);
   await expect(pass).toContainText("The résumé.");
   await expect(pass).toContainText("OPEN RÉSUMÉ");
   await expect(pass).toContainText("GOOGLE DRIVE · OPENS IN NEW TAB");
   await expect(pass).toHaveAttribute("href", new RegExp(driveId));
   await expect(pass).toHaveAttribute("target", "_blank");
   await expect(pass.locator("svg")).toHaveAttribute("aria-hidden", "true");
-  await expect(pass.locator(".v2-resume-pass-action")).toHaveAttribute("aria-hidden", "true");
+  await expect(pass.locator(".v2-resume-action-arrow")).toHaveAttribute("aria-hidden", "true");
 });
 
 test("all three accessible resume links share the same URL", async ({ page }) => {
-  const links = page.getByRole("link", { name: label });
+  const links = page.locator("a.v2-resume-shortcut, a.v2-resume-pass");
   await expect(links).toHaveCount(3);
   const hrefs = await links.evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("href"))
@@ -45,6 +44,7 @@ test("all three accessible resume links share the same URL", async ({ page }) =>
   expect(new Set(hrefs).size).toBe(1);
   expect(hrefs[0]).toContain(driveId);
   for (const link of await links.all()) {
+    await expect(link).toHaveAccessibleName(/RÉSUMÉ|résumé/);
     await expect(link).toHaveAttribute("target", "_blank");
     await expect(link).toHaveAttribute("rel", /noopener noreferrer/);
   }
