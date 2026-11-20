@@ -4,7 +4,7 @@ import {
   achievementsContent, categories, earlyExperience, heroContent,
   navigationContent, overviewEducation, primaryExperience, profile,
   quickFacts, school, selectedProjects, skillGroups, supportingProjects,
-  projectContent, aboutContent, philosophyContent, loaderContent,
+  projectContent, aboutContent, philosophyContent, loaderContent, resumeContent,
 } from "../src/v2/portfolioData.js";
 import { countByCategory, filterProjects } from "../src/v2/projectView.js";
 
@@ -54,4 +54,15 @@ test("navigation and all page sections are internally consistent", () => {
   assert.match(aboutContent.paragraphs[0], /reconciliation problem/);
   assert.match(philosophyContent.paragraph, /mostly correct/);
   assert.equal(loaderContent.frameSubtitle, "ENGINEERING PAYMENTS AT SCALE");
+});
+
+test("all resume placements use the verified owner-provided destination and clear labels", () => {
+  assert.equal(
+    profile.resume,
+    "https://drive.google.com/file/d/1igz5xhAoM-RMV8uaABzgK6fhWDeNdutO/view?usp=sharing"
+  );
+  assert.match(resumeContent.accessibleLabel, /opens in a new tab/);
+  assert.match(resumeContent.destination, /GOOGLE DRIVE/);
+  assert.match(resumeContent.heroLabel, /RÉSUMÉ/);
+  assert.match(resumeContent.action, /OPEN RÉSUMÉ/);
 });
