@@ -1,6 +1,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { earlyExperience, profile, quickFacts, school, skillGroups } from "./portfolioData";
+import GravityDots from "./components/GravityDots";
 
 export function RecruiterHero({ artwork }) {
   const reducedMotion = useReducedMotion();
@@ -11,6 +12,7 @@ export function RecruiterHero({ artwork }) {
   const cueOpacity = useTransform(scrollYProgress, [0, .2, .45], [1, 1, 0]);
   return <section ref={heroRef} id="top" className="v2-hero v2-hero-clarity">
     <div className="v2-hero-grid" aria-hidden="true"/>
+    <GravityDots/>
     <div className="v2-hero-atmosphere" aria-hidden="true">{Array.from({ length: 19 }, (_, i) => <i key={i} style={{ "--particle": i }}/>)}</div>
     <div className="v2-hero-body">
       <motion.div className="v2-hero-copy" style={reducedMotion ? undefined : { y: contentLift, opacity: contentOpacity }}>
