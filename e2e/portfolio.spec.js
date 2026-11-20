@@ -39,7 +39,9 @@ test("project case studies open, trap keyboard focus, and close with Escape", as
 });
 
 test("full-screen navigation supports keyboard dismissal", async ({ page }) => {
-  const explore = page.getByRole("button", { name: "Explore sections of the portfolio" });
+  await page.locator("#overview").scrollIntoViewIfNeeded();
+  const explore = page.getByRole("navigation", { name: "Section navigation" })
+    .getByRole("button", { name: "Open full section navigation" });
   await explore.click();
   const dialog = page.getByRole("dialog", { name: "Explore portfolio" });
   await expect(dialog).toBeVisible();
@@ -50,7 +52,9 @@ test("full-screen navigation supports keyboard dismissal", async ({ page }) => {
 });
 
 test("navigation jumps to projects without hiding content", async ({ page }) => {
-  await page.getByRole("button", { name: "Explore sections of the portfolio" }).click();
+  await page.locator("#overview").scrollIntoViewIfNeeded();
+  await page.getByRole("navigation", { name: "Section navigation" })
+    .getByRole("button", { name: "Open full section navigation" }).click();
   const dialog = page.getByRole("dialog", { name: "Explore portfolio" });
   await dialog.getByRole("link", { name: /Projects/ }).click();
   await expect(dialog).not.toBeVisible();
@@ -95,7 +99,7 @@ test("landing page fills the viewport and shows scroll guidance", async ({ page 
   expect(Math.abs(dimensions.hero - dimensions.window)).toBeLessThanOrEqual(3);
   await expect(page.getByRole("link", { name: "Scroll to explore the portfolio overview" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Section navigation" })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Explore sections of the portfolio" })).toBeVisible();
+  await expect(page.locator(".v2-landing-header")).toHaveCount(0);
 });
 
 test("left rail appears after hero and reverses when scrolling up", async ({ page }) => {
@@ -106,7 +110,7 @@ test("left rail appears after hero and reverses when scrolling up", async ({ pag
   await expect(rail.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "location");
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await expect(rail).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Explore sections of the portfolio" })).toBeVisible();
+  await expect(page.locator(".v2-landing-header")).toHaveCount(0);
 });
 
 test("heading and chapter treatments keep information readable", async ({ page }) => {
@@ -126,7 +130,7 @@ test("hero uses one clear introduction without duplicate metadata", async ({ pag
   await expect(page.locator(".v2-hero-foot")).toHaveCount(0);
   await expect(page.locator(".v2-hero h1")).toContainText("Software");
   await expect(page.locator(".v2-hero-description")).toBeVisible();
-  await expect(page.locator(".v2-landing-header")).toHaveCSS("border-bottom-width", "0px");
+  await expect(page.locator(".v2-landing-header")).toHaveCount(0);
 });
 
 test("navigation progress hugs the compact rail boundary", async ({ page, isMobile }) => {
