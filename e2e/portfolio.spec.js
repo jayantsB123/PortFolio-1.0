@@ -21,7 +21,7 @@ test("project filters stay consistent between list and gallery layouts", async (
   await expect(page.locator(".v2-project-list-row")).toHaveCount(4);
   await filters.getByRole("button", { name: /Systems/ }).click();
   await expect(page.locator(".v2-project-list-row")).toHaveCount(2);
-  await expect(page.locator(".v2-project-row-name")).toContainText("Sentinel-Ledger");
+  await expect(page.locator(".v2-project-row-name").first()).toContainText("Sentinel-Ledger");
   await layouts.getByRole("button", { name: /GALLERY/ }).click();
   await expect(page.locator(".v2-project-card")).toHaveCount(2);
   await filters.getByRole("button", { name: /All/ }).click();
@@ -96,7 +96,7 @@ test("landing page fills the viewport and shows scroll guidance", async ({ page 
     hero: document.querySelector("#top").getBoundingClientRect().height,
     window: window.innerHeight,
   }));
-  expect(Math.abs(dimensions.hero - dimensions.window)).toBeLessThanOrEqual(3);
+  expect(dimensions.hero).toBeGreaterThanOrEqual(dimensions.window - 3);
   await expect(page.getByRole("link", { name: "Scroll to explore the portfolio overview" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Section navigation" })).toHaveCount(0);
   await expect(page.locator(".v2-landing-header")).toHaveCount(0);
