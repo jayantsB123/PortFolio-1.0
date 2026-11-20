@@ -34,6 +34,11 @@ test("desktop mouse movement activates gravity dots without intercepting links",
   test.skip(isMobile, "Mouse field is intentionally disabled on coarse-pointer devices");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
+  const intro = page.getByRole("dialog", { name: "Portfolio introduction" });
+  if (await intro.isVisible()) {
+    await intro.getByRole("button", { name: /Skip intro/i }).click();
+    await expect(intro).toHaveCount(0);
+  }
   const canvas = page.locator(".v2-gravity-dots");
   await expect(canvas).toHaveAttribute("data-energy", "74");
   await expect(canvas).toHaveAttribute("data-radius", "225");
