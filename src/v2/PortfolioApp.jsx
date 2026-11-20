@@ -12,7 +12,8 @@ import "./portfolio.css";
 import "./interactionOverlays.css";
 import "./heroLayout.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
-import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterSkills } from "./RecruiterContent";
+import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterAchievements, RecruiterSkills } from "./RecruiterContent";
+import { navigationContent } from "./portfolioData";
 
 // Imported separately so WebGL is never required for reading the page.
 const PortfolioScene = lazy(() => import("./PortfolioScene"));
@@ -27,14 +28,8 @@ function SiteHeader() {
   const { scrollYProgress } = useScroll();
   const railProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 28 });
   const reduceMotion = useReducedMotion();
-  const links = [
-    ["01", "Overview", "#overview", "⌁"],
-    ["02", "Experience", "#experience", "▤"],
-    ["03", "Projects", "#work", "⌘"],
-    ["04", "Skills", "#skills", "✳"],
-    ["05", "About", "#about", "◈"],
-    ["06", "Contact", "#contact", "↗"],
-  ];
+  const links = navigationContent.routes;
+
   return <>
 
     <AnimatePresence>
@@ -46,7 +41,7 @@ function SiteHeader() {
         <a className="v2-rail-brand" href="#top" title="Back to top">j<span>.</span></a>
         <div className="v2-rail-track" aria-hidden="true"><motion.span style={{ scaleY: railProgress }}/></div>
         <div className="v2-rail-links">
-          {links.map(([number, label, href, glyph]) => <a key={href} href={href}
+          {links.map(([number, label, href, description, glyph]) => <a key={href} href={href}
             aria-label={label} title={label} data-cursor-label="GO"
             className={activeSection === href.slice(1) ? "is-current" : undefined}
             aria-current={activeSection === href.slice(1) ? "location" : undefined}>
@@ -156,6 +151,7 @@ function ProjectDialog({ project, close }) {
           <div><h3>THE APPROACH</h3><p>{project.solution}</p></div>
           <div><h3>WHAT I BUILT</h3><ul>{project.highlights.map((h) => <li key={h}>{h}</li>)}</ul></div>
           <div><h3>BUILT WITH</h3><p>{project.technologies.join(" / ")}</p></div>
+          {project.roadmap && <div><h3>UP NEXT</h3><p>{project.roadmap.join(" / ")}</p></div>}
         </div>
         <div className="v2-modal-actions">{project.repoUrl ? <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">VIEW SOURCE ↗</a> : <span>SOURCE LINK TO BE CONFIRMED</span>}<button type="button" onClick={close}>BACK TO WORK ←</button></div>
       </div>
@@ -175,6 +171,7 @@ export default function PortfolioApp() {
       <Hero/>
       <RecruiterOverview/>
       <RecruiterExperience/>
+      <RecruiterAchievements/>
       <ProjectExplorer openProject={setProject}/>
       <RecruiterSkills/>
       <About/>
