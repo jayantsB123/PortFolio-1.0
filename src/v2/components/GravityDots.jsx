@@ -65,7 +65,6 @@ function drawWave(context, wave, now, energy, width, height) {
  */
 export default function GravityDots() {
   const canvasRef = useRef(null);
-  const sectionRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -73,7 +72,6 @@ export default function GravityDots() {
     const context = canvas?.getContext("2d", { alpha: true });
     if (!canvas || !hero || !context) return undefined;
 
-    sectionRef.current = hero;
     const { energy: energyPercent, radius } = gravityDotsConfig;
     const energy = energyPercent / 100;
     const coarse = window.matchMedia("(hover: none), (pointer: coarse)");
@@ -83,7 +81,6 @@ export default function GravityDots() {
     let height = 0;
     let dots = [];
     let frame = 0;
-    let drawnAt = 0;
     let stillFrames = 0;
     let inView = true;
     let pointer = null;
@@ -125,7 +122,7 @@ export default function GravityDots() {
           const age = now - wave.time;
           const travel = age * 0.31;
           const waveDist = Math.hypot(dot.x - wave.x, dot.y - wave.y);
-          const band = Math.exp(-((waveDist - travel) / 38) ** 2);
+          const band = Math.exp(-(((waveDist - travel) / 38) ** 2));
           const strength = band * (1 - age / WAVE_LIFETIME) * 37 * energy;
           const inv = waveDist > 0.5 ? 1 / waveDist : 0;
           targetX += (dot.x - wave.x) * inv * strength;
@@ -171,7 +168,6 @@ export default function GravityDots() {
 
       // No indefinite animation loop once particles have settled.
       stillFrames = moving || shockwaves.length ? 0 : stillFrames + 1;
-      drawnAt = now;
       if (enabled && stillFrames < ACTIVE_FRAMES_AFTER_MOVE) schedule();
     };
 
