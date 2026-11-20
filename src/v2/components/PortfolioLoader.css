@@ -562,3 +562,13 @@
     transition:none!important;
   }
 }
+
+
+/* The portfolio's custom cursor sits below the intro overlay. Use a native
+   pointer while the intro is open rather than leaving desktop users cursorless. */
+.v2-root.v2-cursor-enabled .v2-intro-overlay {
+  cursor: default !important;
+}
+.v2-root.v2-cursor-enabled .v2-intro-skip {
+  cursor: pointer !important;
+}
