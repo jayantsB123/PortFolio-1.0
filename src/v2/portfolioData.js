@@ -38,6 +38,23 @@ export const profile = {
 };
 
 // ────────────────────────────────────────────────────────────────────────────
+// 01B RÉSUMÉ — Hero shortcut, overview document card, education link
+//     All three link variants use profile.resume; no extra click or gated modal.
+// ────────────────────────────────────────────────────────────────────────────
+export const resumeContent = {
+  eyebrow: "CAREER DOCUMENT / 01",
+  label: "RÉSUMÉ",
+  heroLabel: "VIEW RÉSUMÉ",
+  title: "The résumé.",
+  description: "Engineering experience, production systems, technical depth and the work behind them.",
+  meta: "SOFTWARE DEVELOPMENT ENGINEER · BACKEND / FINTECH",
+  destination: "GOOGLE DRIVE · OPENS IN NEW TAB",
+  action: "OPEN RÉSUMÉ",
+  inlineLabel: "VIEW FULL RÉSUMÉ",
+  accessibleLabel: "View résumé in Google Drive (opens in a new tab)",
+};
+
+// ────────────────────────────────────────────────────────────────────────────
 // 02  HERO  #top — RecruiterHero
 // ────────────────────────────────────────────────────────────────────────────
 export const heroContent = {
