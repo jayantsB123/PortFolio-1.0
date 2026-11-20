@@ -26,7 +26,9 @@ test("career overview and projects have no serious accessibility violations", as
 });
 
 test("full-screen section menu has no serious accessibility violations", async ({ page }) => {
-  await page.getByRole("button", { name: "Explore sections of the portfolio" }).click();
+  await page.locator("#overview").scrollIntoViewIfNeeded();
+  await page.getByRole("navigation", { name: "Section navigation" })
+    .getByRole("button", { name: "Open full section navigation" }).click();
   const results = await new AxeBuilder({ page })
     .include(".v2-quicknav")
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
