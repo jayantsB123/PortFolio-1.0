@@ -61,7 +61,7 @@ test("all resume placements use the verified owner-provided destination and clea
     profile.resume,
     "https://drive.google.com/file/d/1igz5xhAoM-RMV8uaABzgK6fhWDeNdutO/view?usp=sharing"
   );
-  assert.match(resumeContent.accessibleLabel, /opens in a new tab/);
+  assert.match(resumeContent.destination, /OPENS IN NEW TAB/);
   assert.match(resumeContent.destination, /GOOGLE DRIVE/);
   assert.match(resumeContent.heroLabel, /RÉSUMÉ/);
   assert.match(resumeContent.action, /OPEN RÉSUMÉ/);
