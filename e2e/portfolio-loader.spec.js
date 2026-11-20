@@ -48,7 +48,6 @@ test("Escape dismisses the intro and page stays keyboard navigable", async ({ pa
   await expect(intro).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(intro).toHaveCount(0);
-  await page.keyboard.press("Tab");
   await expect(page.getByRole("link", { name: "Skip to career overview" })).toBeFocused();
 });
 
