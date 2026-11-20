@@ -93,7 +93,6 @@ function DetailedRole({ job }) {
       <ul>{visibleBullets.map((bullet, index) => <li key={index}>{bullet}</li>)}</ul>
       {hiddenCount > 0 && <button type="button" className="v2-role-expand"
         aria-expanded={expanded}
-        aria-label={expanded ? "Show fewer achievements at " + job.company : "Show " + hiddenCount + " more achievements at " + job.company}
         onClick={() => setExpanded((value) => !value)}>
         {expanded ? experienceContent.showLess : experienceContent.showMore}
         {!expanded && <span> ({hiddenCount})</span>}
