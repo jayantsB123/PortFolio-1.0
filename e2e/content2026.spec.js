@@ -28,12 +28,12 @@ test("current SDE impact is visible first; older duties expand on demand", async
   await expect(current).toContainText("Jul 2025");
   await expect(current).toContainText("Sarvatra Technologies");
   await expect(current.locator("li")).toHaveCount(4);
-  const more = current.getByRole("button", { name: /Show 6 more achievements/ });
+  const more = current.getByRole("button", { name: /SHOW MORE WORK/ });
   await expect(more).toHaveAttribute("aria-expanded", "false");
   await more.click();
   await expect(current.locator("li")).toHaveCount(10);
-  await expect(current.getByRole("button", { name: /Show fewer achievements/ })).toHaveAttribute("aria-expanded", "true");
-  await current.getByRole("button", { name: /Show fewer achievements/ }).click();
+  await expect(current.getByRole("button", { name: /SHOW LESS/ })).toHaveAttribute("aria-expanded", "true");
+  await current.getByRole("button", { name: /SHOW LESS/ }).click();
   await expect(current.locator("li")).toHaveCount(4);
 });
 
