@@ -9,7 +9,7 @@ import "./ResumeLink.css";
  *
  * Intentional UX: never forces a PDF into an iframe and never puts a modal
  * between a recruiter and the original document. Google Drive opens in
- * a new tab, with a visible warning and an accessible name.
+ * a new tab, with a visible warning included in the native link name.
  */
 function DocumentMark({ large = false }) {
   return <svg className={"v2-resume-icon" + (large ? " is-large" : "")}
@@ -51,8 +51,8 @@ export default function ResumeLink({ variant = "hero" }) {
           <strong>{resumeContent.title}</strong>
           <span className="v2-resume-pass-description">{resumeContent.description}</span>
         </span>
-        <span className="v2-resume-pass-action" aria-hidden="true">
-          <span>{resumeContent.action}</span><span className="v2-resume-action-arrow">↗</span>
+        <span className="v2-resume-pass-action">
+          <span>{resumeContent.action}</span><span className="v2-resume-action-arrow" aria-hidden="true">↗</span>
         </span>
       </span>
       <span className="v2-resume-pass-foot">
