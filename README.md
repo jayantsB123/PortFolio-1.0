@@ -13,6 +13,7 @@ The current site focuses on making my work easy to scan without losing its inter
 - Case studies describing challenges, approaches, implementation and technology.
 - Lazy-loaded procedural React Three Fiber scene, paused when offscreen.
 - Cursor-reactive Gravity Dots behind the hero, with configurable intensity and radius.
+- Four configurable opening animations with skip, replay and reduced-motion handling.
 - Reduced-motion and no-WebGL fallbacks.
 
 ## Tech stack
@@ -30,6 +31,38 @@ Node.js 22+ recommended.
 
 Open http://localhost:5173.
 
+
+### Four configurable opening animations
+
+The portfolio includes four short introductions. They use CSS and React, without a second WebGL canvas.
+
+| Loader setting | Experience |
+| --- | --- |
+| `system` | System Boot: minimal terminal startup |
+| `type` | Type Assembly: animated JAYANT wordmark |
+| `ignition` | Engine Ignition: orbital core comes online |
+| `commit` | Commit Sequence: idea, build, refine, ship |
+
+Copy the example settings: `cp .env.example .env` and edit:
+
+    VITE_PORTFOLIO_LOADER_STYLE=ignition
+    VITE_PORTFOLIO_LOADER_DURATION_MS=1650
+    VITE_PORTFOLIO_LOADER_EXIT_MS=440
+    VITE_PORTFOLIO_LOADER_REPLAY=session
+    VITE_PORTFOLIO_LOADER_SKIPPABLE=true
+
+Additional modes: `random` chooses one of the four, `cycle` rotates through them,
+`sequence` plays all four in order, and `off` disables the intro.
+`REPLAY=session` shows the intro once per browser tab; `always` on every full reload.
+Use `cycle` with `always` to try a different effect on every refresh.
+`DURATION_MS` applies to each style when using `sequence`, so it runs longer.
+
+All bounds, fallback values and mode names are centralized in
+`src/v2/config/setenv.js`. Vite reads `.env` at build time, so restart
+`npm run dev` after changing settings. The app never shows fake download
+percentages or waits indefinitely for external assets. Skip intro and Escape
+work by default. Keyboard interaction with the page is restored afterward.
+Reduced-motion visitors skip the animation entirely.
 
 ### Gravity Dots configuration
 
@@ -74,6 +107,7 @@ The GitHub Actions workflow runs linting, unit tests, the production build, and 
 - src/v2/ArchitectureInterlude.jsx — scroll-linked narrative
 - src/v2/PortfolioScene.jsx — procedural 3D engine
 - src/v2/components/GravityDots.jsx — spring-based Canvas 2D background
+- src/v2/components/PortfolioLoader.jsx — configurable opening animations
 - src/v2/config/setenv.js — gravity dots configuration and validation
 - .env.example — optional energy and radius overrides
 - src/v2/components/AboutFooter.jsx — about and contact sections
@@ -82,8 +116,10 @@ The GitHub Actions workflow runs linting, unit tests, the production build, and 
 - src/data/constants.js — historical portfolio data and image references
 - tests/project-view.test.mjs — filtering unit tests
 - tests/gravity-dots-config.test.mjs — background configuration tests
+- tests/portfolio-loader-config.test.mjs — intro configuration tests
 - e2e/portfolio.spec.js — browser interaction tests
 - e2e/gravity-dots.spec.js — particle interaction and accessibility checks
+- e2e/portfolio-loader.spec.js — intro first-visit and interaction tests
 
 ## Performance and accessibility
 
