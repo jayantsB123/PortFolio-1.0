@@ -111,3 +111,27 @@ export function resolvePortfolioLoaderConfig(env = {}) {
 
 export const portfolioLoaderConfig = resolvePortfolioLoaderConfig(import.meta.env ?? {});
 
+// Card hover: spotlight, tilt and magnetic labels.
+const DEPTH_DEFAULTS = Object.freeze({
+  enabled: true,
+  tilt: 5.5,
+  lift: 5,
+  magnet: 8,
+  magnetRadius: 135,
+  radius: 350,
+  spotlight: 0.19,
+});
+
+export function resolveDepthCardsConfig(env = {}) {
+  return Object.freeze({
+    enabled: boolChoice(env.VITE_DEPTH_CARDS_ENABLED, DEPTH_DEFAULTS.enabled),
+    tilt: numberInRange(env.VITE_DEPTH_CARDS_TILT, DEPTH_DEFAULTS.tilt, 0, 11),
+    lift: numberInRange(env.VITE_DEPTH_CARDS_LIFT, DEPTH_DEFAULTS.lift, 0, 12),
+    magnet: numberInRange(env.VITE_DEPTH_CARDS_MAGNET, DEPTH_DEFAULTS.magnet, 0, 16),
+    magnetRadius: numberInRange(env.VITE_DEPTH_CARDS_MAGNET_RADIUS, DEPTH_DEFAULTS.magnetRadius, 70, 250),
+    radius: numberInRange(env.VITE_DEPTH_CARDS_SPOTLIGHT_RADIUS, DEPTH_DEFAULTS.radius, 180, 600),
+    spotlight: numberInRange(env.VITE_DEPTH_CARDS_SPOTLIGHT_ALPHA, DEPTH_DEFAULTS.spotlight, 0, 0.4),
+  });
+}
+
+export const depthCardsConfig = resolveDepthCardsConfig(import.meta.env ?? {});
