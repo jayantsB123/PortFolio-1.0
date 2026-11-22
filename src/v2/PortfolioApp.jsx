@@ -12,6 +12,7 @@ import "./portfolio.css";
 import "./interactionOverlays.css";
 import "./heroLayout.css";
 import "./content2026.css";
+import "./interactiveDepth.css";
 import ArchitectureInterlude from "./ArchitectureInterlude";
 import { RecruiterHero, RecruiterOverview, RecruiterExperience, RecruiterAchievements, RecruiterSkills } from "./RecruiterContent";
 import { navigationContent } from "./portfolioData";
