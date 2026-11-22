@@ -7,6 +7,7 @@ import {
 } from "./portfolioData";
 import GravityDots from "./components/GravityDots";
 import ResumeLink from "./components/ResumeLink";
+import InteractiveDepthCard from "./components/InteractiveDepthCard";
 
 // ── 02 / HERO ──────────────────────────────────────────────────────────────
 export function RecruiterHero({ artwork }) {
@@ -151,10 +152,10 @@ export function RecruiterAchievements() {
         <p>{achievementsContent.intro}</p>
       </div>
       <div className="v2-achievements-grid">
-        {achievementsContent.entries.map((item, index) => <article className="v2-achievement" key={item.title}>
+        {achievementsContent.entries.map((item, index) => <InteractiveDepthCard className="v2-achievement" key={item.title}>
           <span className="v2-achievement-index">{String(index + 1).padStart(2, "0")}</span>
-          <strong>{item.result}</strong><h3>{item.title}</h3><p>{item.detail}</p>
-        </article>)}
+          <strong data-depth-magnet>{item.result}</strong><h3 data-depth-magnet>{item.title}</h3><p>{item.detail}</p>
+        </InteractiveDepthCard>)}
       </div>
     </div>
   </section>;
@@ -169,11 +170,11 @@ export function RecruiterSkills() {
         <div className="v2-heading-row"><h2>{skillsContent.heading}</h2><p>{skillsContent.intro}</p></div>
       </div>
       <div className="v2-skills-grid">
-        {skillGroups.map((group, index) => <article className="v2-skills-group" key={group.title}>
-          <div className="v2-skills-top"><span>0{index + 1}</span><h3>{group.title}</h3></div>
+        {skillGroups.map((group, index) => <InteractiveDepthCard className="v2-skills-group" key={group.title}>
+          <div className="v2-skills-top"><span>0{index + 1}</span><h3 data-depth-magnet>{group.title}</h3></div>
           <p>{group.summary}</p>
-          <ul>{group.items.map((item) => <li key={item}>{item}</li>)}</ul>
-        </article>)}
+          <ul>{group.items.map((item) => <li data-depth-magnet key={item}>{item}</li>)}</ul>
+        </InteractiveDepthCard>)}
       </div>
       <div className="v2-skills-disclaimer">{skillsContent.disclaimer}</div>
     </div>
