@@ -6,6 +6,7 @@ const HEADING_SELECTOR = [
   ".v2-hero h1",
   ".v2-overview-heading h2",
   ".v2-section-heading h2",
+  ".v2-achievements-heading h2",
   ".v2-about-main h2",
   ".v2-method h2",
   ".v2-footer h2",

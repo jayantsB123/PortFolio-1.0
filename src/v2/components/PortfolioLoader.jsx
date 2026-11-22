@@ -3,6 +3,7 @@ import {
   PORTFOLIO_LOADER_STYLES,
   portfolioLoaderConfig,
 } from "../config/setenv";
+import { loaderContent } from "../portfolioData";
 import "./PortfolioLoader.css";
 
 const SEEN_KEY = "jayant.portfolio.intro.seen.v1";
@@ -71,7 +72,7 @@ function SystemBoot() {
       </div>
       <div className="intro-system-track"><span/></div>
     </div>
-    <div className="intro-panel-foot"><span>CREATIVE ENGINEERING</span><span>BOOT SEQUENCE</span></div>
+    <div className="intro-panel-foot"><span>{loaderContent.bootFooter}</span><span>BOOT SEQUENCE</span></div>
   </div>;
 }
 
@@ -100,7 +101,7 @@ function TypeAssembly() {
 function EngineIgnition() {
   return <div className="intro-ignition">
     <div className="intro-ignition-meta">
-      <span>CREATIVE SYSTEMS / 001</span>
+      <span>{loaderContent.ignitionEyebrow}</span>
       <span><i className="intro-led"/> INITIALIZING</span>
     </div>
     <div className="intro-ignition-stage" aria-hidden="true">
@@ -289,13 +290,13 @@ export default function PortfolioLoader() {
   >
     <div className="v2-intro-backdrop" aria-hidden="true"/>
     <div className="v2-intro-frame" aria-hidden="true">
-      <span>J / 26</span><span>BUILDING DIGITAL EXPERIENCES</span>
+      <span>{loaderContent.frameCode}</span><span>{loaderContent.frameSubtitle}</span>
     </div>
     <div className="v2-intro-content" key={currentStyle}>
       <CurrentVariant/>
     </div>
     <div className="v2-intro-bottom">
-      <span>JAYANT SINGH © 2026</span>
+      <span>{loaderContent.footerMark}</span>
       <span aria-live="polite">{currentStyle.toUpperCase()} / {String(index + 1).padStart(2, "0")}</span>
     </div>
     {config.skipEnabled &&

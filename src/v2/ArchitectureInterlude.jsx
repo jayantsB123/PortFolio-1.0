@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { philosophyContent } from "./portfolioData";
 
 /**
  * The architecture interlude: a scroll-linked, accessible narrative.
@@ -20,13 +21,13 @@ export default function ArchitectureInterlude() {
     <div className="v2-method-sticky">
       <div className="v2-container v2-method-layout">
         <div className="v2-method-copy">
-          <div className="v2-method-number">THE APPROACH / 001 <span>✳</span></div>
-          <h2>Think in<br/>systems<span>.</span></h2>
-          <p>Every pixel is a decision. Every interaction is a contract. And every clean abstraction makes the next good idea easier to build.</p>
+          <div className="v2-method-number">{philosophyContent.label} <span>✳</span></div>
+          <h2>{philosophyContent.headingLine1}<br/>{philosophyContent.headingLine2}<span>.</span></h2>
+          <p>{philosophyContent.paragraph}</p>
           <div className="v2-method-steps">
-            <div><span>01 / UNDERSTAND</span><strong>Start with the real problem.</strong></div>
-            <div><span>02 / DESIGN</span><strong>Make the complicated feel intentional.</strong></div>
-            <div><span>03 / SHIP</span><strong>Keep it fast, resilient and usable.</strong></div>
+            {philosophyContent.steps.map((step) => <div key={step.number}>
+              <span>{step.number} / {step.label}</span><strong>{step.statement}</strong>
+            </div>)}
           </div>
         </div>
         <div className="v2-method-visual" aria-hidden="true">
@@ -41,7 +42,7 @@ export default function ArchitectureInterlude() {
             <div className="v2-method-node node-c">03</div>
           </motion.div>
           <motion.div className="v2-method-line" style={reducedMotion ? undefined : { scaleX: lineScale }}/>
-          <span className="v2-method-signature">SIMPLICITY IS HARD-WON.</span>
+          <span className="v2-method-signature">{philosophyContent.caption}</span>
         </div>
       </div>
     </div>

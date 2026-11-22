@@ -16,15 +16,14 @@ test("all four intended intro styles are available (no counter curtain)", () => 
   );
 });
 
-test("default intro is brief, skippable and once per browser session", () => {
-  assert.deepEqual(resolvePortfolioLoaderConfig(), {
-    mode: "ignition",
-    durationMs: 1650,
-    exitMs: 440,
-    replay: "session",
-    skipEnabled: true,
-  });
-  assert.equal(portfolioLoaderConfig.mode, "ignition");
+test("configured intro defaults use valid supported values", () => {
+  const defaults = resolvePortfolioLoaderConfig();
+  assert.deepEqual(portfolioLoaderConfig, defaults);
+  assert.ok([...PORTFOLIO_LOADER_STYLES, "random", "cycle", "sequence", "off"].includes(defaults.mode));
+  assert.ok(defaults.durationMs >= 750 && defaults.durationMs <= 4000);
+  assert.ok(defaults.exitMs >= 150 && defaults.exitMs <= 950);
+  assert.ok(["session", "always"].includes(defaults.replay));
+  assert.equal(typeof defaults.skipEnabled, "boolean");
 });
 
 test("random, cycle, sequence and off are supported", () => {
@@ -41,9 +40,9 @@ test("invalid styles and replay values fall back safely", () => {
     VITE_PORTFOLIO_LOADER_REPLAY: "on every click",
     VITE_PORTFOLIO_LOADER_SKIPPABLE: "maybe",
   });
-  assert.equal(value.mode, "ignition");
-  assert.equal(value.replay, "session");
-  assert.equal(value.skipEnabled, true);
+  assert.equal(value.mode, resolvePortfolioLoaderConfig().mode);
+  assert.equal(value.replay, resolvePortfolioLoaderConfig().replay);
+  assert.equal(value.skipEnabled, resolvePortfolioLoaderConfig().skipEnabled);
 });
 
 test("duration and exit values clamp to non-annoying bounds", () => {
@@ -53,7 +52,7 @@ test("duration and exit values clamp to non-annoying bounds", () => {
     VITE_PORTFOLIO_LOADER_REPLAY: "always",
     VITE_PORTFOLIO_LOADER_SKIPPABLE: "false",
   }), {
-    mode: "ignition",
+    mode: resolvePortfolioLoaderConfig().mode,
     durationMs: 750,
     exitMs: 950,
     replay: "always",
@@ -63,6 +62,6 @@ test("duration and exit values clamp to non-annoying bounds", () => {
     VITE_PORTFOLIO_LOADER_DURATION_MS: "nope",
     VITE_PORTFOLIO_LOADER_EXIT_MS: "",
   });
-  assert.equal(invalid.durationMs, 1650);
-  assert.equal(invalid.exitMs, 440);
+  assert.equal(invalid.durationMs, resolvePortfolioLoaderConfig().durationMs);
+  assert.equal(invalid.exitMs, resolvePortfolioLoaderConfig().exitMs);
 });

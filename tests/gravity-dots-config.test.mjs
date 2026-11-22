@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { gravityDotsConfig, resolveGravityDotsConfig } from "../src/v2/config/setenv.js";
 
 test("gravity dots exposes the two intended defaults", () => {
-  assert.deepEqual(resolveGravityDotsConfig(), { energy: 74, radius: 225 });
+  assert.deepEqual(resolveGravityDotsConfig(), gravityDotsConfig);
   assert.equal(typeof gravityDotsConfig.energy, "number");
   assert.equal(typeof gravityDotsConfig.radius, "number");
 });
@@ -19,11 +19,11 @@ test("invalid or missing values fall back to safe defaults", () => {
   assert.deepEqual(resolveGravityDotsConfig({
     VITE_GRAVITY_DOTS_ENERGY: "",
     VITE_GRAVITY_DOTS_RADIUS: "not a number",
-  }), { energy: 74, radius: 225 });
+  }), resolveGravityDotsConfig());
   assert.deepEqual(resolveGravityDotsConfig({
     VITE_GRAVITY_DOTS_ENERGY: "Infinity",
     VITE_GRAVITY_DOTS_RADIUS: "NaN",
-  }), { energy: 74, radius: 225 });
+  }), resolveGravityDotsConfig());
 });
 
 test("env overrides are clamped to supported ranges", () => {

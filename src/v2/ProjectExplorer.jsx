@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useReducedMotion, motion } from "framer-motion";
-import { categories, profile, selectedProjects } from "./portfolioData";
+import { categories, profile, projectContent, selectedProjects, supportingProjects } from "./portfolioData";
 import { countByCategory, filterProjects, projectAccessibleName } from "./projectView";
 
 /**
@@ -14,7 +14,11 @@ export function ProjectVisual({ project }) {
     <div className="v2-preview-frame">
       {project.source?.image
         ? <img alt={"Screenshot of " + project.name} src={project.source.image} loading="lazy" decoding="async" />
-        : <span>{project.name}</span>}
+         : <div className="v2-project-art" aria-label={"Editorial artwork for " + project.name}>
+          <span className="v2-project-art-index">{project.index}</span>
+          <span className="v2-project-art-symbol" aria-hidden="true">◈</span>
+          <span className="v2-project-art-title">{project.artLabel || project.name}</span>
+        </div>}
     </div>
     <div className="v2-preview-foot"><span>ENGINEERING / IN PRACTICE</span><span aria-hidden="true">✳</span></div>
   </div>;
@@ -29,14 +33,14 @@ export default function ProjectExplorer({ openProject }) {
   return <section id="work" className="v2-work v2-page-section" aria-labelledby="v2-work-heading">
     <div className="v2-container">
       <div className="v2-section-heading">
-        <div className="v2-eyebrow"><span>03 / 06</span><i/> SELECTED PROJECTS</div>
+        <div className="v2-eyebrow"><span>03 / 06</span><i/> {projectContent.eyebrow}</div>
         <div className="v2-heading-row">
-          <h2 id="v2-work-heading">Projects & implementation.</h2>
-          <p>Selected full-stack, UI and algorithm projects. Scan the stack, explore the implementation or open a case study.</p>
+          <h2 id="v2-work-heading">{projectContent.heading}</h2>
+          <p>{projectContent.intro}</p>
         </div>
       </div>
       <div className="v2-work-bar v2-explorer-toolbar">
-        <span>SELECTED PROJECTS / 2023—2024</span>
+        <span>{projectContent.toolbar}</span>
         <div className="v2-explorer-controls">
           <div role="group" aria-label="Filter projects" className="v2-filters">
             {categories.map((item) => <button type="button" key={item} aria-pressed={category === item}
@@ -111,9 +115,30 @@ export default function ProjectExplorer({ openProject }) {
             </div>
           </article>)}
         </div>}
+      <div className="v2-supporting-projects">
+        <div className="v2-supporting-head">
+          <h3>{projectContent.supportingHeading}</h3>
+          <p>{projectContent.supportingIntro}</p>
+        </div>
+        <div className="v2-supporting-list">
+          {supportingProjects.map((item) => <article className="v2-supporting-row" key={item.name}>
+            <div className="v2-supporting-meta">{item.year} / {item.status}</div>
+            <div className="v2-supporting-main">
+              <h4>{item.name}</h4><p>{item.description}</p>
+              <div className="v2-project-tags">
+                {item.technologies.map((tech) => <span key={tech}>{tech}</span>)}
+              </div>
+            </div>
+            <div className="v2-supporting-action">
+              {item.repoUrl ? <a href={item.repoUrl} target="_blank" rel="noopener noreferrer">SOURCE ↗</a>
+                : <span>SOURCE UNAVAILABLE</span>}
+            </div>
+          </article>)}
+        </div>
+      </div>
       <div className="v2-work-after">
-        <span>DESIGNED, BUILT AND DOCUMENTED.</span>
-        <a href={profile.github} target="_blank" rel="noopener noreferrer">MORE ON GITHUB <span aria-hidden="true">↗</span></a>
+        <span>{projectContent.bottomTagline}</span>
+        <a href={profile.github} target="_blank" rel="noopener noreferrer">{projectContent.bottomLink}</a>
       </div>
     </div>
   </section>;
