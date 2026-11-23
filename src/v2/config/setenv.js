@@ -135,3 +135,56 @@ export function resolveDepthCardsConfig(env = {}) {
 }
 
 export const depthCardsConfig = resolveDepthCardsConfig(import.meta.env ?? {});
+
+export const CURSOR_BACKGROUND_STYLES = Object.freeze([
+  "grid",
+  "constellation",
+  "ribbon",
+  "pixel",
+]);
+
+const CURSOR_BACKGROUND_DEFAULTS = Object.freeze({
+  mode: "cycle",
+  intensity: 72,
+  radius: 265,
+  gridGap: 46,
+  nodeGap: 84,
+  trailMs: 1350,
+  pixelSize: 16,
+});
+
+export function nextCursorBackgroundStyle(previous) {
+  const index = CURSOR_BACKGROUND_STYLES.indexOf(previous);
+  return CURSOR_BACKGROUND_STYLES[(index + 1) % CURSOR_BACKGROUND_STYLES.length];
+}
+
+export function resolveCursorBackgroundConfig(env = {}) {
+  return Object.freeze({
+    mode: stringChoice(
+      env.VITE_CURSOR_BACKGROUND_STYLE,
+      [...CURSOR_BACKGROUND_STYLES, "cycle", "off"],
+      CURSOR_BACKGROUND_DEFAULTS.mode
+    ),
+    intensity: numberInRange(
+      env.VITE_CURSOR_BACKGROUND_INTENSITY,
+      CURSOR_BACKGROUND_DEFAULTS.intensity, 0, 100
+    ) / 100,
+    radius: numberInRange(
+      env.VITE_CURSOR_BACKGROUND_RADIUS, CURSOR_BACKGROUND_DEFAULTS.radius, 120, 420
+    ),
+    gridGap: numberInRange(
+      env.VITE_CURSOR_BACKGROUND_GRID_GAP, CURSOR_BACKGROUND_DEFAULTS.gridGap, 24, 100
+    ),
+    nodeGap: numberInRange(
+      env.VITE_CURSOR_BACKGROUND_NODE_GAP, CURSOR_BACKGROUND_DEFAULTS.nodeGap, 50, 150
+    ),
+    trailMs: numberInRange(
+      env.VITE_CURSOR_BACKGROUND_TRAIL_MS, CURSOR_BACKGROUND_DEFAULTS.trailMs, 400, 2600
+    ),
+    pixelSize: numberInRange(
+      env.VITE_CURSOR_BACKGROUND_PIXEL_SIZE, CURSOR_BACKGROUND_DEFAULTS.pixelSize, 10, 32
+    ),
+  });
+}
+
+export const cursorBackgroundConfig = resolveCursorBackgroundConfig(import.meta.env ?? {});
