@@ -1,0 +1,26 @@
+.v2-cursor-field-section {
+  position: relative;
+  isolation: isolate;
+}
+.v2-cursor-field-section > .v2-container {
+  position: relative;
+  z-index: 1;
+}
+.v2-cursor-field-section.v2-method > .v2-method-sticky {
+  z-index: 1;
+}
+.v2-cursor-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  will-change: transform;
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .v2-cursor-background {
+    display: none;
+  }
+}

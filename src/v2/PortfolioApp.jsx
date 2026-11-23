@@ -4,6 +4,7 @@ import ProjectExplorer, { ProjectVisual } from "./ProjectExplorer";
 import { About, Footer } from "./components/AboutFooter";
 import QuickNav from "./QuickNav";
 import InteractiveCursor from "./components/InteractiveCursor";
+import CursorBackgrounds from "./components/CursorBackgrounds";
 import MotionDirector from "./components/MotionDirector";
 import ScrambleHeadings from "./components/ScrambleHeadings";
 import PortfolioLoader from "./components/PortfolioLoader";
@@ -165,6 +166,7 @@ export default function PortfolioApp() {
   const [project, setProject] = useState(null);
   return <div className="v2-root">
     <InteractiveCursor/>
+    <CursorBackgrounds/>
     <MotionDirector/>
     <ScrambleHeadings/>
     <a className="v2-skip" href="#overview">Skip to career overview</a>
