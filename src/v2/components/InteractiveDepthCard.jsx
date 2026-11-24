@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { depthCardsConfig } from "../config/setenv";
 
-export default function InteractiveDepthCard({ as: Tag = "article", className = "", children, ...rest }) {
+export default function InteractiveDepthCard({ as: Tag = "article", className = "", enabled = depthCardsConfig.enabled, freezeOnSelector, children, ...rest }) {
   const cardRef = useRef(null);
 
   useEffect(() => {
     const card = cardRef.current;
-    if (!card || !depthCardsConfig.enabled) return undefined;
+    if (!card || !enabled) return undefined;
 
     const media = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
     const magnets = Array.from(card.querySelectorAll("[data-depth-magnet]"));
@@ -54,6 +54,13 @@ export default function InteractiveDepthCard({ as: Tag = "article", className = 
 
     const onPointerMove = (event) => {
       if (!media.matches || (event.pointerType !== "mouse" && event.pointerType !== "pen")) return;
+      if (freezeOnSelector && event.target instanceof Element && event.target.closest(freezeOnSelector)) {
+        reset();
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = 0;
+        card.style.transform = "";
+        return;
+      }
       const rect = card.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
       const x = Math.max(0, Math.min(event.clientX - rect.left, rect.width));
@@ -98,8 +105,8 @@ export default function InteractiveDepthCard({ as: Tag = "article", className = 
       card.style.transform = "";
       card.dataset.depthActive = "false";
     };
-  }, []);
+  }, [enabled, freezeOnSelector]);
 
-  const cardClass = depthCardsConfig.enabled ? "v2-depth-card " + className : className;
+  const cardClass = enabled ? "v2-depth-card " + className : className;
   return <Tag ref={cardRef} className={cardClass.trim()} {...rest}>{children}</Tag>;
 }

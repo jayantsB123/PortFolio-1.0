@@ -213,38 +213,58 @@ export function resolveCinematicScrollConfig(env = {}) {
 
 export const cinematicScrollConfig = resolveCinematicScrollConfig(import.meta.env ?? {});
 
+const MENU_EFFECTS_DEFAULTS = Object.freeze({
+  enabled: true,
+  background: true,
+  depth: true,
+  scramble: true,
+  entrance: true,
+});
+
+export function resolveMenuEffectsConfig(env = {}) {
+  return Object.freeze({
+    enabled: boolChoice(env.VITE_MENU_EFFECTS_ENABLED, MENU_EFFECTS_DEFAULTS.enabled),
+    background: boolChoice(env.VITE_MENU_EFFECTS_BACKGROUND, MENU_EFFECTS_DEFAULTS.background),
+    depth: boolChoice(env.VITE_MENU_EFFECTS_DEPTH, MENU_EFFECTS_DEFAULTS.depth),
+    scramble: boolChoice(env.VITE_MENU_EFFECTS_SCRAMBLE, MENU_EFFECTS_DEFAULTS.scramble),
+    entrance: boolChoice(env.VITE_MENU_EFFECTS_ENTRANCE, MENU_EFFECTS_DEFAULTS.entrance),
+  });
+}
+
+export const menuEffectsConfig = resolveMenuEffectsConfig(import.meta.env ?? {});
+
 export const BROWSER_TAB_STYLES = Object.freeze([
-  "signature",
-  "monogram",
-  "terminal",
-  "orbit",
-  "circuit",
+    "signature",
+    "monogram",
+    "terminal",
+    "orbit",
+    "circuit",
 ]);
 
 const BROWSER_TAB_TITLES = Object.freeze({
-  signature: "Jayant Singh | Backend Engineer",
-  monogram: "Jayant Bhadauria | Software Engineer",
-  terminal: "jayant@backend ~ portfolio",
-  orbit: "Jayant Singh | Distributed Systems",
-  circuit: "Jayant Singh | SDE · FinTech",
+    signature: "Jayant Singh | Backend Engineer",
+    monogram: "Jayant Bhadauria | Software Engineer",
+    terminal: "jayant@backend ~ portfolio",
+    orbit: "Jayant Singh | Distributed Systems",
+    circuit: "Jayant Singh | SDE · FinTech",
 });
 
 const BROWSER_TAB_DEFAULTS = Object.freeze({
-  style: "circuit",
+    style: "circuit",
 });
 
 export function resolveBrowserTabConfig(env = {}) {
-  const style = stringChoice(
-    env.VITE_BROWSER_TAB_STYLE,
-    BROWSER_TAB_STYLES,
-    BROWSER_TAB_DEFAULTS.style
-  );
-  const customTitle = String(env.VITE_BROWSER_TAB_TITLE ?? "").trim();
+    const style = stringChoice(
+        env.VITE_BROWSER_TAB_STYLE,
+        BROWSER_TAB_STYLES,
+        BROWSER_TAB_DEFAULTS.style
+    );
+    const customTitle = String(env.VITE_BROWSER_TAB_TITLE ?? "").trim();
 
-  return Object.freeze({
-    style,
-    title: customTitle || BROWSER_TAB_TITLES[style],
-  });
+    return Object.freeze({
+        style,
+        title: customTitle || BROWSER_TAB_TITLES[style],
+    });
 }
 
 export const browserTabConfig = resolveBrowserTabConfig(import.meta.env ?? {});
