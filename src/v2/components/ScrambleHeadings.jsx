@@ -10,6 +10,7 @@ const HEADING_SELECTOR = [
   ".v2-about-main h2",
   ".v2-method h2",
   ".v2-footer h2",
+  '.v2-quicknav[data-scramble="true"] nav strong',
 ].join(", ");
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%*&+";
@@ -136,6 +137,7 @@ export default function ScrambleHeadings() {
       let previousBucket = -1;
       const draw = (now) => {
         if (active?.heading !== heading) return;
+        if (!heading.isConnected) { restore(); return; }
         const elapsed = now - startTime;
         const progress = Math.min(1, elapsed / DURATION);
         const revealed = Math.floor(progress * letters);

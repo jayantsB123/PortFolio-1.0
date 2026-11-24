@@ -212,3 +212,23 @@ export function resolveCinematicScrollConfig(env = {}) {
 }
 
 export const cinematicScrollConfig = resolveCinematicScrollConfig(import.meta.env ?? {});
+
+const MENU_EFFECTS_DEFAULTS = Object.freeze({
+  enabled: true,
+  background: true,
+  depth: true,
+  scramble: true,
+  entrance: true,
+});
+
+export function resolveMenuEffectsConfig(env = {}) {
+  return Object.freeze({
+    enabled: boolChoice(env.VITE_MENU_EFFECTS_ENABLED, MENU_EFFECTS_DEFAULTS.enabled),
+    background: boolChoice(env.VITE_MENU_EFFECTS_BACKGROUND, MENU_EFFECTS_DEFAULTS.background),
+    depth: boolChoice(env.VITE_MENU_EFFECTS_DEPTH, MENU_EFFECTS_DEFAULTS.depth),
+    scramble: boolChoice(env.VITE_MENU_EFFECTS_SCRAMBLE, MENU_EFFECTS_DEFAULTS.scramble),
+    entrance: boolChoice(env.VITE_MENU_EFFECTS_ENTRANCE, MENU_EFFECTS_DEFAULTS.entrance),
+  });
+}
+
+export const menuEffectsConfig = resolveMenuEffectsConfig(import.meta.env ?? {});

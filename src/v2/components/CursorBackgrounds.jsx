@@ -152,14 +152,16 @@ function paintPixels(ctx, pixels, origin, tone, config, now) {
   }
 }
 
-export default function CursorBackgrounds() {
+export default function CursorBackgrounds({ scope = "sections" }) {
   useEffect(() => {
     const mode = chooseStyle();
     const root = document.querySelector(".v2-root");
     const media = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
     if (!root || mode === "off") return undefined;
 
-    const sections = Array.from(root.querySelectorAll("main > section:not(.v2-hero), footer.v2-footer"));
+    const sections = Array.from(root.querySelectorAll(
+      scope === "menu" ? ".v2-quicknav" : "main > section:not(.v2-hero), footer.v2-footer"
+    ));
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx || !sections.length) return undefined;
@@ -349,7 +351,7 @@ export default function CursorBackgrounds() {
       hide();
       canvas.remove();
     };
-  }, []);
+  }, [scope]);
 
   return null;
 }
