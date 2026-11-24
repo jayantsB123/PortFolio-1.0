@@ -43,6 +43,10 @@ Cursor backgrounds cycle in the order `grid` → `constellation` → `ribbon` �
 
 Set `VITE_BROWSER_TAB_STYLE` to `signature`, `monogram`, `terminal`, `orbit`, or `circuit`. Set `VITE_BROWSER_TAB_TITLE` only to override the paired title.
 
+## Social previews
+
+Set `VITE_PORTFOLIO_SITE_URL` to the final HTTPS URL before building for production. The build then includes a canonical URL, Open Graph image and Twitter card with the 1200×630 PNG in `public/social-card.png`. If the URL is unset, the build does not invent canonical or image URLs. The selected favicon and title are also written into the HTML before React runs.
+
 ## Structure
 
 - `src/main.jsx`: application entry and browser tab setup
@@ -77,6 +81,8 @@ npx playwright test
 ```
 
 GitHub Actions runs the checks on main and relevant pull requests. Review dependency audit output and dependency PRs before release; a green build does not imply zero vulnerabilities.
+
+The release workflow also produces a Lighthouse report for the built local preview. These are lab measurements, not deployed-site or real-device performance metrics.
 
 ## Release checklist
 
