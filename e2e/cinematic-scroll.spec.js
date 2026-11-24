@@ -5,14 +5,15 @@ test.use({ reducedMotion: "no-preference" });
 async function openPortfolio(page) {
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const intro = page.getByRole("dialog", { name: "Portfolio introduction" });
-  if (await intro.isVisible()) {
-    await intro.getByRole("button", { name: /Skip intro/i }).click();
-  }
+  if (await intro.isVisible()) await intro.getByRole("button", { name: /Skip intro/i }).click();
+  await expect(page.locator(".v2-intro-overlay")).toHaveCount(0);
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).not.toBe("hidden");
 }
 
 async function scrollToSectionPosition(page, placement) {
-  await page.evaluate((position) => {
+  return page.evaluate(async (position) => {
     const section = document.querySelector("#overview");
+    const content = section.querySelector(":scope > .v2-container");
     const top = section.getBoundingClientRect().top + window.scrollY;
     const bottom = top + section.offsetHeight;
     const height = window.innerHeight;
@@ -21,8 +22,21 @@ async function scrollToSectionPosition(page, placement) {
       : position === "exit"
         ? bottom - height * 0.22
         : top - height * 0.15;
-    window.dispatchEvent(new WheelEvent("wheel", { deltaY: 120 }));
-    window.scrollTo({ top: Math.max(0, target), behavior: "instant" });
+
+    return new Promise((resolve) => {
+      let tilt = 0;
+      const observer = new MutationObserver(() => {
+        const value = Number.parseFloat(content.style.getPropertyValue("--v2-cinema-tilt")) || 0;
+        if (Math.abs(value) > Math.abs(tilt)) tilt = value;
+      });
+      observer.observe(content, { attributes: true, attributeFilter: ["style"] });
+      window.dispatchEvent(new WheelEvent("wheel", { deltaY: target - window.scrollY }));
+      window.scrollTo({ top: Math.max(0, target), behavior: "instant" });
+      window.setTimeout(() => {
+        observer.disconnect();
+        resolve(tilt);
+      }, 450);
+    });
   }, placement);
 }
 
@@ -31,25 +45,14 @@ test("cinematic depth enters and exits in both directions", async ({ page }) => 
   const section = page.locator("#overview");
   const content = section.locator(":scope > .v2-container");
   await expect(section).toHaveClass(/v2-cinematic-section/);
-
-  await scrollToSectionPosition(page, "enter");
-  await expect.poll(async () => Number(await content.evaluate((node) =>
-    node.style.getPropertyValue("--v2-cinema-tilt").replace("deg", "")
-  ))).toBeLessThan(-1);
-
-  await scrollToSectionPosition(page, "middle");
+  expect(await scrollToSectionPosition(page, "enter")).toBeLessThan(-1);
   await expect(content).toHaveAttribute("data-cinematic-resting", "true");
+  await scrollToSectionPosition(page, "middle");
   await expect(content).toHaveCSS("filter", "none");
-
-  await scrollToSectionPosition(page, "exit");
-  await expect.poll(async () => Number(await content.evaluate((node) =>
-    node.style.getPropertyValue("--v2-cinema-tilt").replace("deg", "")
-  ))).toBeGreaterThan(1);
-
-  await scrollToSectionPosition(page, "enter");
-  await expect.poll(async () => Number(await content.evaluate((node) =>
-    node.style.getPropertyValue("--v2-cinema-tilt").replace("deg", "")
-  ))).toBeLessThan(-1);
+  expect(await scrollToSectionPosition(page, "exit")).toBeGreaterThan(1);
+  expect(await scrollToSectionPosition(page, "enter")).toBeLessThan(-1);
+  await expect(content).toHaveAttribute("data-cinematic-resting", "true");
+  await expect(content).toHaveCSS("transform", "none");
 });
 
 test("reduced motion leaves section layout untouched", async ({ page }) => {
