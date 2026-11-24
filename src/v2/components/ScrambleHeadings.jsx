@@ -137,6 +137,7 @@ export default function ScrambleHeadings() {
       let previousBucket = -1;
       const draw = (now) => {
         if (active?.heading !== heading) return;
+        if (!heading.isConnected) { restore(); return; }
         const elapsed = now - startTime;
         const progress = Math.min(1, elapsed / DURATION);
         const revealed = Math.floor(progress * letters);
