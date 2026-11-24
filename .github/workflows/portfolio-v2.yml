@@ -4,13 +4,18 @@ on:
   push:
     branches:
       - main
-      - feat/portfolio-v2-quality-and-interactions
   pull_request:
     paths:
       - "src/v2/**"
       - "src/main.jsx"
       - "index.html"
       - "package*.json"
+      - "public/**"
+      - ".env.example"
+      - "vite.config.js"
+      - "eslint.config.*"
+      - ".eslintrc.*"
+      - ".github/dependabot.yml"
       - "tests/**"
       - "e2e/**"
       - "playwright.config.mjs"
@@ -36,6 +41,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Dependency audit (report)
+        run: |
+          npm audit --json > dependency-audit.json || true
+          npm audit --omit=dev --audit-level=high || true
+          npm outdated || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit
+          path: dependency-audit.json
+          retention-days: 7
       - run: npm run lint
       - run: npm test
       - run: npm run build
@@ -64,7 +79,7 @@ jobs:
       # The test runner is installed without changing the production dependency graph.
       # Pin its version for deterministic screenshots and browser behavior.
       - run: npm install --no-save --no-package-lock @playwright/test@1.65.1 @axe-core/playwright@4.14.0
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run build
       - run: npx playwright test
       - name: Upload failed browser traces
@@ -75,4 +90,35 @@ jobs:
           path: |
             playwright-report/
             test-results/
+          retention-days: 7
+
+  performance:
+    name: Lighthouse preview report
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Measure the built preview
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 --strictPort > /tmp/portfolio-preview.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:4173/ > /dev/null
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
+          npx --yes lighthouse@13.6.0 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox" --output=json --output-path=lighthouse-preview.json --only-categories=performance,accessibility,best-practices,seo
+          node -e 'const r=require("./lighthouse-preview.json"); console.log("LIGHTHOUSE_SCORES", JSON.stringify(Object.fromEntries(Object.entries(r.categories).map(([k,v])=>[k,Math.round(v.score*100)])))); console.log("LIGHTHOUSE_METRICS",JSON.stringify(Object.fromEntries(["first-contentful-paint","largest-contentful-paint","total-blocking-time","cumulative-layout-shift","speed-index"].map(k=>[k,r.audits[k]?.displayValue]))))'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-preview
+          path: lighthouse-preview.json
           retention-days: 7

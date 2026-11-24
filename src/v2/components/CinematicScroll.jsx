@@ -28,10 +28,11 @@ export default function CinematicScroll() {
     let active = false;
     let lastIntent = -Infinity;
     let idleTimer = 0;
+    let scrolling = false;
 
     const render = () => {
       frame = 0;
-      if (!active || document.hidden) return;
+      if (!active || document.hidden || document.querySelector(".v2-intro-overlay, .v2-quicknav-backdrop")) return;
       const height = window.innerHeight;
       if (!height) return;
 
@@ -70,6 +71,9 @@ export default function CinematicScroll() {
 
     const settle = () => {
       if (!active) return;
+      scrolling = false;
+      if (idleTimer) window.clearTimeout(idleTimer);
+      idleTimer = 0;
       if (frame) window.cancelAnimationFrame(frame);
       frame = 0;
       for (const { content } of sections) {
@@ -88,16 +92,18 @@ export default function CinematicScroll() {
     };
 
     const onScroll = () => {
-      if (performance.now() - lastIntent > 1200) {
+      if (!active || document.querySelector(".v2-intro-overlay, .v2-quicknav-backdrop")) {
         settle();
         return;
       }
+      if (!scrolling && performance.now() - lastIntent > 1200) {
+        settle();
+        return;
+      }
+      scrolling = true;
       request();
       if (idleTimer) window.clearTimeout(idleTimer);
-      idleTimer = window.setTimeout(() => {
-        idleTimer = 0;
-        settle();
-      }, 300);
+      idleTimer = window.setTimeout(settle, 300);
     };
 
     const sync = () => {
@@ -132,6 +138,8 @@ export default function CinematicScroll() {
 
     window.addEventListener("wheel", markIntent, { passive: true });
     window.addEventListener("touchstart", markIntent, { passive: true });
+    window.addEventListener("touchmove", markIntent, { passive: true });
+    window.addEventListener("hashchange", markIntent);
     window.addEventListener("pointerdown", markIntent, { passive: true });
     window.addEventListener("keydown", markIntent);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -144,6 +152,8 @@ export default function CinematicScroll() {
     return () => {
       window.removeEventListener("wheel", markIntent);
       window.removeEventListener("touchstart", markIntent);
+      window.removeEventListener("touchmove", markIntent);
+      window.removeEventListener("hashchange", markIntent);
       window.removeEventListener("pointerdown", markIntent);
       window.removeEventListener("keydown", markIntent);
       window.removeEventListener("scroll", onScroll);

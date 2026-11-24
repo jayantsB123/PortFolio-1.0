@@ -1,5 +1,7 @@
 # V2.2 Interaction reference and quality pass
 
+> Historical design record from the early V2 migration. Later PRs add the current side navigation, cursor and section effects. See the README for current behavior.
+
 ## What I observed in the senior's 112-second screencast
 
 This comparison is based on the user-supplied recording, not copied source code.

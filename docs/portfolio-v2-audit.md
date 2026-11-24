@@ -1,5 +1,7 @@
 # Portfolio V2 — source-backed audit and migration
 
+> Historical snapshot from 18 November 2026. The November content refresh and subsequent interaction PRs supersede the status and open-work statements below. See the current README and content map.
+
 Checked 18 November 2026 against the actual GitHub repository and the supplied video.
 
 ## Legacy code audit
