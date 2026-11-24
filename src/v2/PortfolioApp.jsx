@@ -77,24 +77,68 @@ function EngineArtwork() {
   const ref = useRef(null);
 
   useEffect(() => {
-    let supported = false;
-    try {
-      const canvas = document.createElement("canvas");
-      supported = Boolean(canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
-    } catch {
-      supported = false;
-    }
-    setHasWebGL(supported);
-    if (!supported || reducedMotion || !ref.current) return undefined;
-    const observer = new IntersectionObserver((entries) => {
-      const inView = Boolean(entries[0]?.isIntersecting);
-      setActive(inView);
-      if (inView) setVisible(true);
+    const element = ref.current;
+    const root = element?.closest(".v2-root");
+    if (!element || !root || reducedMotion) return undefined;
+    let inView = false;
+    let initialized = false;
+    let pending = null;
+
+    const covered = () => Boolean(root.querySelector(".v2-intro-overlay, .v2-quicknav-backdrop"));
+    const canRun = () => inView && !document.hidden && !covered();
+    const cancelPending = () => {
+      if (pending === null) return;
+      if (window.cancelIdleCallback) window.cancelIdleCallback(pending);
+      else window.clearTimeout(pending);
+      pending = null;
+    };
+
+    const initialize = () => {
+      pending = null;
+      if (!canRun() || initialized) return;
+      initialized = true;
+      let supported = false;
+      try {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("webgl2");
+        supported = Boolean(context);
+        context?.getExtension("WEBGL_lose_context")?.loseContext();
+      } catch {
+        supported = false;
+      }
+      setHasWebGL(supported);
+      if (supported) {
+        setVisible(true);
+        setActive(true);
+      }
+    };
+
+    const sync = () => {
+      const running = canRun();
+      setActive(running);
+      if (!running) {
+        cancelPending();
+      } else if (!initialized && pending === null) {
+        pending = window.requestIdleCallback
+          ? window.requestIdleCallback(initialize, { timeout: 1000 })
+          : window.setTimeout(initialize, 80);
+      }
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = Boolean(entry?.isIntersecting);
+      sync();
     }, { rootMargin: "100px" });
-    observer.observe(ref.current);
-    const handleVisibility = () => setActive(!document.hidden && Boolean(ref.current?.getBoundingClientRect().bottom > 0 && ref.current?.getBoundingClientRect().top < innerHeight));
-    document.addEventListener("visibilitychange", handleVisibility);
-    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", handleVisibility); };
+    observer.observe(element);
+    const overlays = new MutationObserver(sync);
+    overlays.observe(root, { childList: true });
+    document.addEventListener("visibilitychange", sync);
+    return () => {
+      cancelPending();
+      observer.disconnect();
+      overlays.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
   }, [reducedMotion]);
 
   return <div className="v2-engine" ref={ref}>
