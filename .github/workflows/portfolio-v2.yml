@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -46,11 +46,12 @@ jobs:
           npm audit --json > dependency-audit.json || true
           npm audit --omit=dev --audit-level=high || true
           npm outdated || true
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: dependency-audit
           path: dependency-audit.json
           retention-days: 7
+      - run: npm audit --audit-level=high
       - run: npm run lint
       - run: npm test
       - run: npm run build
@@ -58,7 +59,7 @@ jobs:
         run: |
           test -f dist/index.html
           test -d dist/assets
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: portfolio-production-dist
           path: dist/
@@ -70,8 +71,8 @@ jobs:
     timeout-minutes: 18
     needs: quality
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -84,7 +85,7 @@ jobs:
       - run: npx playwright test
       - name: Upload failed browser traces
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: browser-test-results
           path: |
@@ -98,8 +99,8 @@ jobs:
     timeout-minutes: 15
     needs: quality
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -116,7 +117,7 @@ jobs:
           export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
           npx --yes lighthouse@13.6.0 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox" --output=json --output-path=lighthouse-preview.json --only-categories=performance,accessibility,best-practices,seo
           node -e 'const r=require("./lighthouse-preview.json"); console.log("LIGHTHOUSE_SCORES", JSON.stringify(Object.fromEntries(Object.entries(r.categories).map(([k,v])=>[k,Math.round(v.score*100)])))); console.log("LIGHTHOUSE_METRICS",JSON.stringify(Object.fromEntries(["first-contentful-paint","largest-contentful-paint","total-blocking-time","cumulative-layout-shift","speed-index"].map(k=>[k,r.audits[k]?.displayValue]))))'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: lighthouse-preview
