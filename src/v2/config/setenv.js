@@ -188,3 +188,27 @@ export function resolveCursorBackgroundConfig(env = {}) {
 }
 
 export const cursorBackgroundConfig = resolveCursorBackgroundConfig(import.meta.env ?? {});
+
+const CINEMATIC_SCROLL_DEFAULTS = Object.freeze({
+  enabled: true,
+  strength: 100,
+  travel: 104,
+  rotate: 8,
+  scale: 0.12,
+  blur: 9,
+  minOpacity: 0.15,
+});
+
+export function resolveCinematicScrollConfig(env = {}) {
+  return Object.freeze({
+    enabled: boolChoice(env.VITE_CINEMATIC_SCROLL_ENABLED, CINEMATIC_SCROLL_DEFAULTS.enabled),
+    strength: numberInRange(env.VITE_CINEMATIC_SCROLL_STRENGTH, CINEMATIC_SCROLL_DEFAULTS.strength, 0, 100),
+    travel: numberInRange(env.VITE_CINEMATIC_SCROLL_TRAVEL, CINEMATIC_SCROLL_DEFAULTS.travel, 0, 200),
+    rotate: numberInRange(env.VITE_CINEMATIC_SCROLL_ROTATE, CINEMATIC_SCROLL_DEFAULTS.rotate, 0, 16),
+    scale: numberInRange(env.VITE_CINEMATIC_SCROLL_SCALE, CINEMATIC_SCROLL_DEFAULTS.scale, 0, 0.25),
+    blur: numberInRange(env.VITE_CINEMATIC_SCROLL_BLUR, CINEMATIC_SCROLL_DEFAULTS.blur, 0, 20),
+    minOpacity: numberInRange(env.VITE_CINEMATIC_SCROLL_MIN_OPACITY, CINEMATIC_SCROLL_DEFAULTS.minOpacity, 0.1, 1),
+  });
+}
+
+export const cinematicScrollConfig = resolveCinematicScrollConfig(import.meta.env ?? {});

@@ -108,8 +108,6 @@ export default function CinematicScroll() {
       document.removeEventListener("visibilitychange", onVisibility);
       reducedMotion.removeEventListener("change", sync);
       if (frame) window.cancelAnimationFrame(frame);
-      active = true;
-      reducedMotion.matches || sync();
       sections.forEach(({ section, content }) => {
         section.classList.remove("v2-cinematic-section");
         content.classList.remove("v2-cinematic-content", "v2-cinematic-moving");
