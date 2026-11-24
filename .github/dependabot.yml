@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      react-three:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@react-three/fiber"
+          - "three"
+          - "framer-motion"
+      build-and-lint:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "eslint*"
+          - "@eslint/*"
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly

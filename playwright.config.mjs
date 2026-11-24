@@ -14,6 +14,8 @@ export default defineConfig({
   projects: [
     { name: "chromium-desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "chromium-mobile", use: { ...devices["iPhone 13"], browserName: "chromium" } },
+    { name: "firefox-release", testMatch: "**/release-cross-browser.spec.js", use: { ...devices["Desktop Firefox"] } },
+    { name: "webkit-release", testMatch: "**/release-cross-browser.spec.js", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: {
     command: "npm run preview -- --host 127.0.0.1 --port 4173 --strictPort",
