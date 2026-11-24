@@ -132,3 +132,10 @@
     bottom: 26px;
   }
 }
+
+@media (min-width: 851px) {
+  .v2-hero-clarity .v2-engine-control {
+    left: 34%;
+    bottom: 17%;
+  }
+}

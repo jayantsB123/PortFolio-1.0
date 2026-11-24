@@ -84,7 +84,7 @@ function EngineArtwork() {
     let initialized = false;
     let pending = null;
 
-    const covered = () => Boolean(root.querySelector(".v2-intro-overlay, .v2-quicknav-backdrop"));
+    const covered = () => Boolean(root.querySelector(".v2-intro-overlay, .v2-quicknav-backdrop, .v2-modal-overlay"));
     const canRun = () => inView && !document.hidden && !covered();
     const cancelPending = () => {
       if (pending === null) return;
@@ -131,7 +131,7 @@ function EngineArtwork() {
     }, { rootMargin: "100px" });
     observer.observe(element);
     const overlays = new MutationObserver(sync);
-    overlays.observe(root, { childList: true });
+    overlays.observe(root, { childList: true, subtree: true });
     document.addEventListener("visibilitychange", sync);
     return () => {
       cancelPending();
