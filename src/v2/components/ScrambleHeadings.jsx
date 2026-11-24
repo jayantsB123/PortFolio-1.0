@@ -10,6 +10,7 @@ const HEADING_SELECTOR = [
   ".v2-about-main h2",
   ".v2-method h2",
   ".v2-footer h2",
+  '.v2-quicknav[data-scramble="true"] nav strong',
 ].join(", ");
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%*&+";
