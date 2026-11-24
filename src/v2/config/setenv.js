@@ -232,3 +232,39 @@ export function resolveMenuEffectsConfig(env = {}) {
 }
 
 export const menuEffectsConfig = resolveMenuEffectsConfig(import.meta.env ?? {});
+
+export const BROWSER_TAB_STYLES = Object.freeze([
+    "signature",
+    "monogram",
+    "terminal",
+    "orbit",
+    "circuit",
+]);
+
+const BROWSER_TAB_TITLES = Object.freeze({
+    signature: "Jayant Singh | Backend Engineer",
+    monogram: "Jayant Bhadauria | Software Engineer",
+    terminal: "jayant@backend ~ portfolio",
+    orbit: "Jayant Singh | Distributed Systems",
+    circuit: "Jayant Singh | SDE · FinTech",
+});
+
+const BROWSER_TAB_DEFAULTS = Object.freeze({
+    style: "circuit",
+});
+
+export function resolveBrowserTabConfig(env = {}) {
+    const style = stringChoice(
+        env.VITE_BROWSER_TAB_STYLE,
+        BROWSER_TAB_STYLES,
+        BROWSER_TAB_DEFAULTS.style
+    );
+    const customTitle = String(env.VITE_BROWSER_TAB_TITLE ?? "").trim();
+
+    return Object.freeze({
+        style,
+        title: customTitle || BROWSER_TAB_TITLES[style],
+    });
+}
+
+export const browserTabConfig = resolveBrowserTabConfig(import.meta.env ?? {});
