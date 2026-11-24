@@ -1,0 +1,30 @@
+.v2-cinematic-section .v2-cinematic-content {
+  transform-origin: 50% 52%;
+  backface-visibility: hidden;
+  transform: translate3d(0, var(--v2-cinema-y, 0px), 0)
+    perspective(1150px)
+    rotateX(var(--v2-cinema-tilt, 0deg))
+    scale(var(--v2-cinema-scale, 1));
+  filter: blur(var(--v2-cinema-blur, 0px));
+  opacity: var(--v2-cinema-opacity, 1);
+  transition: transform 90ms linear, filter 90ms linear, opacity 90ms linear;
+}
+
+.v2-cinematic-section .v2-cinematic-content[data-cinematic-resting="true"] {
+  transform: none;
+  filter: none;
+  opacity: 1;
+}
+
+.v2-cinematic-section .v2-cinematic-moving {
+  will-change: transform, filter, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-cinematic-section .v2-cinematic-content {
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}

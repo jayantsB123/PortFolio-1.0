@@ -6,6 +6,7 @@ import QuickNav from "./QuickNav";
 import InteractiveCursor from "./components/InteractiveCursor";
 import CursorBackgrounds from "./components/CursorBackgrounds";
 import MotionDirector from "./components/MotionDirector";
+import CinematicScroll from "./components/CinematicScroll";
 import ScrambleHeadings from "./components/ScrambleHeadings";
 import PortfolioLoader from "./components/PortfolioLoader";
 import { useActiveSection } from "./hooks/useActiveSection";
@@ -168,6 +169,7 @@ export default function PortfolioApp() {
     <InteractiveCursor/>
     <CursorBackgrounds/>
     <MotionDirector/>
+    <CinematicScroll/>
     <ScrambleHeadings/>
     <a className="v2-skip" href="#overview">Skip to career overview</a>
     <SiteHeader/>
