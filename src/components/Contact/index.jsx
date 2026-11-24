@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import { useRef } from "react";
-import emailjs from "@emailjs/browser";
 import { Snackbar } from "@mui/material";
 import IconCloudDemo from "../IntUI/skillUI";
 
@@ -160,16 +159,7 @@ const Contact = () => {
     }
 
 
-    emailjs.sendForm('service_4g0lebo', 'template_ws1872z', form.current, 'TraRxqrGwGOwvpb7i')
-      .then((result) => {
-        setOpen(true);
-        form.current.reset();
-        setEmail('');
-        setName('');
-        setMessage('');
-      }, (error) => {
-        console.log(error.text);
-      });
+    console.info('The legacy contact form has been retired. Use the links on the current portfolio.');
   };
 
   const handleInputChange = (e) => {
