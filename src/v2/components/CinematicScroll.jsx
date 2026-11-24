@@ -26,6 +26,8 @@ export default function CinematicScroll() {
 
     let frame = 0;
     let active = false;
+    let lastIntent = -Infinity;
+    let idleTimer = 0;
 
     const render = () => {
       frame = 0;
@@ -66,6 +68,38 @@ export default function CinematicScroll() {
       if (active && !frame) frame = window.requestAnimationFrame(render);
     };
 
+    const settle = () => {
+      if (!active) return;
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = 0;
+      for (const { content } of sections) {
+        content.style.setProperty("--v2-cinema-y", "0px");
+        content.style.setProperty("--v2-cinema-tilt", "0deg");
+        content.style.setProperty("--v2-cinema-scale", "1");
+        content.style.setProperty("--v2-cinema-blur", "0px");
+        content.style.setProperty("--v2-cinema-opacity", "1");
+        content.dataset.cinematicResting = "true";
+        content.classList.remove("v2-cinematic-moving");
+      }
+    };
+
+    const markIntent = () => {
+      lastIntent = performance.now();
+    };
+
+    const onScroll = () => {
+      if (performance.now() - lastIntent > 1200) {
+        settle();
+        return;
+      }
+      request();
+      if (idleTimer) window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(() => {
+        idleTimer = 0;
+        settle();
+      }, 300);
+    };
+
     const sync = () => {
       const enabled = !reducedMotion.matches;
       if (enabled === active) return;
@@ -75,10 +109,12 @@ export default function CinematicScroll() {
           section.classList.add("v2-cinematic-section");
           content.classList.add("v2-cinematic-content");
         });
-        request();
+        settle();
       } else {
         if (frame) window.cancelAnimationFrame(frame);
         frame = 0;
+        if (idleTimer) window.clearTimeout(idleTimer);
+        idleTimer = 0;
         sections.forEach(({ section, content }) => {
           section.classList.remove("v2-cinematic-section");
           content.classList.remove("v2-cinematic-content", "v2-cinematic-moving");
@@ -91,23 +127,32 @@ export default function CinematicScroll() {
     };
 
     const onVisibility = () => {
-      if (!document.hidden) request();
+      if (!document.hidden) settle();
     };
 
-    window.addEventListener("scroll", request, { passive: true });
-    window.addEventListener("resize", request);
-    window.addEventListener("pageshow", request);
+    window.addEventListener("wheel", markIntent, { passive: true });
+    window.addEventListener("touchstart", markIntent, { passive: true });
+    window.addEventListener("pointerdown", markIntent, { passive: true });
+    window.addEventListener("keydown", markIntent);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", settle);
+    window.addEventListener("pageshow", settle);
     document.addEventListener("visibilitychange", onVisibility);
     reducedMotion.addEventListener("change", sync);
     sync();
 
     return () => {
-      window.removeEventListener("scroll", request);
-      window.removeEventListener("resize", request);
-      window.removeEventListener("pageshow", request);
+      window.removeEventListener("wheel", markIntent);
+      window.removeEventListener("touchstart", markIntent);
+      window.removeEventListener("pointerdown", markIntent);
+      window.removeEventListener("keydown", markIntent);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", settle);
+      window.removeEventListener("pageshow", settle);
       document.removeEventListener("visibilitychange", onVisibility);
       reducedMotion.removeEventListener("change", sync);
       if (frame) window.cancelAnimationFrame(frame);
+      if (idleTimer) window.clearTimeout(idleTimer);
       sections.forEach(({ section, content }) => {
         section.classList.remove("v2-cinematic-section");
         content.classList.remove("v2-cinematic-content", "v2-cinematic-moving");

@@ -21,6 +21,7 @@ async function scrollToSectionPosition(page, placement) {
       : position === "exit"
         ? bottom - height * 0.22
         : top - height * 0.15;
+    window.dispatchEvent(new WheelEvent("wheel", { deltaY: 120 }));
     window.scrollTo({ top: Math.max(0, target), behavior: "instant" });
   }, placement);
 }
