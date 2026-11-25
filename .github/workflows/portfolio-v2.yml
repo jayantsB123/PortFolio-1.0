@@ -35,15 +35,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
-      - name: Resolve the Vite lockfile
-        run: |
-          npm install --package-lock-only --ignore-scripts
-          node -e 'const s=require("fs").readFileSync("package-lock.json").toString("base64"); for(let i=0;i<s.length;i+=4000) console.log("LOCKFILE_CHUNK "+s.slice(i,i+4000)); console.log("LOCKFILE_END")'
       - run: npm ci
       - name: Dependency audit (report)
         run: |
@@ -75,12 +71,11 @@ jobs:
     timeout-minutes: 18
     needs: quality
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
-      - run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
       # The test runner is installed without changing the production dependency graph.
       # Pin its version for deterministic screenshots and browser behavior.
@@ -104,12 +99,11 @@ jobs:
     timeout-minutes: 15
     needs: quality
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
-      - run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
       - run: npm run build
       - name: Measure the built preview
