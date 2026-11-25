@@ -43,9 +43,21 @@ Cursor backgrounds cycle in the order `grid` → `constellation` → `ribbon` �
 
 Set `VITE_BROWSER_TAB_STYLE` to `signature`, `monogram`, `terminal`, `orbit`, or `circuit`. Set `VITE_BROWSER_TAB_TITLE` only to override the paired title.
 
-## Social previews
+## Deploying to Netlify
 
-Set `VITE_PORTFOLIO_SITE_URL` to the final HTTPS URL before building for production. The build then includes a canonical URL, Open Graph image and Twitter card with the 1200×630 PNG in `public/social-card.png`. If the URL is unset, the build does not invent canonical or image URLs. The selected favicon and title are also written into the HTML before React runs.
+Import this repository from GitHub in Netlify and select `main` as the production branch. The root [netlify.toml](netlify.toml) sets Node 22, the lint/test/build command and the `dist` publish directory. Netlify installs dependencies from the committed npm lockfile.
+
+The app uses root-relative assets and section anchors, so it needs no GitHub Pages base path or catch-all SPA redirect. Keep the existing GitHub checks as part of PR review. Netlify runs lint and unit tests before publishing, but the separate GitHub browser suite is not a deployment gate unless required before merging.
+
+Use the free Netlify subdomain until a custom domain is registered. In Domain management, add the domain, follow the DNS instructions for the chosen DNS provider and verify HTTPS. Redeploy production after changing the primary domain. Publish the project publicly if Netlify initially creates it as private.
+
+For a credit-based Free account, watch production deploys, bandwidth and web requests in Usage & billing. No functions, database, paid build plugin or external deployment token is required.
+
+## Social previews and indexing
+
+Netlify production builds pick up the primary HTTPS URL automatically. Set `VITE_PORTFOLIO_SITE_URL` in the build environment only to override that address, or when building for another host. Valid production URLs generate canonical metadata, Open Graph and Twitter cards, `robots.txt`, and `sitemap.xml`. Preview builds omit canonical metadata and index files; Netlify applies its own noindex header to Deploy Previews. The selected favicon and title are written into the HTML before React runs.
+
+The 1200×630 social image is stored in `public/social-card.png`.
 
 ## Structure
 

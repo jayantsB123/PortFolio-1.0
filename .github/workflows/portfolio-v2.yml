@@ -13,6 +13,7 @@ on:
       - "public/**"
       - ".env.example"
       - "vite.config.js"
+      - "netlify.toml"
       - "eslint.config.*"
       - ".eslintrc.*"
       - ".github/dependabot.yml"
