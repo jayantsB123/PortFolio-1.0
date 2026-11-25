@@ -48,3 +48,29 @@ export function portfolioMetadata(html, env = {}, base = "/") {
     ],
   };
 }
+
+export function resolveDeploymentSiteUrl(env = {}, buildEnv = {}) {
+  if (buildEnv.NETLIFY === "true" && buildEnv.CONTEXT !== "production") return null;
+  const explicit = String(env.VITE_PORTFOLIO_SITE_URL ?? "").trim();
+  if (explicit) return resolveSiteUrl(explicit);
+  return buildEnv.NETLIFY === "true" ? resolveSiteUrl(buildEnv.URL) : null;
+}
+
+export function siteIndexFiles(siteUrl) {
+  const url = resolveSiteUrl(siteUrl);
+  if (!url) return [];
+  const sitemap = new URL("sitemap.xml", url).href;
+
+  return [
+    {
+      fileName: "robots.txt",
+      source: "User-agent: *\nAllow: /\nSitemap: " + sitemap + "\n",
+    },
+    {
+      fileName: "sitemap.xml",
+      source: '<?xml version="1.0" encoding="UTF-8"?>\n'
+        + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "  <url><loc>" + escapeHtml(url) + "</loc></url>\n</urlset>\n",
+    },
+  ];
+}
