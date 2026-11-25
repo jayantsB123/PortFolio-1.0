@@ -36,17 +36,21 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
+      - name: Resolve the Vite lockfile
+        run: |
+          npm install --package-lock-only --ignore-scripts
+          node -e 'const s=require("fs").readFileSync("package-lock.json").toString("base64"); for(let i=0;i<s.length;i+=4000) console.log("LOCKFILE_CHUNK "+s.slice(i,i+4000)); console.log("LOCKFILE_END")'
       - run: npm ci
       - name: Dependency audit (report)
         run: |
           npm audit --json > dependency-audit.json || true
           npm audit --omit=dev --audit-level=high || true
           npm outdated || true
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: dependency-audit
           path: dependency-audit.json
@@ -59,7 +63,7 @@ jobs:
         run: |
           test -f dist/index.html
           test -d dist/assets
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: portfolio-production-dist
           path: dist/
@@ -72,10 +76,11 @@ jobs:
     needs: quality
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
+      - run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
       # The test runner is installed without changing the production dependency graph.
       # Pin its version for deterministic screenshots and browser behavior.
@@ -85,7 +90,7 @@ jobs:
       - run: npx playwright test
       - name: Upload failed browser traces
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: browser-test-results
           path: |
@@ -100,10 +105,11 @@ jobs:
     needs: quality
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
+      - run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
       - run: npm run build
       - name: Measure the built preview
@@ -117,7 +123,7 @@ jobs:
           export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
           npx --yes lighthouse@13.6.0 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox" --output=json --output-path=lighthouse-preview.json --only-categories=performance,accessibility,best-practices,seo
           node -e 'const r=require("./lighthouse-preview.json"); console.log("LIGHTHOUSE_SCORES", JSON.stringify(Object.fromEntries(Object.entries(r.categories).map(([k,v])=>[k,Math.round(v.score*100)])))); console.log("LIGHTHOUSE_METRICS",JSON.stringify(Object.fromEntries(["first-contentful-paint","largest-contentful-paint","total-blocking-time","cumulative-layout-shift","speed-index"].map(k=>[k,r.audits[k]?.displayValue]))))'
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: lighthouse-preview
