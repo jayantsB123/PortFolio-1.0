@@ -55,6 +55,19 @@ jobs:
       - run: npm audit --audit-level=high
       - run: npm run lint
       - run: npm test
+      - name: Verify Netlify production output
+        env:
+          NETLIFY: "true"
+          CONTEXT: production
+          URL: https://portfolio.example.com
+        run: |
+          npm run build -- --outDir dist-netlify-check
+          test -f dist-netlify-check/robots.txt
+          test -f dist-netlify-check/sitemap.xml
+          grep -F 'https://portfolio.example.com/' dist-netlify-check/sitemap.xml
+          grep -F 'https://portfolio.example.com/sitemap.xml' dist-netlify-check/robots.txt
+          grep -F 'https://portfolio.example.com/social-card.png' dist-netlify-check/index.html
+          rm -rf dist-netlify-check
       - run: npm run build
       - name: Verify build output
         run: |
