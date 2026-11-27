@@ -68,7 +68,7 @@ const LOADER_MODES = Object.freeze([
 
 const LOADER_DEFAULTS = Object.freeze({
   mode: "cycle",
-  durationMs: 3650,
+  durationMs: 2650,
   exitMs: 440,
   replay: "session",
   skipEnabled: true,
